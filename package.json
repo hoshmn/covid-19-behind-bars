@@ -19,5 +19,12 @@
   "bugs": {
     "url": "https://github.com/Hyperobjekt/covid-19-behind-bars/issues"
   },
-  "homepage": "https://github.com/Hyperobjekt/covid-19-behind-bars#readme"
+  "homepage": "https://github.com/Hyperobjekt/covid-19-behind-bars#readme",
+  "dependencies": {
+    "adm-zip": "^0.4.16",
+    "csv": "^5.3.2",
+    "d3": "^5.16.0",
+    "glob": "^7.1.6",
+    "superagent": "^6.0.0"
+  }
 }
