@@ -1,0 +1,23 @@
+{
+  "name": "covid-19-behind-bars",
+  "version": "1.0.0",
+  "description": "visualizations for covid-19 behind bars data",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hyperobjekt/covid-19-behind-bars.git"
+  },
+  "keywords": [
+    "covid",
+    "coronavirus"
+  ],
+  "author": "Lane Olson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hyperobjekt/covid-19-behind-bars/issues"
+  },
+  "homepage": "https://github.com/Hyperobjekt/covid-19-behind-bars#readme"
+}
