@@ -1,6 +1,6 @@
 {
   "name": "@ucla-law/national-map",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "an interactive map of COVID-19 data in jails and prisons",
   "author": "Lane Olson <laneolson@gmail.com>",
   "homepage": "",
