@@ -1,0 +1,94 @@
+import { autoType, csvParse } from "d3-dsv";
+import MapboxMap from "../map";
+import Legend from "../legend";
+import {
+  getBaseCircleStyle,
+  getOutlineCircleStyle,
+  getUnavailableCircleStyle,
+} from "./layers";
+import { getData, getSizeMap, getGeoJsonFromData } from "./data";
+
+function App() {
+  // full data set
+  const fullData = getData();
+  // data for the map
+  const mapData = csvParse(fullData, autoType).filter(
+    (row) => !isNaN(row.Latitude) && !isNaN(row.Longitude)
+  );
+  // geojson feature collection for the dataset
+  const geojson = getGeoJsonFromData(mapData);
+  // map component for the map
+  const map = MapboxMap(geojson);
+  // mapboxgl instance
+  const mapInstance = map.getMapInstance();
+  // create legend component
+  const mapLegend = Legend();
+  // state for the visualization
+  let state;
+
+  /**
+   * Sets the app state and updates
+   * @param {*} newState
+   */
+  function setState(newState) {
+    state = { ...state, ...newState };
+    const dataKey = [state.subgroup, state.type].join(".");
+    getSizeMap(mapData, (d) => d[dataKey]);
+    state.sizeMap = getSizeMap(mapData, (d) => d[dataKey]);
+    update();
+  }
+
+  /**
+   * Updates the map layers and legend
+   */
+  function update() {
+    map.update(state);
+    mapLegend.update(state);
+  }
+
+  // add map data source and layers on load
+  mapInstance.on("load", () => {
+    map.addSource("points", geojson);
+    map.addLayer(
+      "facilities-na",
+      "points",
+      getUnavailableCircleStyle
+    );
+    map.addLayer(
+      "facilities-zero",
+      "points",
+      getOutlineCircleStyle
+    );
+    map.addLayer(
+      "facilities-non-zero",
+      "points",
+      getBaseCircleStyle
+    );
+
+    update();
+  });
+
+  // initialize default state
+  setState({
+    subgroup: "Residents",
+    type: "Confirmed",
+    sizeMap: getSizeMap(
+      mapData,
+      (d) => d["Residents.Confirmed"]
+    ),
+  });
+
+  // initialize population selection
+  var populationSelect = document.getElementById("population");
+  populationSelect.addEventListener("change", function () {
+    setState({ subgroup: this.value });
+  });
+
+  // initialize type selection
+  var typeSelect = document.getElementById("type");
+  typeSelect.addEventListener("change", function () {
+    setState({ type: this.value });
+  });
+}
+
+export default App;

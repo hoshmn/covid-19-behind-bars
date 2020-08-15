@@ -12,7 +12,7 @@ function generateCircleLayer(layer, sizeProp, sizeMapArray) {
   };
 }
 
-export default function createMap(geojson, options) {
+export default function MapboxMap(geojson, options) {
   const map = new mapboxgl.Map({
     container: "map",
     style:
@@ -35,7 +35,7 @@ export default function createMap(geojson, options) {
     });
   }
 
-  function updateCircles({ subgroup, type, sizeMap }) {
+  function update({ subgroup, type, sizeMap }) {
     const sizeProp = [subgroup, type].join(".");
     const sizeMapArray = Object.keys(sizeMap).reduce(
       (arrMap, key) => [
@@ -62,6 +62,6 @@ export default function createMap(geojson, options) {
     addLayer,
     addSource,
     getMapInstance,
-    updateCircles,
+    update,
   };
 }
