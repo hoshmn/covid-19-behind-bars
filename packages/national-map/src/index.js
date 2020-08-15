@@ -8,7 +8,7 @@ function scaffoldHtml() {
       <div class="ui stack">
         <div class="ui__control flow">
           <label>Population</label>
-          <select id="population">
+          <select class="input select" id="population">
             <option value="Residents">Residents</option>
             <option value="Staff">Staff</option>
             <option disabled value="Total">Total</option>
@@ -16,7 +16,7 @@ function scaffoldHtml() {
         </div>
         <div class="ui__control flow">
           <label>Count Type</label>
-          <select id="type">
+          <select class="input select" id="type">
             <option value="Confirmed">Confirmed Cases</option>
             <option disabled value="Active">Active Cases</option>
             <option value="Deaths">Deaths</option>
@@ -37,6 +37,21 @@ function scaffoldHtml() {
           <text id="mediumCount" x="80" y="48">2</text>
           <text id="smallCount" x="80" y="64">1</text>
         </svg>
+      </div>
+    </div>
+    <div id="modal-1" class="modal" aria-hidden="true">
+      <div tabindex="-1" data-micromodal-close>
+        <div role="dialog" aria-modal="true" aria-labelledby="modal-1-title" >
+          <header>
+            <h2 id="modal-1-title">
+              Modal Title
+            </h2>
+            <button aria-label="Close modal" data-micromodal-close>Close</button>
+          </header>
+          <div id="modal-1-content">
+            Modal Content
+          </div>
+        </div>
       </div>
     </div>`;
 

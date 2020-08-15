@@ -7,6 +7,7 @@ import {
   getUnavailableCircleStyle,
 } from "./layers";
 import { getData, getSizeMap, getGeoJsonFromData } from "./data";
+import MicroModal from "micromodal";
 
 function App() {
   // full data set
@@ -89,6 +90,9 @@ function App() {
   typeSelect.addEventListener("change", function () {
     setState({ type: this.value });
   });
+
+  MicroModal.init();
+  // MicroModal.show("modal-1");
 }
 
 export default App;
