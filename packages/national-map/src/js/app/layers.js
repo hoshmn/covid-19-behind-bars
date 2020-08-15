@@ -15,6 +15,7 @@ const NONZERO_BORDER_WIDTH = 1;
  */
 export function getBaseCircleStyle(sizeProp, sizeMapArray) {
   return {
+    interactive: true,
     filter: [">", sizeProp, 0],
     paint: {
       "circle-radius": [
@@ -23,12 +24,7 @@ export function getBaseCircleStyle(sizeProp, sizeMapArray) {
         0,
         ["==", ["get", sizeProp], 0],
         0,
-        [
-          "interpolate",
-          ["exponential", 1],
-          ["get", sizeProp],
-          ...sizeMapArray,
-        ],
+        ["interpolate", ["exponential", 1], ["get", sizeProp], ...sizeMapArray],
       ],
       "circle-color": NONZERO_COLOR,
       "circle-stroke-color": NONZERO_BORDER_COLOR,
@@ -37,10 +33,7 @@ export function getBaseCircleStyle(sizeProp, sizeMapArray) {
   };
 }
 
-export function getUnavailableCircleStyle(
-  sizeProp,
-  sizeMapArray
-) {
+export function getUnavailableCircleStyle(sizeProp, sizeMapArray) {
   return {
     filter: ["==", sizeProp, "NA"],
     paint: {

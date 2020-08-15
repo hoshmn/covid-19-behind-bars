@@ -1,4 +1,3 @@
-import { autoType, csvParse } from "d3-dsv";
 import MapboxMap from "../map";
 import Legend from "../legend";
 import {
@@ -8,18 +7,19 @@ import {
 } from "./layers";
 import { getData, getSizeMap, getGeoJsonFromData } from "./data";
 import MicroModal from "micromodal";
+import renderTooltip from "./tooltip";
 
 function App() {
   // full data set
   const fullData = getData();
   // data for the map
-  const mapData = csvParse(fullData, autoType).filter(
+  const mapData = fullData.filter(
     (row) => !isNaN(row.Latitude) && !isNaN(row.Longitude)
   );
   // geojson feature collection for the dataset
   const geojson = getGeoJsonFromData(mapData);
   // map component for the map
-  const map = MapboxMap(geojson);
+  const map = MapboxMap(renderTooltip);
   // mapboxgl instance
   const mapInstance = map.getMapInstance();
   // create legend component
@@ -50,21 +50,9 @@ function App() {
   // add map data source and layers on load
   mapInstance.on("load", () => {
     map.addSource("points", geojson);
-    map.addLayer(
-      "facilities-na",
-      "points",
-      getUnavailableCircleStyle
-    );
-    map.addLayer(
-      "facilities-zero",
-      "points",
-      getOutlineCircleStyle
-    );
-    map.addLayer(
-      "facilities-non-zero",
-      "points",
-      getBaseCircleStyle
-    );
+    map.addLayer("facilities-na", "points", getUnavailableCircleStyle);
+    map.addLayer("facilities-zero", "points", getOutlineCircleStyle);
+    map.addLayer("facilities-non-zero", "points", getBaseCircleStyle);
 
     update();
   });
@@ -73,10 +61,7 @@ function App() {
   setState({
     subgroup: "Residents",
     type: "Confirmed",
-    sizeMap: getSizeMap(
-      mapData,
-      (d) => d["Residents.Confirmed"]
-    ),
+    sizeMap: getSizeMap(mapData, (d) => d["Residents.Confirmed"]),
   });
 
   // initialize population selection

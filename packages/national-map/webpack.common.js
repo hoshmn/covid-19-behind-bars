@@ -10,6 +10,7 @@ module.exports = {
     new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
     new HtmlWebpackPlugin({
       title: "COVID-19 Behind Bars",
+      template: "src/index.html",
     }),
   ],
   output: {

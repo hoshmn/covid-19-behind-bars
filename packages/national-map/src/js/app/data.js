@@ -1,14 +1,23 @@
 import Data from "../../assets/data/map.csv";
+import { autoType, csvParse } from "d3-dsv";
+
 import { extent as getExtent } from "d3-array";
 
 const CIRCLE_SMALL = 4;
 const CIRCLE_LARGE = 32;
+/**
+ * Remap feature props in dataset
+ * @param {*} featureProps
+ */
+function remapProperties(featureProps) {
+  return Object.keys(featureProps).reduce();
+}
 
 /**
  * Returns data string
  */
 export function getData() {
-  return Data;
+  return csvParse(Data, autoType);
 }
 
 /**
@@ -35,9 +44,7 @@ export const getSizeMap = function (dataset, selector) {
  */
 export function getGeoJsonFromData(data) {
   const features = data
-    .filter(
-      (row) => !isNaN(row.Latitude) && !isNaN(row.Longitude)
-    )
+    .filter((row) => !isNaN(row.Latitude) && !isNaN(row.Longitude))
     .map((row) => ({
       type: "Feature",
       properties: row,
