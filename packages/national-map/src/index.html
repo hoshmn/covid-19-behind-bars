@@ -6,11 +6,48 @@
   </head>
   <body>
     <script id="tooltipTemplate" type="x-tmpl-mustache">
-      <div class="tooltip">
-        <h1>{{ Name }}</h1>
-        <ul>
-          <li>Confirmed:}</li>
-        </ul>
+      <div class="tooltip stack active--{{ subgroup }} active--{{ type }}">
+        <div class="tooltip__header stack">
+          <h1 class="tooltip__title">{{ name }}</h1>
+          <h2 class="tooltip__subtitle">{{city}}, {{state}}</h2>
+        </div>
+        <table class="tooltip__table table micro">
+          <thead>
+            <tr class="table__row">
+              <th class="table__cell table__cell--string"></th>
+              <th class="table__cell table__cell--number group--residents">Res.</th>
+              <th class="table__cell table__cell--number group--staff">Staff</th>
+              <th class="table__cell table__cell--number group--total">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="table__row type--confirmed">
+              <td class="table__cell table__cell--string">Confirmed</td>
+              <td class="table__cell table__cell--number group--residents">{{res_confirmed}}</td>
+              <td class="table__cell table__cell--number group--staff">{{stf_confirmed}}</td>
+              <td class="table__cell table__cell--number group--total">0</td>
+            </tr>
+            <tr class="table__row type--deaths">
+              <td class="table__cell table__cell--string">Deaths</td>
+              <td class="table__cell table__cell--number group--residents">{{res_deaths}}</td>
+              <td class="table__cell table__cell--number group--staff">{{stf_deaths}}</td>
+              <td class="table__cell table__cell--number group--total">0</td>
+            </tr>
+            <tr class="table__row type--tested">
+              <td class="table__cell table__cell--string">Tested</td>
+              <td class="table__cell table__cell--number group--residents">{{res_tested}}</td>
+              <td class="table__cell table__cell--number group--staff">{{stf_tested}}</td>
+              <td class="table__cell table__cell--number group--total">0</td>
+            </tr>
+            <tr class="table__row type--recovered">
+              <td class="table__cell table__cell--string">Recovered</td>
+              <td class="table__cell table__cell--number group--residents">{{res_recovered}}</td>
+              <td class="table__cell table__cell--number group--staff">{{stf_recovered}}</td>
+              <td class="table__cell table__cell--number group--total">0</td>
+            </tr>
+          </tbody>
+        </table>
+
       </div>
     </script>
     <div id="map" class="map"></div>
@@ -19,19 +56,19 @@
         <div class="ui__control flow">
           <label>Population</label>
           <select class="input select" id="population">
-            <option value="Residents">Residents</option>
-            <option value="Staff">Staff</option>
-            <option disabled value="Total">Total</option>
+            <option value="res">Residents</option>
+            <option value="stf">Staff</option>
+            <option disabled value="tot">Total</option>
           </select>
         </div>
         <div class="ui__control flow">
           <label>Count Type</label>
           <select class="input select" id="type">
-            <option value="Confirmed">Confirmed Cases</option>
-            <option disabled value="Active">Active Cases</option>
-            <option value="Deaths">Deaths</option>
-            <option value="Tested">Tested</option>
-            <option value="Recovered">Recovered</option>
+            <option value="confirmed">Confirmed Cases</option>
+            <option disabled value="active">Active Cases</option>
+            <option value="deaths">Deaths</option>
+            <option value="tested">Tested</option>
+            <option value="recovered">Recovered</option>
           </select>
         </div>
       </div>
@@ -87,12 +124,19 @@
     </div>
     <div id="modal-1" class="modal" aria-hidden="true">
       <div tabindex="-1" data-micromodal-close>
-        <div role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-1-title"
+        >
           <header>
             <h2 id="modal-1-title">
               Modal Title
             </h2>
-            <button aria-label="Close modal" data-micromodal-close>
+            <button
+              aria-label="Close modal"
+              data-micromodal-close
+            >
               Close
             </button>
           </header>

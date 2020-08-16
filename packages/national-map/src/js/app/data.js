@@ -2,6 +2,7 @@ import Data from "../../assets/data/map.csv";
 import { autoType, csvParse } from "d3-dsv";
 
 import { extent as getExtent } from "d3-array";
+import { PROPERTY_MAP, UPPER_CASE } from "./config";
 
 const CIRCLE_SMALL = 4;
 const CIRCLE_LARGE = 32;
@@ -9,15 +10,49 @@ const CIRCLE_LARGE = 32;
  * Remap feature props in dataset
  * @param {*} featureProps
  */
-function remapProperties(featureProps) {
-  return Object.keys(featureProps).reduce();
+function remapProperties(row) {
+  return Object.keys(PROPERTY_MAP).reduce((obj, key) => {
+    obj[PROPERTY_MAP[key]] = row[key];
+    return obj;
+  }, {});
+}
+
+function addUniqueId(row, index) {
+  return { id: index, ...row };
+}
+
+function fixCasing(str) {
+  if (!str) return "";
+
+  const result = str
+    .toLowerCase()
+    .replace(/\b\w/g, (v) => v.toString(v).toUpperCase())
+    .split(" ")
+    .map((v) =>
+      UPPER_CASE.indexOf(v.toLowerCase()) > -1
+        ? v.toUpperCase()
+        : v
+    )
+    .join(" ");
+  return result;
+}
+
+function applyFormat(row) {
+  return {
+    ...row,
+    name: fixCasing(row.name),
+    city: fixCasing(row.city),
+  };
 }
 
 /**
  * Returns data string
  */
 export function getData() {
-  return csvParse(Data, autoType);
+  return csvParse(Data, autoType)
+    .map(remapProperties)
+    .map(addUniqueId)
+    .map(applyFormat);
 }
 
 /**
@@ -44,13 +79,13 @@ export const getSizeMap = function (dataset, selector) {
  */
 export function getGeoJsonFromData(data) {
   const features = data
-    .filter((row) => !isNaN(row.Latitude) && !isNaN(row.Longitude))
-    .map((row) => ({
+    .filter((row) => !isNaN(row.lat) && !isNaN(row.lon))
+    .map((row, i) => ({
       type: "Feature",
       properties: row,
       geometry: {
         type: "Point",
-        coordinates: [row.Longitude, row.Latitude],
+        coordinates: [row.lon, row.lat],
       },
     }));
   return {

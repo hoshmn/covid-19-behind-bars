@@ -15,7 +15,8 @@ function generateCircleLayer(layer, sizeProp, sizeMapArray) {
 export default function MapboxMap(renderPopup) {
   const map = new mapboxgl.Map({
     container: "map",
-    style: "mapbox://styles/hyperobjekt/ck7zakd4407nn1imsbmnmaygz",
+    style:
+      "mapbox://styles/hyperobjekt/ck7zakd4407nn1imsbmnmaygz",
     center: [-97, 38],
     zoom: 3,
   });
@@ -37,10 +38,14 @@ export default function MapboxMap(renderPopup) {
     });
   }
 
-  function update({ subgroup, type, sizeMap }) {
-    const sizeProp = [subgroup, type].join(".");
+  function update({ sizeProp, sizeMap }) {
+    console.log(sizeProp, sizeMap);
     const sizeMapArray = Object.keys(sizeMap).reduce(
-      (arrMap, key) => [...arrMap, parseInt(key), parseInt(sizeMap[key])],
+      (arrMap, key) => [
+        ...arrMap,
+        parseInt(key),
+        parseInt(sizeMap[key]),
+      ],
       []
     );
     state = { sizeProp, sizeMapArray };
@@ -77,18 +82,21 @@ export default function MapboxMap(renderPopup) {
     var coordinates = feature.geometry.coordinates.slice();
     var html = renderPopup
       ? renderPopup({ features, ...state })
-      : "<pre>" + JSON.stringify(feature.properties, null, 2) + "</pre>";
+      : "<pre>" +
+        JSON.stringify(feature.properties, null, 2) +
+        "</pre>";
 
     // Ensure that if the map is zoomed out such that multiple
     // copies of the feature are visible, the popup appears
     // over the copy being pointed to.
     while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-      coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+      coordinates[0] +=
+        e.lngLat.lng > coordinates[0] ? 360 : -360;
     }
 
     // Populate the popup and set its coordinates
     // based on the feature found.
-    popup.setHTML(html).trackPointer().addTo(map);
+    popup.trackPointer().setHTML(html).addTo(map);
     console.log("mousemove", e, features);
   });
 

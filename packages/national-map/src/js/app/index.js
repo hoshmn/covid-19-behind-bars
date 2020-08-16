@@ -14,10 +14,11 @@ function App() {
   const fullData = getData();
   // data for the map
   const mapData = fullData.filter(
-    (row) => !isNaN(row.Latitude) && !isNaN(row.Longitude)
+    (row) => !isNaN(row.lat) && !isNaN(row.lon)
   );
   // geojson feature collection for the dataset
   const geojson = getGeoJsonFromData(mapData);
+  console.log(geojson);
   // map component for the map
   const map = MapboxMap(renderTooltip);
   // mapboxgl instance
@@ -33,9 +34,11 @@ function App() {
    */
   function setState(newState) {
     state = { ...state, ...newState };
-    const dataKey = [state.subgroup, state.type].join(".");
-    getSizeMap(mapData, (d) => d[dataKey]);
-    state.sizeMap = getSizeMap(mapData, (d) => d[dataKey]);
+    state.sizeProp = [state.subgroup, state.type].join("_");
+    state.sizeMap = getSizeMap(
+      mapData,
+      (d) => d[state.sizeProp]
+    );
     update();
   }
 
@@ -50,18 +53,30 @@ function App() {
   // add map data source and layers on load
   mapInstance.on("load", () => {
     map.addSource("points", geojson);
-    map.addLayer("facilities-na", "points", getUnavailableCircleStyle);
-    map.addLayer("facilities-zero", "points", getOutlineCircleStyle);
-    map.addLayer("facilities-non-zero", "points", getBaseCircleStyle);
+    map.addLayer(
+      "facilities-na",
+      "points",
+      getUnavailableCircleStyle
+    );
+    map.addLayer(
+      "facilities-zero",
+      "points",
+      getOutlineCircleStyle
+    );
+    map.addLayer(
+      "facilities-non-zero",
+      "points",
+      getBaseCircleStyle
+    );
 
     update();
   });
 
   // initialize default state
   setState({
-    subgroup: "Residents",
-    type: "Confirmed",
-    sizeMap: getSizeMap(mapData, (d) => d["Residents.Confirmed"]),
+    subgroup: "res",
+    type: "confirmed",
+    sizeMap: getSizeMap(mapData, (d) => d["res_confirmed"]),
   });
 
   // initialize population selection
