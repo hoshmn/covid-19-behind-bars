@@ -1,18 +1,15 @@
 import mapboxgl from "mapbox-gl";
+import { generateCircleLayer } from "../app/layers";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiaHlwZXJvYmpla3QiLCJhIjoiY2pzZ3Bnd3piMGV6YTQzbjVqa3Z3dHQxZyJ9.rHobqsY_BjkNbqNQS4DNYw";
 
-function generateCircleLayer(layer, sizeProp, sizeMapArray) {
-  return {
-    id: layer.layerId,
-    type: "circle",
-    source: layer.source,
-    ...layer.updater(sizeProp, sizeMapArray),
-  };
-}
-
-function getLowestCount(features, sizeProp) {
+/**
+ * Returns the feature with the lowest value for the given size prop (smallest circle)
+ * @param {*} features
+ * @param {*} sizeProp
+ */
+function getSmallestFeature(features, sizeProp) {
   let lowest = Number.MAX_SAFE_INTEGER;
   let feature = null;
   for (let i = 0; i < features.length; i++) {
@@ -36,14 +33,31 @@ export default function MapboxMap(renderPopup) {
     zoom: 3,
   });
 
-  const layers = [];
-  const layerIds = [];
-  let state = {};
+  let state = {
+    layers: [],
+    layerIds: [],
+    sizeProp: "res_confirmed",
+    sizePropExtent: [1, 100],
+  };
   let hoveredId = null;
 
+  /**
+   * Sets the map state and updates
+   * @param {*} newState
+   */
+  function setState(newState) {
+    state = { ...state, ...newState };
+    state.layerIds = state.layers.map((l) => l.layerId);
+    update(state);
+    console.log("update map state", state);
+  }
+
   function addLayer(layerId, source, updater) {
-    layers.push({ layerId, source, updater });
-    layerIds.push(layerId);
+    const layers = [
+      ...state.layers,
+      { layerId, source, updater },
+    ];
+    setState({ layers });
   }
 
   function addSource(name, geojson) {
@@ -52,21 +66,16 @@ export default function MapboxMap(renderPopup) {
       type: "geojson",
       data: geojson,
     });
+    const data = { ...state.data, [name]: geojson };
+    setState({ data });
   }
 
-  function update({ sizeProp, sizeMap }) {
-    console.log(sizeProp, sizeMap);
-    const sizeMapArray = Object.keys(sizeMap).reduce(
-      (arrMap, key) => [
-        ...arrMap,
-        parseInt(key),
-        parseInt(sizeMap[key]),
-      ],
-      []
-    );
-    state = { sizeProp, sizeMapArray };
+  function update() {
+    const { layers, sizeProp, sizePropExtent } = state;
     layers
-      .map((l) => generateCircleLayer(l, sizeProp, sizeMapArray))
+      .map((l) =>
+        generateCircleLayer(l, sizeProp, sizePropExtent)
+      )
       .forEach((l) => {
         console.log("updating layer", l.id);
         map.getLayer(l.id) && map.removeLayer(l.id);
@@ -98,7 +107,7 @@ export default function MapboxMap(renderPopup) {
 
   map.on("mousemove", function (e) {
     var features = map.queryRenderedFeatures(e.point, {
-      layers: layerIds,
+      layers: state.layerIds,
     });
     if (!features || features.length === 0) {
       popup.remove();
@@ -111,7 +120,7 @@ export default function MapboxMap(renderPopup) {
       return;
     }
     map.getCanvas().style.cursor = "pointer";
-    const feature = getLowestCount(features, state.sizeProp);
+    const feature = getSmallestFeature(features, state.sizeProp);
 
     var html = renderPopup
       ? renderPopup({ feature, ...state })
@@ -149,6 +158,7 @@ export default function MapboxMap(renderPopup) {
   return {
     addLayer,
     addSource,
+    setState,
     getMapInstance,
     update,
   };

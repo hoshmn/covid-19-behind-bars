@@ -42,5 +42,10 @@ export const UPPER_CASE = [
   "crv",
   "iwp",
   "sbwc",
-  "fmc"
+  "fmc",
+  "li",
 ];
+
+export const VALUE_RANGES = {
+  res_confirmed: [1, 1000],
+};

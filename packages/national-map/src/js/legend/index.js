@@ -6,11 +6,10 @@ function Legend() {
   const smallCount = document.getElementById("smallCount");
   const formatNumber = format(",d");
 
-  function update({ sizeMap }) {
-    const lastKey = Object.keys(sizeMap).pop();
-    largeCount.innerHTML = formatNumber(parseInt(lastKey));
+  function update({ sizePropExtent }) {
+    largeCount.innerHTML = formatNumber(sizePropExtent[1]);
     mediumCount.innerHTML = formatNumber(
-      Math.round(parseInt(lastKey) / 2)
+      Math.round(parseInt(sizePropExtent[1]) / 2)
     );
   }
 

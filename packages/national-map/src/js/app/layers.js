@@ -1,3 +1,5 @@
+const CIRCLE_SMALL = 4;
+const CIRCLE_LARGE = 32;
 const NA_COLOR = "rgba(0,0,0,0.3)";
 const NA_BORDER_COLOR = "transparent";
 const NA_BORDER_WIDTH = 1;
@@ -7,6 +9,109 @@ const ZERO_BORDER_WIDTH = 1;
 const NONZERO_COLOR = "rgba(255,0,0,0.4)";
 const NONZERO_BORDER_COLOR = "rgba(255,0,0,0.4)";
 const NONZERO_BORDER_WIDTH = 1;
+
+export function generateCircleLayer(
+  layer,
+  sizeProp,
+  sizePropExtent
+) {
+  const sizeMap = getSizeMap(sizePropExtent);
+  const sizeMapArray = getSizeMapArray(sizeMap);
+  return {
+    id: layer.layerId,
+    type: "circle",
+    source: layer.source,
+    ...layer.updater(sizeProp, sizeMapArray),
+  };
+}
+
+/**
+ * Returns a map of data value to circle size
+ * based on the extent of the dataset
+ * @param {*} dataset
+ * @param {*} selector
+ */
+const getSizeMap = function (extent) {
+  return {
+    1: CIRCLE_SMALL,
+    [extent[1]]: CIRCLE_LARGE,
+  };
+};
+
+const getSizeMapArray = (sizeMap) => {
+  return Object.keys(sizeMap).reduce(
+    (arrMap, key) => [
+      ...arrMap,
+      parseInt(key),
+      parseInt(sizeMap[key]),
+    ],
+    []
+  );
+};
+
+const resizeSizeMap = (sizeMapArray, sizeFactor) => {
+  const result = sizeMapArray.map((v, i) =>
+    i % 2 === 1 ? v * sizeFactor : v
+  );
+  console.log("resized", sizeFactor, result);
+  return result;
+};
+
+const getZoomSizing = (sizeProp, sizeMapArray) => {
+  return [
+    "interpolate",
+    ["linear"],
+    ["zoom"],
+    1,
+    [
+      "case",
+      [
+        "any",
+        ["==", ["get", sizeProp], 0],
+        ["==", ["get", sizeProp], "NA"],
+      ],
+      4,
+      [
+        "interpolate",
+        ["exponential", 1],
+        ["get", sizeProp],
+        ...resizeSizeMap(sizeMapArray, 0.5),
+      ],
+    ],
+    6,
+    [
+      "case",
+      [
+        "any",
+        ["==", ["get", sizeProp], 0],
+        ["==", ["get", sizeProp], "NA"],
+      ],
+      4,
+      [
+        "interpolate",
+        ["exponential", 1],
+        ["get", sizeProp],
+        ...resizeSizeMap(sizeMapArray, 1),
+      ],
+    ],
+    14,
+    [
+      "case",
+      [
+        "any",
+        ["==", ["get", sizeProp], 0],
+        ["==", ["get", sizeProp], "NA"],
+      ],
+      4,
+      [
+        "interpolate",
+        ["exponential", 1],
+        ["get", sizeProp],
+        ...resizeSizeMap(sizeMapArray, 3),
+      ],
+    ],
+  ];
+};
 
 /**
  * Get styles for facilities with non-zero values
@@ -18,12 +123,7 @@ export function getBaseCircleStyle(sizeProp, sizeMapArray) {
     interactive: true,
     filter: [">", sizeProp, 0],
     paint: {
-      "circle-radius": [
-        "interpolate",
-        ["exponential", 1],
-        ["get", sizeProp],
-        ...sizeMapArray,
-      ],
+      "circle-radius": getZoomSizing(sizeProp, sizeMapArray),
       "circle-color": NONZERO_COLOR,
       "circle-stroke-color": NONZERO_BORDER_COLOR,
       "circle-stroke-width": NONZERO_BORDER_WIDTH,
@@ -61,20 +161,17 @@ export function getOutlineCircleStyle(sizeProp, sizeMapArray) {
 export function getHoverOutlineStyle(sizeProp, sizeMapArray) {
   return {
     paint: {
-      "circle-radius": [
+      "circle-radius": getZoomSizing(sizeProp, sizeMapArray),
+      "circle-color": [
         "case",
-        ["==", ["get", sizeProp], "NA"],
-        4,
-        ["==", ["get", sizeProp], 0],
-        4,
         [
-          "interpolate",
-          ["exponential", 1],
-          ["get", sizeProp],
-          ...sizeMapArray,
+          "all",
+          ["==", ["get", sizeProp], 0],
+          ["boolean", ["feature-state", "hover"], false],
         ],
+        "#fff",
+        "transparent",
       ],
-      "circle-color": "transparent",
       "circle-stroke-color": [
         "case",
         [">", ["get", sizeProp], 0],

@@ -1,11 +1,13 @@
 import Data from "../../assets/data/map.csv";
 import { autoType, csvParse } from "d3-dsv";
-
 import { extent as getExtent } from "d3-array";
-import { PROPERTY_MAP, UPPER_CASE } from "./config";
 
-const CIRCLE_SMALL = 4;
-const CIRCLE_LARGE = 32;
+import {
+  PROPERTY_MAP,
+  UPPER_CASE,
+  VALUE_RANGES,
+} from "./config";
+
 /**
  * Remap feature props in dataset
  * @param {*} featureProps
@@ -56,24 +58,6 @@ export function getData() {
 }
 
 /**
- * Returns a map of data value to circle size
- * based on the extent of the dataset
- * @param {*} dataset
- * @param {*} selector
- */
-export const getSizeMap = function (dataset, selector) {
-  const extent = getExtent(
-    dataset.filter((d) => !isNaN(selector(d))),
-    selector
-  );
-  const sizeMap = {
-    1: CIRCLE_SMALL,
-    [extent[1]]: CIRCLE_LARGE,
-  };
-  return sizeMap;
-};
-
-/**
  * Creates GeoJSON feature collection from the dataset
  * @param {*} data
  */
@@ -94,3 +78,18 @@ export function getGeoJsonFromData(data) {
     features,
   };
 }
+
+/**
+ * Returns the extent of the dataset from this list
+ * of presets in VALUE_RANGES, or by auto calculating
+ * @param {*} dataset
+ * @param {*} sizeProp
+ */
+export const getExtentForProp = function (dataset, sizeProp) {
+  if (VALUE_RANGES[sizeProp]) return VALUE_RANGES[sizeProp];
+  const selector = (d) => d[sizeProp];
+  return getExtent(
+    dataset.filter((d) => !isNaN(selector(d))),
+    selector
+  );
+};

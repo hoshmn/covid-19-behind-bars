@@ -6,7 +6,11 @@ import {
   getUnavailableCircleStyle,
   getHoverOutlineStyle,
 } from "./layers";
-import { getData, getSizeMap, getGeoJsonFromData } from "./data";
+import {
+  getData,
+  getGeoJsonFromData,
+  getExtentForProp,
+} from "./data";
 import MicroModal from "micromodal";
 import renderTooltip from "./tooltip";
 
@@ -36,9 +40,9 @@ function App() {
   function setState(newState) {
     state = { ...state, ...newState };
     state.sizeProp = [state.subgroup, state.type].join("_");
-    state.sizeMap = getSizeMap(
+    state.sizePropExtent = getExtentForProp(
       mapData,
-      (d) => d[state.sizeProp]
+      state.sizeProp
     );
     update();
   }
@@ -47,7 +51,7 @@ function App() {
    * Updates the map layers and legend
    */
   function update() {
-    map.update(state);
+    map.setState(state);
     mapLegend.update(state);
   }
 
@@ -82,7 +86,6 @@ function App() {
   setState({
     subgroup: "res",
     type: "confirmed",
-    sizeMap: getSizeMap(mapData, (d) => d["res_confirmed"]),
   });
 
   // initialize population selection
