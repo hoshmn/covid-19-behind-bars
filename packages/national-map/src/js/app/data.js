@@ -81,6 +81,7 @@ export function getGeoJsonFromData(data) {
   const features = data
     .filter((row) => !isNaN(row.lat) && !isNaN(row.lon))
     .map((row, i) => ({
+      id: row.id,
       type: "Feature",
       properties: row,
       geometry: {

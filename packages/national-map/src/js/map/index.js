@@ -12,6 +12,21 @@ function generateCircleLayer(layer, sizeProp, sizeMapArray) {
   };
 }
 
+function getLowestCount(features, sizeProp) {
+  let lowest = Number.MAX_SAFE_INTEGER;
+  let feature = null;
+  for (let i = 0; i < features.length; i++) {
+    let value = features[i].properties[sizeProp];
+    if (value === 0) return features[i];
+    if (value === "NA") return features[i];
+    if (value < lowest) {
+      lowest = value;
+      feature = features[i];
+    }
+  }
+  return feature;
+}
+
 export default function MapboxMap(renderPopup) {
   const map = new mapboxgl.Map({
     container: "map",
@@ -24,6 +39,7 @@ export default function MapboxMap(renderPopup) {
   const layers = [];
   const layerIds = [];
   let state = {};
+  let hoveredId = null;
 
   function addLayer(layerId, source, updater) {
     layers.push({ layerId, source, updater });
@@ -62,8 +78,20 @@ export default function MapboxMap(renderPopup) {
     return map;
   }
 
+  var popupOffsets = {
+    "top": [0, 12],
+    "top-left": [12, 12],
+    "top-right": [-12, 12],
+    "bottom": [0, -12],
+    "bottom-left": [12, -12],
+    "bottom-right": [-12, -12],
+    "left": [12, 0],
+    "right": [-12, 0],
+  };
+
   // Create a popup, but don't add it to the map yet.
   var popup = new mapboxgl.Popup({
+    offset: popupOffsets,
     closeButton: false,
     closeOnClick: false,
   });
@@ -74,36 +102,48 @@ export default function MapboxMap(renderPopup) {
     });
     if (!features || features.length === 0) {
       popup.remove();
+      if (hoveredId) {
+        map.setFeatureState(
+          { source: "points", id: hoveredId },
+          { hover: false }
+        );
+      }
       return;
     }
     map.getCanvas().style.cursor = "pointer";
+    const feature = getLowestCount(features, state.sizeProp);
 
-    const feature = features[0];
-    var coordinates = feature.geometry.coordinates.slice();
     var html = renderPopup
-      ? renderPopup({ features, ...state })
-      : "<pre>" +
-        JSON.stringify(feature.properties, null, 2) +
-        "</pre>";
+      ? renderPopup({ feature, ...state })
+      : "";
 
-    // Ensure that if the map is zoomed out such that multiple
-    // copies of the feature are visible, the popup appears
-    // over the copy being pointed to.
-    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-      coordinates[0] +=
-        e.lngLat.lng > coordinates[0] ? 360 : -360;
+    // set hovered state
+    if (hoveredId) {
+      map.setFeatureState(
+        { source: "points", id: hoveredId },
+        { hover: false }
+      );
     }
+    hoveredId = feature.id;
+    map.setFeatureState(
+      { source: "points", id: hoveredId },
+      { hover: true }
+    );
 
-    // Populate the popup and set its coordinates
-    // based on the feature found.
     popup.trackPointer().setHTML(html).addTo(map);
-    console.log("mousemove", e, features);
   });
 
   map.on("mouseleave", function (e) {
-    console.log("mouseleave", e);
     map.getCanvas().style.cursor = "";
     popup.remove();
+    // remove hovered state
+    if (hoveredId) {
+      map.setFeatureState(
+        { source: "points", id: hoveredId },
+        { hover: false }
+      );
+    }
+    hoveredId = null;
   });
 
   return {

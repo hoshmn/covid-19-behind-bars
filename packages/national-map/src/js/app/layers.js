@@ -19,12 +19,10 @@ export function getBaseCircleStyle(sizeProp, sizeMapArray) {
     filter: [">", sizeProp, 0],
     paint: {
       "circle-radius": [
-        "case",
-        ["==", ["get", sizeProp], "NA"],
-        0,
-        ["==", ["get", sizeProp], 0],
-        0,
-        ["interpolate", ["exponential", 1], ["get", sizeProp], ...sizeMapArray],
+        "interpolate",
+        ["exponential", 1],
+        ["get", sizeProp],
+        ...sizeMapArray,
       ],
       "circle-color": NONZERO_COLOR,
       "circle-stroke-color": NONZERO_BORDER_COLOR,
@@ -33,7 +31,10 @@ export function getBaseCircleStyle(sizeProp, sizeMapArray) {
   };
 }
 
-export function getUnavailableCircleStyle(sizeProp, sizeMapArray) {
+export function getUnavailableCircleStyle(
+  sizeProp,
+  sizeMapArray
+) {
   return {
     filter: ["==", sizeProp, "NA"],
     paint: {
@@ -53,6 +54,39 @@ export function getOutlineCircleStyle(sizeProp, sizeMapArray) {
       "circle-stroke-width": ZERO_BORDER_WIDTH,
       "circle-stroke-color": ZERO_BORDER_COLOR,
       "circle-color": ZERO_COLOR,
+    },
+  };
+}
+
+export function getHoverOutlineStyle(sizeProp, sizeMapArray) {
+  return {
+    paint: {
+      "circle-radius": [
+        "case",
+        ["==", ["get", sizeProp], "NA"],
+        4,
+        ["==", ["get", sizeProp], 0],
+        4,
+        [
+          "interpolate",
+          ["exponential", 1],
+          ["get", sizeProp],
+          ...sizeMapArray,
+        ],
+      ],
+      "circle-color": "transparent",
+      "circle-stroke-color": [
+        "case",
+        [">", ["get", sizeProp], 0],
+        "rgba(155, 0, 0, 0.8)",
+        "rgba(0, 0, 0, 0.5)",
+      ],
+      "circle-stroke-width": [
+        "case",
+        ["boolean", ["feature-state", "hover"], false],
+        2,
+        0,
+      ],
     },
   };
 }

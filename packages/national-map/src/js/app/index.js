@@ -4,6 +4,7 @@ import {
   getBaseCircleStyle,
   getOutlineCircleStyle,
   getUnavailableCircleStyle,
+  getHoverOutlineStyle,
 } from "./layers";
 import { getData, getSizeMap, getGeoJsonFromData } from "./data";
 import MicroModal from "micromodal";
@@ -67,6 +68,11 @@ function App() {
       "facilities-non-zero",
       "points",
       getBaseCircleStyle
+    );
+    map.addLayer(
+      "facilities-hover",
+      "points",
+      getHoverOutlineStyle
     );
 
     update();
