@@ -5,25 +5,25 @@ import {
   getOutlineCircleStyle,
   getUnavailableCircleStyle,
   getHoverOutlineStyle,
+  getStateLabelStyle,
 } from "./layers";
 import {
-  getData,
-  getGeoJsonFromData,
   getExtentForProp,
+  getMapData,
+  getFacilitiesGeoJson,
+  getStateCentersGeoJson,
 } from "./data";
 import MicroModal from "micromodal";
 import renderTooltip from "./tooltip";
 
 function App() {
-  // full data set
-  const fullData = getData();
+  // state level features
+  const statesGeojson = getStateCentersGeoJson();
   // data for the map
-  const mapData = fullData.filter(
-    (row) => !isNaN(row.lat) && !isNaN(row.lon)
-  );
+  const mapData = getMapData();
   // geojson feature collection for the dataset
-  const geojson = getGeoJsonFromData(mapData);
-  console.log(geojson);
+  const geojson = getFacilitiesGeoJson();
+  console.log(geojson, statesGeojson);
   // map component for the map
   const map = MapboxMap(renderTooltip);
   // mapboxgl instance
@@ -40,10 +40,7 @@ function App() {
   function setState(newState) {
     state = { ...state, ...newState };
     state.sizeProp = [state.subgroup, state.type].join("_");
-    state.sizePropExtent = getExtentForProp(
-      mapData,
-      state.sizeProp
-    );
+    state.sizePropExtent = getExtentForProp(mapData, state.sizeProp);
     update();
   }
 
@@ -58,27 +55,12 @@ function App() {
   // add map data source and layers on load
   mapInstance.on("load", () => {
     map.addSource("points", geojson);
-    map.addLayer(
-      "facilities-na",
-      "points",
-      getUnavailableCircleStyle
-    );
-    map.addLayer(
-      "facilities-zero",
-      "points",
-      getOutlineCircleStyle
-    );
-    map.addLayer(
-      "facilities-non-zero",
-      "points",
-      getBaseCircleStyle
-    );
-    map.addLayer(
-      "facilities-hover",
-      "points",
-      getHoverOutlineStyle
-    );
-
+    map.addSource("centers", statesGeojson);
+    map.addLayer("facilities-na", "points", getUnavailableCircleStyle);
+    map.addLayer("facilities-zero", "points", getOutlineCircleStyle);
+    map.addLayer("state-labels", "centers", getStateLabelStyle);
+    map.addLayer("facilities-non-zero", "points", getBaseCircleStyle);
+    map.addLayer("facilities-hover", "points", getHoverOutlineStyle);
     update();
   });
 

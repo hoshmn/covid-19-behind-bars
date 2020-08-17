@@ -10,18 +10,15 @@ const NONZERO_COLOR = "rgba(255,0,0,0.4)";
 const NONZERO_BORDER_COLOR = "rgba(255,0,0,0.4)";
 const NONZERO_BORDER_WIDTH = 1;
 
-export function generateCircleLayer(
-  layer,
-  sizeProp,
-  sizePropExtent
-) {
+export function generateCircleLayer(layer, context) {
+  const { sizePropExtent } = context;
   const sizeMap = getSizeMap(sizePropExtent);
   const sizeMapArray = getSizeMapArray(sizeMap);
   return {
     id: layer.layerId,
     type: "circle",
     source: layer.source,
-    ...layer.updater(sizeProp, sizeMapArray),
+    ...layer.updater({ sizeMapArray, ...context }),
   };
 }
 
@@ -40,19 +37,13 @@ const getSizeMap = function (extent) {
 
 const getSizeMapArray = (sizeMap) => {
   return Object.keys(sizeMap).reduce(
-    (arrMap, key) => [
-      ...arrMap,
-      parseInt(key),
-      parseInt(sizeMap[key]),
-    ],
+    (arrMap, key) => [...arrMap, parseInt(key), parseInt(sizeMap[key])],
     []
   );
 };
 
 const resizeSizeMap = (sizeMapArray, sizeFactor) => {
-  const result = sizeMapArray.map((v, i) =>
-    i % 2 === 1 ? v * sizeFactor : v
-  );
+  const result = sizeMapArray.map((v, i) => (i % 2 === 1 ? v * sizeFactor : v));
   console.log("resized", sizeFactor, result);
   return result;
 };
@@ -65,11 +56,7 @@ const getZoomSizing = (sizeProp, sizeMapArray) => {
     1,
     [
       "case",
-      [
-        "any",
-        ["==", ["get", sizeProp], 0],
-        ["==", ["get", sizeProp], "NA"],
-      ],
+      ["any", ["==", ["get", sizeProp], 0], ["==", ["get", sizeProp], "NA"]],
       4,
       [
         "interpolate",
@@ -81,11 +68,7 @@ const getZoomSizing = (sizeProp, sizeMapArray) => {
     6,
     [
       "case",
-      [
-        "any",
-        ["==", ["get", sizeProp], 0],
-        ["==", ["get", sizeProp], "NA"],
-      ],
+      ["any", ["==", ["get", sizeProp], 0], ["==", ["get", sizeProp], "NA"]],
       4,
       [
         "interpolate",
@@ -97,11 +80,7 @@ const getZoomSizing = (sizeProp, sizeMapArray) => {
     14,
     [
       "case",
-      [
-        "any",
-        ["==", ["get", sizeProp], 0],
-        ["==", ["get", sizeProp], "NA"],
-      ],
+      ["any", ["==", ["get", sizeProp], 0], ["==", ["get", sizeProp], "NA"]],
       4,
       [
         "interpolate",
@@ -118,7 +97,7 @@ const getZoomSizing = (sizeProp, sizeMapArray) => {
  * @param {*} sizeProp
  * @param {*} sizeMapArray
  */
-export function getBaseCircleStyle(sizeProp, sizeMapArray) {
+export function getBaseCircleStyle({ sizeProp, sizeMapArray }) {
   return {
     interactive: true,
     filter: [">", sizeProp, 0],
@@ -131,10 +110,7 @@ export function getBaseCircleStyle(sizeProp, sizeMapArray) {
   };
 }
 
-export function getUnavailableCircleStyle(
-  sizeProp,
-  sizeMapArray
-) {
+export function getUnavailableCircleStyle({ sizeProp, sizeMapArray }) {
   return {
     filter: ["==", sizeProp, "NA"],
     paint: {
@@ -146,7 +122,7 @@ export function getUnavailableCircleStyle(
   };
 }
 
-export function getOutlineCircleStyle(sizeProp, sizeMapArray) {
+export function getOutlineCircleStyle({ sizeProp }) {
   return {
     filter: ["==", sizeProp, 0],
     paint: {
@@ -158,7 +134,7 @@ export function getOutlineCircleStyle(sizeProp, sizeMapArray) {
   };
 }
 
-export function getHoverOutlineStyle(sizeProp, sizeMapArray) {
+export function getHoverOutlineStyle({ sizeProp, sizeMapArray }) {
   return {
     paint: {
       "circle-radius": getZoomSizing(sizeProp, sizeMapArray),
@@ -184,6 +160,39 @@ export function getHoverOutlineStyle(sizeProp, sizeMapArray) {
         2,
         0,
       ],
+    },
+  };
+}
+
+export function getStateLabelStyle({ sizeProp }) {
+  return {
+    type: "symbol",
+    layout: {
+      "text-anchor": "center",
+      "text-field": [
+        "format",
+        ["get", "abbr"],
+        {
+          "font-scale": 0.8,
+          "text-color": "#333",
+        },
+        "\n",
+        {},
+        ["get", sizeProp],
+        {
+          "font-scale": 0.8,
+          "text-color": "#7d7d7d",
+          "text-font": [
+            "literal",
+            ["DIN Offc Pro Bold", "Arial Unicode MS Regular"],
+          ],
+        },
+      ],
+    },
+    paint: {
+      "text-halo-width": 1,
+      "text-halo-color": "#fff",
+      "text-halo-blur": 0.5,
     },
   };
 }

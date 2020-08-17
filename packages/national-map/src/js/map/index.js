@@ -27,8 +27,7 @@ function getSmallestFeature(features, sizeProp) {
 export default function MapboxMap(renderPopup) {
   const map = new mapboxgl.Map({
     container: "map",
-    style:
-      "mapbox://styles/hyperobjekt/ck7zakd4407nn1imsbmnmaygz",
+    style: "mapbox://styles/hyperobjekt/ck7zakd4407nn1imsbmnmaygz",
     center: [-97, 38],
     zoom: 3,
   });
@@ -53,10 +52,7 @@ export default function MapboxMap(renderPopup) {
   }
 
   function addLayer(layerId, source, updater) {
-    const layers = [
-      ...state.layers,
-      { layerId, source, updater },
-    ];
+    const layers = [...state.layers, { layerId, source, updater }];
     setState({ layers });
   }
 
@@ -73,9 +69,7 @@ export default function MapboxMap(renderPopup) {
   function update() {
     const { layers, sizeProp, sizePropExtent } = state;
     layers
-      .map((l) =>
-        generateCircleLayer(l, sizeProp, sizePropExtent)
-      )
+      .map((l) => generateCircleLayer(l, { sizeProp, sizePropExtent }))
       .forEach((l) => {
         console.log("updating layer", l.id);
         map.getLayer(l.id) && map.removeLayer(l.id);
@@ -88,14 +82,14 @@ export default function MapboxMap(renderPopup) {
   }
 
   var popupOffsets = {
-    "top": [0, 12],
+    top: [0, 12],
     "top-left": [12, 12],
     "top-right": [-12, 12],
-    "bottom": [0, -12],
+    bottom: [0, -12],
     "bottom-left": [12, -12],
     "bottom-right": [-12, -12],
-    "left": [12, 0],
-    "right": [-12, 0],
+    left: [12, 0],
+    right: [-12, 0],
   };
 
   // Create a popup, but don't add it to the map yet.
@@ -122,9 +116,7 @@ export default function MapboxMap(renderPopup) {
     map.getCanvas().style.cursor = "pointer";
     const feature = getSmallestFeature(features, state.sizeProp);
 
-    var html = renderPopup
-      ? renderPopup({ feature, ...state })
-      : "";
+    var html = renderPopup ? renderPopup({ feature, ...state }) : "";
 
     // set hovered state
     if (hoveredId) {
@@ -134,10 +126,7 @@ export default function MapboxMap(renderPopup) {
       );
     }
     hoveredId = feature.id;
-    map.setFeatureState(
-      { source: "points", id: hoveredId },
-      { hover: true }
-    );
+    map.setFeatureState({ source: "points", id: hoveredId }, { hover: true });
 
     popup.trackPointer().setHTML(html).addTo(map);
   });
