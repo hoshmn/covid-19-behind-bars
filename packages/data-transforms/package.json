@@ -1,6 +1,6 @@
 {
   "name": "@ucla-law/data-transforms",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "transform scripts to generate data for visualizations",
   "author": "Lane Olson <laneolson@gmail.com>",
   "homepage": "",
