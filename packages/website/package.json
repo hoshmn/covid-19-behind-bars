@@ -1,6 +1,6 @@
 {
   "name": "@ucla-law/website",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "> TODO: description",
   "author": "Lane Olson <laneolson@gmail.com>",
   "homepage": "",
@@ -21,6 +21,6 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "devDependencies": {
-    "@ucla-law/national-map": "^0.1.4"
+    "@ucla-law/national-map": "^0.1.5"
   }
 }
