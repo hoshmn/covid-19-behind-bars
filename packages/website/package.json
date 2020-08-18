@@ -17,6 +17,7 @@
     "access": "public"
   },
   "scripts": {
+    "build": "mkdir -p ./dist && cp index.html ./dist/index.html",
     "test": "echo \"Error: run tests from root\" && exit 1"
   }
 }

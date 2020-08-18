@@ -17,7 +17,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "webpack --config webpack.prod.js && mkdir -p ../website/dist && cp -rf dist ../website/dist/map",
+    "build": "webpack --config webpack.prod.js && mkdir -p ../website/dist/map && cp -rf dist/* ../website/dist/map",
     "start": "webpack-dev-server --open --config webpack.dev.js",
     "build-data": "node ./scripts/build-data.js --debug",
     "test": "echo \"Error: run tests from root\" && exit 1"
