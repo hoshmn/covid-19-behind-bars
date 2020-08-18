@@ -7,10 +7,18 @@
   <body>
     <script id="tooltipTemplate" type="x-tmpl-mustache">
       <div class="tooltip stack active--{{ subgroup }} active--{{ type }}">
+        {{#isFacility}}
         <div class="tooltip__header stack">
           <h1 class="tooltip__title">{{ name }}</h1>
           <h2 class="tooltip__subtitle">{{city}}, {{state}}</h2>
         </div>
+        {{/isFacility}}
+        {{^isFacility}}
+        <div class="tooltip__header stack">
+          <h1 class="tooltip__title">{{ name }}</h1>
+          <h2 class="tooltip__subtitle">United States</h2>
+        </div>
+        {{/isFacility}}
         <table class="tooltip__table table micro">
           <thead>
             <tr class="table__row">
@@ -25,29 +33,33 @@
               <td class="table__cell table__cell--string">Confirmed</td>
               <td class="table__cell table__cell--number group--residents">{{res_confirmed}}</td>
               <td class="table__cell table__cell--number group--staff">{{stf_confirmed}}</td>
-              <td class="table__cell table__cell--number group--total">0</td>
+              <td class="table__cell table__cell--number group--total">--</td>
             </tr>
             <tr class="table__row type--deaths">
               <td class="table__cell table__cell--string">Deaths</td>
               <td class="table__cell table__cell--number group--residents">{{res_deaths}}</td>
               <td class="table__cell table__cell--number group--staff">{{stf_deaths}}</td>
-              <td class="table__cell table__cell--number group--total">0</td>
+              <td class="table__cell table__cell--number group--total">--</td>
             </tr>
             <tr class="table__row type--tested">
               <td class="table__cell table__cell--string">Tested</td>
               <td class="table__cell table__cell--number group--residents">{{res_tested}}</td>
               <td class="table__cell table__cell--number group--staff">{{stf_tested}}</td>
-              <td class="table__cell table__cell--number group--total">0</td>
+              <td class="table__cell table__cell--number group--total">--</td>
             </tr>
             <tr class="table__row type--recovered">
               <td class="table__cell table__cell--string">Recovered</td>
               <td class="table__cell table__cell--number group--residents">{{res_recovered}}</td>
               <td class="table__cell table__cell--number group--staff">{{stf_recovered}}</td>
-              <td class="table__cell table__cell--number group--total">0</td>
+              <td class="table__cell table__cell--number group--total">--</td>
             </tr>
           </tbody>
         </table>
-
+        {{^isFacility}}
+        <div class="tooltip__footer">
+          <p>{{na_lang}} is unavailable for {{na_count}} facilities. There are {{missing}} facilities in {{name}} missing from the map.</p>
+        </div>
+        {{/isFacility}}
       </div>
     </script>
     <div id="map" class="map"></div>

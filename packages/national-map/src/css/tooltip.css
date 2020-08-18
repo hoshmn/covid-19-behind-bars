@@ -73,13 +73,19 @@
 .tooltip.active--tested.active--tot .type--tested .group--total,
 .tooltip.active--recovered.active--res .type--recovered .group--residents,
 .tooltip.active--recovered.active--stf .type--recovered .group--staff,
-.tooltip.active--recovered.active--tot .type--recovered .group--total
-{
+.tooltip.active--recovered.active--tot .type--recovered .group--total {
   color: var(--text);
   font-weight: bold;
-  border-bottom-color: rgba(0,0,0,0.1)
+  border-bottom-color: rgba(0, 0, 0, 0.1);
 }
 
 .tooltip__table.table .table__cell--number {
   width: 40px;
+}
+
+.tooltip__footer p {
+  margin: 0;
+  line-height: 1.42;
+  font-size: 1.1em;
+  color: var(--text-secondary);
 }

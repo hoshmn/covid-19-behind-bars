@@ -69,7 +69,7 @@ export function getDataByState(data = getData()) {
 export function getStateTotal(propName, data = getData()) {
   return rollup(
     data,
-    (v) => (propName === "count" ? v.length : sum(v, (d) => d[propName])),
+    (v) => sum(v, (d) => d[propName]),
     (d) => d.state
   );
 }
@@ -155,9 +155,10 @@ function addTotalsToGeoJson(
         propName === "count" || propName === "missing"
           ? propName
           : propName + suffix;
+      const value = sumMap[propName].get(f.properties.name) || "--";
       return {
         ...obj,
-        [keyName]: sumMap[propName].get(f.properties.name),
+        [keyName]: value,
       };
     }, {});
     return {

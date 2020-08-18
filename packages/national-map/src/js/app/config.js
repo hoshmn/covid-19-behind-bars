@@ -43,6 +43,26 @@ export const STATE_LEVEL_TOTALS = [
   "stf_quarantine",
 ];
 
+// {{TERM}} is unavailable for 12 facilities
+export const UNAVAILABLE_LANG = {
+  res_confirmed: "Confirmed cases among residents",
+  res_tested: "Number of tested residents",
+  res_deaths: "Number of COVID-19 related deaths among residents",
+  res_recovered: "Number of residents recovered",
+  res_negative: "Number of negative test results among residents",
+  res_pending: "Number of pending tests among residents",
+  res_population: "Resident population",
+  res_quarantine: "Number of residents in quarantine",
+  stf_confirmed: "Confirmed cases among staff",
+  stf_tested: "Number of tested staff",
+  stf_deaths: "Number of COVID-19 related deaths among staff",
+  stf_recovered: "Number of staff recovered",
+  stf_negative: "Number of negative test results among staff",
+  stf_pending: "Number of pending tests among staff",
+  stf_population: "Staff population",
+  stf_quarantine: "Number of staff in quarantine",
+};
+
 export const UPPER_CASE = [
   "fci",
   "usp",

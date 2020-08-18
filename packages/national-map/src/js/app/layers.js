@@ -6,8 +6,8 @@ const NA_BORDER_WIDTH = 1;
 const ZERO_COLOR = "#fff";
 const ZERO_BORDER_COLOR = "rgba(44,44,44,0.34)";
 const ZERO_BORDER_WIDTH = 1;
-const NONZERO_COLOR = "rgba(255,0,0,0.4)";
-const NONZERO_BORDER_COLOR = "rgba(255,0,0,0.4)";
+const NONZERO_COLOR = "rgba(255,0,0,0.2)";
+const NONZERO_BORDER_COLOR = "rgba(255,0,0,0.37)";
 const NONZERO_BORDER_WIDTH = 1;
 
 export function generateCircleLayer(layer, context) {
@@ -49,6 +49,9 @@ const resizeSizeMap = (sizeMapArray, sizeFactor) => {
 };
 
 const getZoomSizing = (sizeProp, sizeMapArray) => {
+  const small = resizeSizeMap(sizeMapArray, 0.5);
+  const medium = resizeSizeMap(sizeMapArray, 1);
+  const large = resizeSizeMap(sizeMapArray, 3);
   return [
     "interpolate",
     ["linear"],
@@ -57,37 +60,22 @@ const getZoomSizing = (sizeProp, sizeMapArray) => {
     [
       "case",
       ["any", ["==", ["get", sizeProp], 0], ["==", ["get", sizeProp], "NA"]],
-      4,
-      [
-        "interpolate",
-        ["exponential", 1],
-        ["get", sizeProp],
-        ...resizeSizeMap(sizeMapArray, 0.5),
-      ],
+      small[1],
+      ["interpolate", ["exponential", 1], ["get", sizeProp], ...small],
     ],
     6,
     [
       "case",
       ["any", ["==", ["get", sizeProp], 0], ["==", ["get", sizeProp], "NA"]],
-      4,
-      [
-        "interpolate",
-        ["exponential", 1],
-        ["get", sizeProp],
-        ...resizeSizeMap(sizeMapArray, 1),
-      ],
+      medium[1],
+      ["interpolate", ["exponential", 1], ["get", sizeProp], ...medium],
     ],
     14,
     [
       "case",
       ["any", ["==", ["get", sizeProp], 0], ["==", ["get", sizeProp], "NA"]],
-      4,
-      [
-        "interpolate",
-        ["exponential", 1],
-        ["get", sizeProp],
-        ...resizeSizeMap(sizeMapArray, 3),
-      ],
+      large[1],
+      ["interpolate", ["exponential", 1], ["get", sizeProp], ...large],
     ],
   ];
 };
@@ -106,6 +94,16 @@ export function getBaseCircleStyle({ sizeProp, sizeMapArray }) {
       "circle-color": NONZERO_COLOR,
       "circle-stroke-color": NONZERO_BORDER_COLOR,
       "circle-stroke-width": NONZERO_BORDER_WIDTH,
+      "circle-opacity": ["interpolate", ["linear"], ["zoom"], 1, 0.1, 6, 1],
+      "circle-stroke-opacity": [
+        "interpolate",
+        ["linear"],
+        ["zoom"],
+        1,
+        0.25,
+        6,
+        1,
+      ],
     },
   };
 }
@@ -114,7 +112,7 @@ export function getUnavailableCircleStyle({ sizeProp, sizeMapArray }) {
   return {
     filter: ["==", sizeProp, "NA"],
     paint: {
-      "circle-radius": 4,
+      "circle-radius": getZoomSizing(sizeProp, sizeMapArray),
       "circle-color": NA_COLOR,
       "circle-stroke-color": NA_BORDER_COLOR,
       "circle-stroke-width": NA_BORDER_WIDTH,
@@ -122,11 +120,11 @@ export function getUnavailableCircleStyle({ sizeProp, sizeMapArray }) {
   };
 }
 
-export function getOutlineCircleStyle({ sizeProp }) {
+export function getOutlineCircleStyle({ sizeProp, sizeMapArray }) {
   return {
     filter: ["==", sizeProp, 0],
     paint: {
-      "circle-radius": 4,
+      "circle-radius": getZoomSizing(sizeProp, sizeMapArray),
       "circle-stroke-width": ZERO_BORDER_WIDTH,
       "circle-stroke-color": ZERO_BORDER_COLOR,
       "circle-color": ZERO_COLOR,
@@ -175,10 +173,19 @@ export function getStateLabelStyle({ sizeProp }) {
         {
           "font-scale": 0.8,
           "text-color": "#333",
+          "text-font": [
+            "literal",
+            ["DIN Offc Pro Bold", "Arial Unicode MS Regular"],
+          ],
         },
         "\n",
         {},
-        ["get", sizeProp],
+        [
+          "case",
+          ["==", ["get", sizeProp], "--"],
+          "",
+          ["number-format", ["get", sizeProp], { locale: "en" }],
+        ],
         {
           "font-scale": 0.8,
           "text-color": "#7d7d7d",
@@ -190,7 +197,7 @@ export function getStateLabelStyle({ sizeProp }) {
       ],
     },
     paint: {
-      "text-halo-width": 1,
+      "text-halo-width": 1.5,
       "text-halo-color": "#fff",
       "text-halo-blur": 0.5,
     },
@@ -200,6 +207,7 @@ export function getStateLabelStyle({ sizeProp }) {
 export function getStateBaseStyle() {
   return {
     type: "fill",
+    maxzoom: 7,
     paint: {
       "fill-color": "transparent",
     },
@@ -209,6 +217,7 @@ export function getStateBaseStyle() {
 export function getStateOutlineStyle() {
   return {
     type: "line",
+    maxzoom: 7,
     paint: {
       "line-width": [
         "case",

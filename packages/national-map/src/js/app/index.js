@@ -16,7 +16,7 @@ import {
   getStatesGeoJson,
 } from "./data";
 import MicroModal from "micromodal";
-import renderTooltip from "./tooltip";
+import { selectHoverFeature, renderTooltip } from "./tooltip";
 
 function App() {
   // state level features
@@ -26,7 +26,7 @@ function App() {
   // geojson feature collection for the dataset
   const geojson = getFacilitiesGeoJson();
   // map component for the map
-  const map = MapboxMap(renderTooltip);
+  const map = MapboxMap({ renderTooltip, selectHoverFeature });
   // mapboxgl instance
   const mapInstance = map.getMapInstance();
   // create legend component
@@ -59,12 +59,12 @@ function App() {
     map.addSource("state-centers", centers);
     map.addSource("state-shapes", shapes);
     map.addLayer("state-shapes", "state-shapes", getStateBaseStyle);
-    map.addLayer("state-outline", "state-shapes", getStateOutlineStyle);
+    map.addLayer("state-outline", "state-shapes", getStateOutlineStyle, false);
     map.addLayer("facilities-na", "points", getUnavailableCircleStyle);
     map.addLayer("facilities-zero", "points", getOutlineCircleStyle);
-    map.addLayer("state-labels", "state-centers", getStateLabelStyle);
     map.addLayer("facilities-non-zero", "points", getBaseCircleStyle);
-    map.addLayer("facilities-hover", "points", getHoverOutlineStyle);
+    map.addLayer("state-labels", "state-centers", getStateLabelStyle, false);
+    map.addLayer("facilities-hover", "points", getHoverOutlineStyle, false);
     update();
   });
 

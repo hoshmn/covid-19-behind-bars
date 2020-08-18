@@ -1,30 +1,16 @@
 import mapboxgl from "mapbox-gl";
 import { generateCircleLayer } from "../app/layers";
+import bbox from "@turf/bbox";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiaHlwZXJvYmpla3QiLCJhIjoiY2pzZ3Bnd3piMGV6YTQzbjVqa3Z3dHQxZyJ9.rHobqsY_BjkNbqNQS4DNYw";
 
-/**
- * Returns the feature with the lowest value for the given size prop (smallest circle)
- * @param {*} features
- * @param {*} sizeProp
- */
-function getSmallestFeature(features, sizeProp) {
-  let lowest = Number.MAX_SAFE_INTEGER;
-  let feature = null;
-  for (let i = 0; i < features.length; i++) {
-    let value = features[i].properties[sizeProp];
-    if (value === 0) return features[i];
-    if (value === "NA") return features[i];
-    if (value < lowest) {
-      lowest = value;
-      feature = features[i];
-    }
-  }
-  return feature;
-}
+const defaultSelectHoverFeature = (features) => features[0];
 
-export default function MapboxMap(renderPopup) {
+export default function MapboxMap({
+  renderTooltip,
+  selectHoverFeature = defaultSelectHoverFeature,
+}) {
   const map = new mapboxgl.Map({
     container: "map",
     style: "mapbox://styles/hyperobjekt/ck7zakd4407nn1imsbmnmaygz",
@@ -46,13 +32,14 @@ export default function MapboxMap(renderPopup) {
    */
   function setState(newState) {
     state = { ...state, ...newState };
-    state.layerIds = state.layers.map((l) => l.layerId);
+    state.hoverLayers = state.layers
+      .filter((l) => l.hover)
+      .map((l) => l.layerId);
     update(state);
-    console.log("update map state", state);
   }
 
-  function addLayer(layerId, source, updater) {
-    const layers = [...state.layers, { layerId, source, updater }];
+  function addLayer(layerId, source, updater, hover = true) {
+    const layers = [...state.layers, { layerId, source, updater, hover }];
     setState({ layers });
   }
 
@@ -71,7 +58,6 @@ export default function MapboxMap(renderPopup) {
     layers
       .map((l) => generateCircleLayer(l, { sizeProp, sizePropExtent }))
       .forEach((l) => {
-        console.log("updating layer", l.id);
         map.getLayer(l.id) && map.removeLayer(l.id);
         map.addLayer(l);
       });
@@ -101,9 +87,10 @@ export default function MapboxMap(renderPopup) {
 
   map.on("mousemove", function (e) {
     var features = map.queryRenderedFeatures(e.point, {
-      layers: state.layerIds,
+      layers: state.hoverLayers,
     });
-    if (!features || features.length === 0) {
+    const feature = selectHoverFeature(features, state);
+    if (!feature) {
       popup.remove();
       if (hoveredFeature) {
         map.setFeatureState(
@@ -114,9 +101,7 @@ export default function MapboxMap(renderPopup) {
       return;
     }
     map.getCanvas().style.cursor = "pointer";
-    const feature = getSmallestFeature(features, state.sizeProp);
-
-    var html = renderPopup ? renderPopup({ feature, ...state }) : "";
+    var html = renderTooltip ? renderTooltip({ feature, ...state }) : null;
 
     // set hovered state
     if (hoveredFeature) {
@@ -130,8 +115,7 @@ export default function MapboxMap(renderPopup) {
       { source: feature.source, id: feature.id },
       { hover: true }
     );
-
-    popup.trackPointer().setHTML(html).addTo(map);
+    if (html) popup.trackPointer().setHTML(html).addTo(map);
   });
 
   map.on("mouseleave", function (e) {
@@ -145,6 +129,24 @@ export default function MapboxMap(renderPopup) {
       );
     }
     hoveredFeature = null;
+  });
+
+  map.on("click", function (e) {
+    var features = map.queryRenderedFeatures(e.point, {
+      layers: state.hoverLayers,
+    });
+    const feature = selectHoverFeature(features, state);
+    if (!feature) return;
+    if (feature.source === "state-shapes") {
+      var bounds = bbox(feature);
+      map.fitBounds(bounds);
+    }
+    if (feature.source === "points") {
+      map.flyTo({
+        center: feature.geometry.coordinates,
+        zoom: 8,
+      });
+    }
   });
 
   return {
