@@ -21,7 +21,6 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "devDependencies": {
-    "@ucla-law/national-map": "^0.1.4",
-    "lerna": "^3.22.1"
+    "@ucla-law/national-map": "^0.1.4"
   }
 }
