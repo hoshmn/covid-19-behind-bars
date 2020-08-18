@@ -38,7 +38,7 @@ export default function MapboxMap(renderPopup) {
     sizeProp: "res_confirmed",
     sizePropExtent: [1, 100],
   };
-  let hoveredId = null;
+  let hoveredFeature = null;
 
   /**
    * Sets the map state and updates
@@ -105,9 +105,9 @@ export default function MapboxMap(renderPopup) {
     });
     if (!features || features.length === 0) {
       popup.remove();
-      if (hoveredId) {
+      if (hoveredFeature) {
         map.setFeatureState(
-          { source: "points", id: hoveredId },
+          { source: hoveredFeature.source, id: hoveredFeature.id },
           { hover: false }
         );
       }
@@ -119,14 +119,17 @@ export default function MapboxMap(renderPopup) {
     var html = renderPopup ? renderPopup({ feature, ...state }) : "";
 
     // set hovered state
-    if (hoveredId) {
+    if (hoveredFeature) {
       map.setFeatureState(
-        { source: "points", id: hoveredId },
+        { source: hoveredFeature.source, id: hoveredFeature.id },
         { hover: false }
       );
     }
-    hoveredId = feature.id;
-    map.setFeatureState({ source: "points", id: hoveredId }, { hover: true });
+    hoveredFeature = feature;
+    map.setFeatureState(
+      { source: feature.source, id: feature.id },
+      { hover: true }
+    );
 
     popup.trackPointer().setHTML(html).addTo(map);
   });
@@ -135,13 +138,13 @@ export default function MapboxMap(renderPopup) {
     map.getCanvas().style.cursor = "";
     popup.remove();
     // remove hovered state
-    if (hoveredId) {
+    if (hoveredFeature) {
       map.setFeatureState(
-        { source: "points", id: hoveredId },
+        { source: hoveredFeature.source, id: hoveredFeature.id },
         { hover: false }
       );
     }
-    hoveredId = null;
+    hoveredFeature = null;
   });
 
   return {

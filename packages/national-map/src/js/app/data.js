@@ -9,6 +9,7 @@ import {
   STATE_LEVEL_TOTALS,
 } from "./config";
 import StateCenters from "../../assets/data/state_centers.json";
+import StateShapes from "../../assets/data/state_shapes.json";
 
 /**
  * Remap feature props in dataset
@@ -182,6 +183,41 @@ export function getStateCentersGeoJson() {
   return {
     type: "FeatureCollection",
     features,
+  };
+}
+
+export function getStatesGeoJson() {
+  const data = getData();
+  let features = addTotalsToGeoJson(StateCenters.features, data);
+  features = addTotalsToGeoJson(
+    features,
+    data,
+    getUnavailableStateTotal,
+    "_na"
+  );
+  console.log("feature w added", features);
+  return {
+    centers: {
+      type: "FeatureCollection",
+      features,
+    },
+    shapes: {
+      type: "FeatureCollection",
+      features: features.map((f) => {
+        const shapeFeature = StateShapes.features.find(
+          (sf) => sf.properties.id === f.properties.id
+        );
+        if (!shapeFeature)
+          throw new Error("no shape feature for id " + f.properties.id);
+        return {
+          ...shapeFeature,
+          properties: {
+            ...shapeFeature.properties,
+            ...f.properties,
+          },
+        };
+      }),
+    },
   };
 }
 

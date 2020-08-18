@@ -6,24 +6,25 @@ import {
   getUnavailableCircleStyle,
   getHoverOutlineStyle,
   getStateLabelStyle,
+  getStateBaseStyle,
+  getStateOutlineStyle,
 } from "./layers";
 import {
   getExtentForProp,
   getMapData,
   getFacilitiesGeoJson,
-  getStateCentersGeoJson,
+  getStatesGeoJson,
 } from "./data";
 import MicroModal from "micromodal";
 import renderTooltip from "./tooltip";
 
 function App() {
   // state level features
-  const statesGeojson = getStateCentersGeoJson();
+  const { centers, shapes } = getStatesGeoJson();
   // data for the map
   const mapData = getMapData();
   // geojson feature collection for the dataset
   const geojson = getFacilitiesGeoJson();
-  console.log(geojson, statesGeojson);
   // map component for the map
   const map = MapboxMap(renderTooltip);
   // mapboxgl instance
@@ -55,10 +56,13 @@ function App() {
   // add map data source and layers on load
   mapInstance.on("load", () => {
     map.addSource("points", geojson);
-    map.addSource("centers", statesGeojson);
+    map.addSource("state-centers", centers);
+    map.addSource("state-shapes", shapes);
+    map.addLayer("state-shapes", "state-shapes", getStateBaseStyle);
+    map.addLayer("state-outline", "state-shapes", getStateOutlineStyle);
     map.addLayer("facilities-na", "points", getUnavailableCircleStyle);
     map.addLayer("facilities-zero", "points", getOutlineCircleStyle);
-    map.addLayer("state-labels", "centers", getStateLabelStyle);
+    map.addLayer("state-labels", "state-centers", getStateLabelStyle);
     map.addLayer("facilities-non-zero", "points", getBaseCircleStyle);
     map.addLayer("facilities-hover", "points", getHoverOutlineStyle);
     update();

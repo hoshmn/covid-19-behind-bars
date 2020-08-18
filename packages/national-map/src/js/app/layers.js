@@ -196,3 +196,27 @@ export function getStateLabelStyle({ sizeProp }) {
     },
   };
 }
+
+export function getStateBaseStyle() {
+  return {
+    type: "fill",
+    paint: {
+      "fill-color": "transparent",
+    },
+  };
+}
+
+export function getStateOutlineStyle() {
+  return {
+    type: "line",
+    paint: {
+      "line-width": [
+        "case",
+        ["boolean", ["feature-state", "hover"], false],
+        2,
+        0,
+      ],
+      "line-color": "#666",
+    },
+  };
+}
