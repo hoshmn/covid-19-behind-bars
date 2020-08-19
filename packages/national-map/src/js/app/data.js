@@ -39,6 +39,50 @@ function fixCasing(str) {
     .join(" ");
   return result;
 }
+function hasCounts(row, keys) {
+  return keys.reduce(
+    (hasCount, key) =>
+      hasCount ? (row[key] || row[key] === 0) && row[key] !== "NA" : false,
+    true
+  );
+}
+function getActiveCount(row, group) {
+  const confirmedKey = group + "_confirmed";
+  const recoveredKey = group + "_recovered";
+  return hasCounts(row, [confirmedKey, recoveredKey])
+    ? row[confirmedKey] - row[recoveredKey]
+    : "NA";
+}
+
+function getTotalCount(row, metric) {
+  const resKey = "res_" + metric;
+  const staffKey = "stf_" + metric;
+  return hasCounts(row, [resKey, staffKey])
+    ? row[resKey] + row[staffKey]
+    : "NA";
+}
+
+function addCalculatedMetrics(row) {
+  const activeCounts = {
+    res_active: getActiveCount(row, "res"),
+    stf_active: getActiveCount(row, "stf"),
+  };
+  let result = {
+    ...row,
+    ...activeCounts,
+  };
+  const allCounts = [
+    "confirmed",
+    "active",
+    "tested",
+    "deaths",
+    "recovered",
+  ].reduce((obj, key) => {
+    obj["tot_" + key] = getTotalCount(result, key);
+    return obj;
+  }, result);
+  return allCounts;
+}
 
 function applyFormat(row) {
   return {
@@ -55,6 +99,7 @@ export function getData() {
   return csvParse(Data, autoType)
     .map(remapProperties)
     .map(addUniqueId)
+    .map(addCalculatedMetrics)
     .map(applyFormat);
 }
 
@@ -180,7 +225,6 @@ export function getStateCentersGeoJson() {
     getUnavailableStateTotal,
     "_na"
   );
-  console.log("feature w added", features);
   return {
     type: "FeatureCollection",
     features,
@@ -196,7 +240,6 @@ export function getStatesGeoJson() {
     getUnavailableStateTotal,
     "_na"
   );
-  console.log("feature w added", features);
   return {
     centers: {
       type: "FeatureCollection",

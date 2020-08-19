@@ -13,7 +13,7 @@ export default function MapboxMap({
 }) {
   const map = new mapboxgl.Map({
     container: "map",
-    style: "mapbox://styles/hyperobjekt/ck7zakd4407nn1imsbmnmaygz",
+    style: "mapbox://styles/hyperobjekt/cke1roqr302yq19jnlpc8dgr9",
     center: [-97, 38],
     zoom: 3,
   });
@@ -59,7 +59,7 @@ export default function MapboxMap({
       .map((l) => generateCircleLayer(l, { sizeProp, sizePropExtent }))
       .forEach((l) => {
         map.getLayer(l.id) && map.removeLayer(l.id);
-        map.addLayer(l);
+        l.id.includes("bg") ? map.addLayer(l, "waterway") : map.addLayer(l);
       });
   }
 

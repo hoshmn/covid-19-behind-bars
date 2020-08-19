@@ -1,0 +1,41 @@
+.header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  width: 100%;
+  padding: 16px 24px;
+  min-height: 64px;
+  flex: 0;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+.header__title {
+  position: absolute;
+  left: 24px;
+  top: 16px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-decoration: none;
+  color: #000;
+}
+
+.header__title h1 {
+  margin: 8px 0 0 0;
+  font-size: 12px;
+}
+
+.header__controls {
+  align-items: flex-end;
+}
+
+@media (min-width: 960px) {
+  .header {
+    justify-content: center;
+  }
+  .header__controls {
+    align-items: center;
+  }
+}

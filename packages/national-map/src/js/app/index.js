@@ -8,6 +8,7 @@ import {
   getStateLabelStyle,
   getStateBaseStyle,
   getStateOutlineStyle,
+  getStateBgStyle,
 } from "./layers";
 import {
   getExtentForProp,
@@ -17,6 +18,8 @@ import {
 } from "./data";
 import MicroModal from "micromodal";
 import { selectHoverFeature, renderTooltip } from "./tooltip";
+import { ButtonGroup } from "../ui/button-group";
+import { POPULATION_OPTIONS, TYPE_OPTIONS } from "./config";
 
 function App() {
   // state level features
@@ -30,7 +33,7 @@ function App() {
   // mapboxgl instance
   const mapInstance = map.getMapInstance();
   // create legend component
-  const mapLegend = Legend();
+  const mapLegend = Legend({ root: document.getElementById("legend") });
   // state for the visualization
   let state;
 
@@ -53,11 +56,20 @@ function App() {
     mapLegend.update(state);
   }
 
+  function handlePopulationSelect(event, button) {
+    setState({ subgroup: button.value });
+  }
+
+  function handleTypeSelect(event, button) {
+    setState({ type: button.value });
+  }
+
   // add map data source and layers on load
   mapInstance.on("load", () => {
     map.addSource("points", geojson);
     map.addSource("state-centers", centers);
     map.addSource("state-shapes", shapes);
+    map.addLayer("state-bg", "state-shapes", getStateBgStyle, false);
     map.addLayer("state-shapes", "state-shapes", getStateBaseStyle);
     map.addLayer("state-outline", "state-shapes", getStateOutlineStyle, false);
     map.addLayer("facilities-na", "points", getUnavailableCircleStyle);
@@ -66,6 +78,11 @@ function App() {
     map.addLayer("state-labels", "state-centers", getStateLabelStyle, false);
     map.addLayer("facilities-hover", "points", getHoverOutlineStyle, false);
     update();
+    const loaderEl = document.getElementById("loading");
+    loaderEl.classList.add("loading--complete");
+    setTimeout(function () {
+      loaderEl.classList.add("hide");
+    }, 1000);
   });
 
   // initialize default state
@@ -75,16 +92,23 @@ function App() {
   });
 
   // initialize population selection
-  var populationSelect = document.getElementById("population");
-  populationSelect.addEventListener("change", function () {
-    setState({ subgroup: this.value });
+  var populationButtonGroup = ButtonGroup({
+    root: document.getElementById("populationButtonGroup"),
+    buttons: POPULATION_OPTIONS,
+    onSelect: handlePopulationSelect,
   });
 
-  // initialize type selection
-  var typeSelect = document.getElementById("type");
-  typeSelect.addEventListener("change", function () {
-    setState({ type: this.value });
+  var typeButtonGroup = ButtonGroup({
+    root: document.getElementById("typeButtonGroup"),
+    buttons: TYPE_OPTIONS,
+    onSelect: handleTypeSelect,
   });
+
+  // // initialize type selection
+  // var typeSelect = document.getElementById("type");
+  // typeSelect.addEventListener("change", function () {
+  //   setState({ type: this.value });
+  // });
 
   MicroModal.init();
   // MicroModal.show("modal-1");

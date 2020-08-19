@@ -1,5 +1,8 @@
 import Mustache from "mustache";
 import { UNAVAILABLE_LANG } from "./config";
+import { format } from "d3-format";
+
+const formatNumber = format(",d");
 
 /**
  * Returns the feature with the lowest value for the given size prop (smallest circle)
@@ -21,6 +24,12 @@ function getSmallestFeature(features, sizeProp) {
   return feature || features[0];
 }
 
+/**
+ * Selects the feature that should receive hovered state when hovering
+ * over a group of features
+ * @param {*} features
+ * @param {*} state
+ */
 export const selectHoverFeature = (features, state) => {
   if (!features || features.length === 0) return null;
   const pointFeatures = features.filter((f) => f.source === "points");
@@ -31,6 +40,12 @@ export const selectHoverFeature = (features, state) => {
   return feature;
 };
 
+/**
+ * Returns the data required in order to populate the tooltip
+ * @param {*} feature
+ * @param {*} sizeProp
+ * @param {*} isFacility
+ */
 function getTooltipData(feature, sizeProp, isFacility) {
   const [subgroup, type] = sizeProp.split("_");
   // swap "NA" value
@@ -40,6 +55,15 @@ function getTooltipData(feature, sizeProp, isFacility) {
       [key]: feature.properties[key] === "NA" ? "--" : feature.properties[key],
     };
   });
+  // update missing value
+  const missingCount = featureData["missing"];
+  featureData["missing"] =
+    missingCount === "--" || missingCount === 0 ? false : missingCount;
+  // format numbers
+  Object.keys(featureData).forEach((k) => {
+    if (!isNaN(featureData[k])) featureData[k] = formatNumber(featureData[k]);
+  });
+  // add subgroup, type and if it is a facility to the data
   const result = {
     ...featureData,
     subgroup,
@@ -48,9 +72,11 @@ function getTooltipData(feature, sizeProp, isFacility) {
   };
   // add facility data if needed
   if (!isFacility) {
-    result["na_count"] = feature.properties[sizeProp + "_na"];
+    const naCount = featureData[sizeProp + "_na"];
+    result["na_count"] = naCount === "--" || naCount === 0 ? false : naCount;
     result["na_lang"] = UNAVAILABLE_LANG[sizeProp];
   }
+
   return result;
 }
 

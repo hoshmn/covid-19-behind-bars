@@ -1,5 +1,5 @@
-const CIRCLE_SMALL = 4;
-const CIRCLE_LARGE = 32;
+export const CIRCLE_SMALL = 4;
+export const CIRCLE_LARGE = 32;
 const NA_COLOR = "rgba(0,0,0,0.3)";
 const NA_BORDER_COLOR = "transparent";
 const NA_BORDER_WIDTH = 1;
@@ -44,7 +44,6 @@ const getSizeMapArray = (sizeMap) => {
 
 const resizeSizeMap = (sizeMapArray, sizeFactor) => {
   const result = sizeMapArray.map((v, i) => (i % 2 === 1 ? v * sizeFactor : v));
-  console.log("resized", sizeFactor, result);
   return result;
 };
 
@@ -210,6 +209,15 @@ export function getStateBaseStyle() {
     maxzoom: 7,
     paint: {
       "fill-color": "transparent",
+    },
+  };
+}
+
+export function getStateBgStyle() {
+  return {
+    type: "fill",
+    paint: {
+      "fill-color": "#eee",
     },
   };
 }
