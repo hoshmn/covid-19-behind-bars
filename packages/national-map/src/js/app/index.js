@@ -104,12 +104,6 @@ function App() {
     onSelect: handleTypeSelect,
   });
 
-  // // initialize type selection
-  // var typeSelect = document.getElementById("type");
-  // typeSelect.addEventListener("change", function () {
-  //   setState({ type: this.value });
-  // });
-
   MicroModal.init();
   // MicroModal.show("modal-1");
 }

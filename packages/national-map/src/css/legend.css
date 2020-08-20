@@ -39,6 +39,16 @@
   fill: #999;
 }
 
+@media (max-width: 480px) {
+  .legend {
+    left: 0;
+    right: 0;
+    width: 296px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
 @media (min-width: 1400px) {
   .legend {
     top: 16px;

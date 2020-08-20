@@ -31,6 +31,18 @@
   align-items: flex-end;
 }
 
+@media (max-width: 480px) {
+  .header {
+    justify-content: center;
+  }
+  .header__title {
+    display: none;
+  }
+  .header__controls {
+    align-items: center;
+  }
+}
+
 @media (min-width: 960px) {
   .header {
     justify-content: center;
