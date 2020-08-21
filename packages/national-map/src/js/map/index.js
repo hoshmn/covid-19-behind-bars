@@ -13,10 +13,13 @@ export default function MapboxMap({
 }) {
   const map = new mapboxgl.Map({
     container: "map",
-    style: "mapbox://styles/hyperobjekt/cke1roqr302yq19jnlpc8dgr9",
+    style:
+      "mapbox://styles/hyperobjekt/cke1roqr302yq19jnlpc8dgr9",
     center: [-97, 38],
     zoom: 3,
   });
+
+  map.addControl(new mapboxgl.NavigationControl());
 
   let state = {
     layers: [],
@@ -39,7 +42,10 @@ export default function MapboxMap({
   }
 
   function addLayer(layerId, source, updater, hover = true) {
-    const layers = [...state.layers, { layerId, source, updater, hover }];
+    const layers = [
+      ...state.layers,
+      { layerId, source, updater, hover },
+    ];
     setState({ layers });
   }
 
@@ -56,10 +62,14 @@ export default function MapboxMap({
   function update() {
     const { layers, sizeProp, sizePropExtent } = state;
     layers
-      .map((l) => generateCircleLayer(l, { sizeProp, sizePropExtent }))
+      .map((l) =>
+        generateCircleLayer(l, { sizeProp, sizePropExtent })
+      )
       .forEach((l) => {
         map.getLayer(l.id) && map.removeLayer(l.id);
-        l.id.includes("bg") ? map.addLayer(l, "waterway") : map.addLayer(l);
+        l.id.includes("bg")
+          ? map.addLayer(l, "waterway")
+          : map.addLayer(l);
       });
   }
 
@@ -68,14 +78,14 @@ export default function MapboxMap({
   }
 
   var popupOffsets = {
-    top: [0, 12],
+    "top": [0, 12],
     "top-left": [12, 12],
     "top-right": [-12, 12],
-    bottom: [0, -12],
+    "bottom": [0, -12],
     "bottom-left": [12, -12],
     "bottom-right": [-12, -12],
-    left: [12, 0],
-    right: [-12, 0],
+    "left": [12, 0],
+    "right": [-12, 0],
   };
 
   // Create a popup, but don't add it to the map yet.
@@ -94,14 +104,19 @@ export default function MapboxMap({
       popup.remove();
       if (hoveredFeature) {
         map.setFeatureState(
-          { source: hoveredFeature.source, id: hoveredFeature.id },
+          {
+            source: hoveredFeature.source,
+            id: hoveredFeature.id,
+          },
           { hover: false }
         );
       }
       return;
     }
     map.getCanvas().style.cursor = "pointer";
-    var html = renderTooltip ? renderTooltip({ feature, ...state }) : null;
+    var html = renderTooltip
+      ? renderTooltip({ feature, ...state })
+      : null;
 
     // set hovered state
     if (hoveredFeature) {

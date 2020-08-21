@@ -67,7 +67,6 @@ export const LEGEND_LANG = {
   res_confirmed: "Total cases for residents",
   res_active: "Active cases for residents",
   res_tested: "Number of residents tested",
-  res_tested: "Number of residents tested",
   res_deaths: "COVID-19 related deaths for residents",
   res_recovered: "Number of residents recovered",
   res_negative: "Number of residents testing negative",

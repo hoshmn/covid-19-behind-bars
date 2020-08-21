@@ -71,6 +71,9 @@
 .mapboxgl-ctrl-top-right {
   top: 0;
   right: 0;
+  bottom: 0;
+  height: 110px;
+  margin: auto;
 }
 .mapboxgl-ctrl-bottom-left {
   bottom: 0;
