@@ -1,6 +1,11 @@
-import Data from "../../assets/data/map.csv";
+import Data from "../../assets/data/data.csv";
 import { autoType, csvParse } from "d3-dsv";
-import { extent as getExtent, groups, rollup, sum } from "d3-array";
+import {
+  extent as getExtent,
+  groups,
+  rollup,
+  sum,
+} from "d3-array";
 
 import {
   PROPERTY_MAP,
@@ -34,7 +39,9 @@ function fixCasing(str) {
     .replace(/\b\w/g, (v) => v.toString(v).toUpperCase())
     .split(" ")
     .map((v) =>
-      UPPER_CASE.indexOf(v.toLowerCase()) > -1 ? v.toUpperCase() : v
+      UPPER_CASE.indexOf(v.toLowerCase()) > -1
+        ? v.toUpperCase()
+        : v
     )
     .join(" ");
   return result;
@@ -42,7 +49,9 @@ function fixCasing(str) {
 function hasCounts(row, keys) {
   return keys.reduce(
     (hasCount, key) =>
-      hasCount ? (row[key] || row[key] === 0) && row[key] !== "NA" : false,
+      hasCount
+        ? (row[key] || row[key] === 0) && row[key] !== "NA"
+        : false,
     true
   );
 }
@@ -96,11 +105,12 @@ function applyFormat(row) {
  * Returns data string
  */
 export function getData() {
-  return csvParse(Data, autoType)
+  const result = csvParse(Data, autoType)
     .map(remapProperties)
     .map(addUniqueId)
     .map(addCalculatedMetrics)
     .map(applyFormat);
+  return result;
 }
 
 export function getDataByState(data = getData()) {
@@ -126,7 +136,10 @@ export function getStateTotal(propName, data = getData()) {
  * @param {*} data
  * @param {*} countIf
  */
-export function getStateCount(data = getData(), countIf = () => true) {
+export function getStateCount(
+  data = getData(),
+  countIf = () => true
+) {
   return rollup(
     data,
     (v) => sum(v, (d) => (countIf(d) ? 1 : 0)),
@@ -140,7 +153,10 @@ export function getStateCount(data = getData(), countIf = () => true) {
  * @param {*} propName
  * @param {*} data
  */
-export function getUnavailableStateTotal(propName, data = getData()) {
+export function getUnavailableStateTotal(
+  propName,
+  data = getData()
+) {
   return getStateCount(
     data,
     (d) =>
@@ -153,11 +169,16 @@ export function getUnavailableStateTotal(propName, data = getData()) {
  * Gets the number of facilities missing geojson data by state
  */
 export function getMissingCount(data = getData()) {
-  return getStateCount(data, (d) => isNaN(d.lat) || isNaN(d.lon));
+  return getStateCount(
+    data,
+    (d) => isNaN(d.lat) || isNaN(d.lon)
+  );
 }
 
 export function getMapData(data = getData()) {
-  return data.filter((row) => !isNaN(row.lat) && !isNaN(row.lon));
+  return data.filter(
+    (row) => !isNaN(row.lat) && !isNaN(row.lon)
+  );
 }
 
 /**
@@ -195,17 +216,21 @@ function addTotalsToGeoJson(
   sumMap["count"] = getStateCount(data);
   sumMap["missing"] = getMissingCount(data);
   return features.map((f) => {
-    const newProps = Object.keys(sumMap).reduce((obj, propName) => {
-      const keyName =
-        propName === "count" || propName === "missing"
-          ? propName
-          : propName + suffix;
-      const value = sumMap[propName].get(f.properties.name) || "--";
-      return {
-        ...obj,
-        [keyName]: value,
-      };
-    }, {});
+    const newProps = Object.keys(sumMap).reduce(
+      (obj, propName) => {
+        const keyName =
+          propName === "count" || propName === "missing"
+            ? propName
+            : propName + suffix;
+        const value =
+          sumMap[propName].get(f.properties.name) || "--";
+        return {
+          ...obj,
+          [keyName]: value,
+        };
+      },
+      {}
+    );
     return {
       ...f,
       properties: {
@@ -252,7 +277,9 @@ export function getStatesGeoJson() {
           (sf) => sf.properties.id === f.properties.id
         );
         if (!shapeFeature)
-          throw new Error("no shape feature for id " + f.properties.id);
+          throw new Error(
+            "no shape feature for id " + f.properties.id
+          );
         return {
           ...shapeFeature,
           properties: {

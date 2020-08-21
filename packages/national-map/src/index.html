@@ -2,7 +2,10 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    />
     <title><%= htmlWebpackPlugin.options.title %></title>
     <style>
       * {
@@ -170,12 +173,13 @@
         {{^isFacility}}
         <div class="tooltip__footer">
           <p>
-            {{#na_count}}
-            {{na_lang}} is unavailable for {{na_count}} facilities.
-            {{/na_count}}
+            There are {{count}} facilities in {{name}}.
             {{#missing}}
-            There are {{missing}} facilities in {{name}} missing from the map.
+            On the map {{missing}} facilities are not shown.
             {{/missing}}
+            {{#na_count}}
+            {{na_lang}} are unavailable for {{na_count}} facilities.
+            {{/na_count}}
           </p>
         </div>
         {{/isFacility}}
@@ -196,7 +200,11 @@
         href="https://law.ucla.edu/academics/centers/criminal-justice-program/ucla-covid-19-behind-bars-data-project"
         target="_blank"
       >
-        <svg class="logo" aria-labelledby="logoTitle" viewBox="0 0 106 32">
+        <svg
+          class="logo"
+          aria-labelledby="logoTitle"
+          viewBox="0 0 106 32"
+        >
           <title id="logoTitle">UCLA Law</title>
           <path
             fill="#000"
@@ -247,7 +255,10 @@
         <h1>COVID-19 Behind Bars Data Project</h1>
       </a>
       <div class="ui header__controls sm-stack flow">
-        <div id="populationButtonGroup" class="ui__control"></div>
+        <div
+          id="populationButtonGroup"
+          class="ui__control"
+        ></div>
         <div id="typeButtonGroup" class="ui__control"></div>
       </div>
     </header>
@@ -278,8 +289,18 @@
             width="120"
             height="68"
           >
-            <circle class="circle circle--zero" cx="8" cy="16" r="6" />
-            <circle class="circle circle--unavailable" cx="8" cy="44" r="6" />
+            <circle
+              class="circle circle--zero"
+              cx="8"
+              cy="16"
+              r="6"
+            />
+            <circle
+              class="circle circle--unavailable"
+              cx="8"
+              cy="44"
+              r="6"
+            />
             <path d="M 16,16 h 16" />
             <path d="M 16,44 h 16" />
             <text x="36" y="20">0</text>
@@ -291,34 +312,44 @@
 
     <div id="modal-1" class="modal" aria-hidden="true">
       <div tabindex="-1" data-micromodal-close>
-        <div role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-1-title"
+        >
           <header>
             <h2 id="modal-1-title">
               UCLA Law COVID-19 Behind Bars Data Project
             </h2>
-            <button aria-label="Close modal" data-micromodal-close>
+            <button
+              aria-label="Close modal"
+              data-micromodal-close
+            >
               Close
             </button>
           </header>
           <div id="modal-1-content">
             <p>
-              This map tracks COVID-19 confirmed cases and deaths in jails and
-              prisons across the US. The data are collected daily from
-              self-reported counts from state Department of Corrections
-              websites. Jails and prisons that do not report COVID-19 counts are
-              not displayed.
+              This map tracks COVID-19 confirmed cases and deaths
+              in jails and prisons across the US. The data are
+              collected daily from self-reported counts from
+              state Department of Corrections websites. Jails and
+              prisons that do not report COVID-19 counts are not
+              displayed.
             </p>
             <p>
-              To download the data in .csv or .xslx format, with daily counts
-              since March 31st, please visit our GitHub page. Questions about
-              the data? Please see our Data Dictionary.
+              To download the data in .csv or .xslx format, with
+              daily counts since March 31st, please visit our
+              GitHub page. Questions about the data? Please see
+              our Data Dictionary.
             </p>
             <p>
-              Some jails and prisons which do report COVID-19 counts, but for
-              which our team has not yet identified the longitude and latitude,
-              do not appear as dots on the map but are included in statewide
-              totals. These will be added to the map as our team identifies more
-              locations.
+              Some jails and prisons which do report COVID-19
+              counts, but for which our team has not yet
+              identified the longitude and latitude, do not
+              appear as dots on the map but are included in
+              statewide totals. These will be added to the map as
+              our team identifies more locations.
             </p>
           </div>
         </div>

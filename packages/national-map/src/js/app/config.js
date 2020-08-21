@@ -1,11 +1,14 @@
+/**
+ * Map CSV columns to object properties
+ */
 export const PROPERTY_MAP = {
-  Name: "name",
-  City: "city",
+  "Name": "name",
+  "City": "city",
   "County.FIPS": "county",
   "Facility.Type": "facility",
-  Latitude: "lat",
-  Longitude: "lon",
-  State: "state",
+  "Latitude": "lat",
+  "Longitude": "lon",
+  "State": "state",
   "Residents.Confirmed": "res_confirmed",
   "Residents.Tested": "res_tested",
   "Residents.Deaths": "res_deaths",
@@ -24,6 +27,9 @@ export const PROPERTY_MAP = {
   "Staff.Quarantine": "stf_quarantine",
 };
 
+/**
+ * Add state level totals for these metrics
+ */
 export const STATE_LEVEL_TOTALS = [
   "res_confirmed",
   "res_active",
@@ -54,6 +60,9 @@ export const STATE_LEVEL_TOTALS = [
   "tot_quarantine",
 ];
 
+/**
+ * Legend title for selected metrics
+ */
 export const LEGEND_LANG = {
   res_confirmed: "Total cases for residents",
   res_active: "Active cases for residents",
@@ -85,16 +94,23 @@ export const LEGEND_LANG = {
   tot_quarantine: "Number of people in quarantine",
 };
 
+/**
+ * Language for tooltip for places with data unavailable.
+ */
 export const UNAVAILABLE_LANG = {
   res_confirmed: "Confirmed cases among residents",
+  res_active: "Active cases among residents",
   res_tested: "Number of tested residents",
-  res_deaths: "Number of COVID-19 related deaths among residents",
+  res_deaths:
+    "Number of COVID-19 related deaths among residents",
   res_recovered: "Number of residents recovered",
-  res_negative: "Number of negative test results among residents",
+  res_negative:
+    "Number of negative test results among residents",
   res_pending: "Number of pending tests among residents",
   res_population: "Resident population",
   res_quarantine: "Number of residents in quarantine",
   stf_confirmed: "Confirmed cases among staff",
+  stf_active: "Active cases among staff",
   stf_tested: "Number of tested staff",
   stf_deaths: "Number of COVID-19 related deaths among staff",
   stf_recovered: "Number of staff recovered",
@@ -102,8 +118,20 @@ export const UNAVAILABLE_LANG = {
   stf_pending: "Number of pending tests among staff",
   stf_population: "Staff population",
   stf_quarantine: "Number of staff in quarantine",
+  tot_confirmed: "Total confirmed cases",
+  tot_active: "Total active cases",
+  tot_tested: "Total number of tests",
+  tot_deaths: "Total of COVID-19 related deaths",
+  tot_recovered: "Total number of recoveries",
+  tot_negative: "Total number of negative test results",
+  tot_pending: "Total number of pending tests",
+  tot_population: "Total population",
+  tot_quarantine: "Total number of people in quarantine",
 };
 
+/**
+ * Abbreviations that should be forced to uppercase
+ */
 export const UPPER_CASE = [
   "fci",
   "usp",
@@ -112,6 +140,9 @@ export const UPPER_CASE = [
   "cc",
   "ci",
   "cf",
+  "ciw",
+  "cim",
+  "cvsp",
   "col",
   "atc",
   "mcc",
@@ -124,8 +155,32 @@ export const UPPER_CASE = [
   "sbwc",
   "fmc",
   "li",
+  "sq",
+  "ca",
+  "prc",
+  "fsp",
+  "llc",
+  "rcc",
+  "cmf",
+  "dvi",
+  "cmc",
+  "svsp",
+  "crc",
+  "nwfrc",
+  "ii",
+  "sfrc",
+  "fdc",
+  "gdcp",
+  "smu",
+  "rci",
+  "wci",
+  "nbci",
 ];
 
+/**
+ * Specific ranges for certain metrics,
+ * all others auto generate based on values.
+ */
 export const VALUE_RANGES = {
   res_confirmed: [1, 1000],
   tot_confirmed: [1, 1000],
@@ -133,6 +188,9 @@ export const VALUE_RANGES = {
   tot_active: [1, 500],
 };
 
+/**
+ * Options for subgroups
+ */
 export const POPULATION_OPTIONS = [
   {
     value: "res",
@@ -149,6 +207,9 @@ export const POPULATION_OPTIONS = [
   },
 ];
 
+/**
+ * Options for metric type
+ */
 export const TYPE_OPTIONS = [
   {
     value: "confirmed",
