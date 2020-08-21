@@ -510,6 +510,7 @@ a.mapboxgl-ctrl-logo.mapboxgl-compact {
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 100;
   display: -webkit-flex;
   display: flex;
   will-change: transform;
