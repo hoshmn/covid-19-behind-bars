@@ -1,4 +1,3 @@
-import Data from "../../assets/data/data.csv";
 import { autoType, csvParse } from "d3-dsv";
 import {
   extent as getExtent,
@@ -27,13 +26,20 @@ function remapProperties(row) {
   }, {});
 }
 
+/**
+ * Adds unique ids to each row based on the index
+ */
 function addUniqueId(row, index) {
   return { id: index + 1000, ...row };
 }
 
+/**
+ * Fixes casing on strings THAT ARE ALL UPPERCASE
+ * so that They Have Title Casing
+ * @param {string} str
+ */
 function fixCasing(str) {
   if (!str) return "";
-
   const result = str
     .toLowerCase()
     .replace(/\b\w/g, (v) => v.toString(v).toUpperCase())
@@ -46,6 +52,13 @@ function fixCasing(str) {
     .join(" ");
   return result;
 }
+
+/**
+ * Checks the keys for the provided row to see if they
+ * have valid number values.
+ * @param {*} row
+ * @param {*} keys
+ */
 function hasCounts(row, keys) {
   return keys.reduce(
     (hasCount, key) =>
@@ -55,6 +68,13 @@ function hasCounts(row, keys) {
     true
   );
 }
+
+/**
+ * Gets the active cases count for the provided group
+ * by subtracting recovered from confirmed, if they are available
+ * @param {*} row
+ * @param {*} group
+ */
 function getActiveCount(row, group) {
   const confirmedKey = group + "_confirmed";
   const recoveredKey = group + "_recovered";
@@ -63,6 +83,12 @@ function getActiveCount(row, group) {
     : "NA";
 }
 
+/**
+ * Gets the total count for the provided metric
+ * by adding the residents / staff values together, if available
+ * @param {*} row
+ * @param {*} metric
+ */
 function getTotalCount(row, metric) {
   const resKey = "res_" + metric;
   const staffKey = "stf_" + metric;
@@ -71,6 +97,11 @@ function getTotalCount(row, metric) {
     : "NA";
 }
 
+/**
+ * Adds additional metrics to the row that are
+ * computed from the base data set. (active counts and totals)
+ * @param {*} row
+ */
 function addCalculatedMetrics(row) {
   const activeCounts = {
     res_active: getActiveCount(row, "res"),
@@ -93,6 +124,10 @@ function addCalculatedMetrics(row) {
   return allCounts;
 }
 
+/**
+ * Formats the text values in the row
+ * @param {*} row
+ */
 function applyFormat(row) {
   return {
     ...row,
@@ -102,18 +137,31 @@ function applyFormat(row) {
 }
 
 /**
+ * Fetches a CSV file
+ * @param {*} url
+ */
+function fetchCSV(url) {
+  return fetch(url).then((response) => response.text());
+}
+
+/**
  * Returns data string
  */
 export function getData() {
-  const result = csvParse(Data, autoType)
-    .map(remapProperties)
-    .map(addUniqueId)
-    .map(addCalculatedMetrics)
-    .map(applyFormat);
-  return result;
+  return fetchCSV("./assets/data/map.csv").then((data) =>
+    csvParse(data, autoType)
+      .map(remapProperties)
+      .map(addUniqueId)
+      .map(addCalculatedMetrics)
+      .map(applyFormat)
+  );
 }
 
-export function getDataByState(data = getData()) {
+/**
+ * Groups data by state
+ * @param {*} data
+ */
+export function getDataByState(data) {
   const result = groups(data, (d) => d.state);
   return result;
 }
@@ -121,7 +169,7 @@ export function getDataByState(data = getData()) {
 /**
  * Gets the state sum for the given data property
  */
-export function getStateTotal(propName, data = getData()) {
+export function getStateTotal(propName, data) {
   return rollup(
     data,
     (v) => sum(v, (d) => d[propName]),
@@ -136,10 +184,7 @@ export function getStateTotal(propName, data = getData()) {
  * @param {*} data
  * @param {*} countIf
  */
-export function getStateCount(
-  data = getData(),
-  countIf = () => true
-) {
+export function getStateCount(data, countIf = () => true) {
   return rollup(
     data,
     (v) => sum(v, (d) => (countIf(d) ? 1 : 0)),
@@ -153,10 +198,7 @@ export function getStateCount(
  * @param {*} propName
  * @param {*} data
  */
-export function getUnavailableStateTotal(
-  propName,
-  data = getData()
-) {
+export function getUnavailableStateTotal(propName, data) {
   return getStateCount(
     data,
     (d) =>
@@ -168,14 +210,19 @@ export function getUnavailableStateTotal(
 /**
  * Gets the number of facilities missing geojson data by state
  */
-export function getMissingCount(data = getData()) {
+export function getMissingCount(data) {
   return getStateCount(
     data,
     (d) => isNaN(d.lat) || isNaN(d.lon)
   );
 }
 
-export function getMapData(data = getData()) {
+/**
+ * Filters out data that does not have lat / lon
+ * and returns the filtered dataset
+ * @param {*} data
+ */
+export function getMapData(data) {
   return data.filter(
     (row) => !isNaN(row.lat) && !isNaN(row.lon)
   );
@@ -185,8 +232,8 @@ export function getMapData(data = getData()) {
  * Creates GeoJSON feature collection from the dataset
  * @param {*} data
  */
-export function getFacilitiesGeoJson() {
-  const features = getMapData().map((row, i) => ({
+export function getFacilitiesGeoJson(data) {
+  const features = data.map((row, i) => ({
     id: row.id,
     type: "Feature",
     properties: row,
@@ -201,9 +248,17 @@ export function getFacilitiesGeoJson() {
   };
 }
 
+/**
+ * Calculates state level totals for all metrics and
+ * returns a GeoJSON object containing the calculated properties.
+ * @param {*} features
+ * @param {*} data
+ * @param {*} collector
+ * @param {*} suffix
+ */
 function addTotalsToGeoJson(
   features,
-  data = getData(),
+  data,
   collector = getStateTotal,
   suffix = ""
 ) {
@@ -241,23 +296,12 @@ function addTotalsToGeoJson(
   });
 }
 
-export function getStateCentersGeoJson() {
-  const data = getData();
-  let features = addTotalsToGeoJson(StateCenters.features, data);
-  features = addTotalsToGeoJson(
-    features,
-    data,
-    getUnavailableStateTotal,
-    "_na"
-  );
-  return {
-    type: "FeatureCollection",
-    features,
-  };
-}
-
-export function getStatesGeoJson() {
-  const data = getData();
+/**
+ * Returns a GeoJSON objects for state center points and shapes
+ * with data populated in properties.
+ * @param {*} data
+ */
+export function getStatesGeoJson(data) {
   let features = addTotalsToGeoJson(StateCenters.features, data);
   features = addTotalsToGeoJson(
     features,

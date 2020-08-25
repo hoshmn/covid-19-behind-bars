@@ -6,6 +6,8 @@
 @import "css/table.css";
 @import "css/ui.css";
 @import "css/legend.css";
+@import "css/modal.css";
+
 :root {
   --text: #000;
   --text-secondary: #7d7d7d;

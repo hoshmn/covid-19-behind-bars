@@ -1,6 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   entry: {
@@ -11,6 +12,11 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: "COVID-19 Behind Bars",
       template: "src/index.html",
+    }),
+    new CopyPlugin({
+      patterns: [
+        { from: 'src/assets', to: 'assets' }
+      ],
     }),
   ],
   output: {
