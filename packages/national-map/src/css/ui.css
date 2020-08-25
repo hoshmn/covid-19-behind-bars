@@ -33,9 +33,11 @@
   border-color: #05538c;
   border-bottom-color: #05538c;
 }
-
+.button > * {
+  --flow-margin: 0.5em;
+}
 .button {
-  padding: 4px 8px;
+  padding: 0.5em 1em;
   position: relative;
   z-index: 1;
   display: flex;
@@ -43,6 +45,7 @@
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
+  text-decoration: none;
 }
 .button:hover {
   background: #f0f0f0;
@@ -50,7 +53,8 @@
   z-index: 2;
 }
 .button--active,
-.button:active {
+.button:active,
+.button--primary {
   border-color: #05538c;
   border-bottom-color: #05538c;
   background: #2774ae;
@@ -58,9 +62,17 @@
   box-shadow: inset 1px 0px 1px #16649d;
   z-index: 3;
 }
-.button--active:hover {
+.button--active:hover,
+.button--primary:hover {
   background: #16649d;
   border-color: #05538c;
+}
+.button--secondary {
+  color: #666;
+  background: #f0f0f0;
+}
+.button--large {
+  font-size: 16px;
 }
 
 /** Button Groups */
@@ -70,7 +82,7 @@
 }
 .button-group .button {
   border-radius: 0;
-  padding: 4px 16px;
+  padding: 0.5em 1em;
 }
 .button-group .button:first-child {
   border-radius: 2px 0 0 2px;
@@ -119,14 +131,4 @@
 }
 .input.select option {
   font-weight: normal;
-}
-
-.modal {
-  display: none;
-  z-index: 1000;
-  position: absolute;
-}
-
-.modal.is-open {
-  display: block;
 }

@@ -31,6 +31,8 @@ function App() {
   const mapLegend = Legend({
     root: document.getElementById("legend"),
   });
+  // modal button DOM element
+  const modalButton = document.getElementById("openModalButton");
   // state for the visualization
   let state;
 
@@ -54,10 +56,7 @@ function App() {
   function setState(newState) {
     state = { ...state, ...newState };
     state.sizeProp = [state.subgroup, state.type].join("_");
-    state.sizePropExtent = getExtentForProp(
-      state.mapData,
-      state.sizeProp
-    );
+    state.sizePropExtent = getExtentForProp(state.mapData, state.sizeProp);
     update();
   }
 
@@ -77,6 +76,12 @@ function App() {
     setState({ type: button.value });
   }
 
+  function handleShowInfo() {
+    MicroModal.show("introModal", {
+      awaitCloseAnimation: true,
+    });
+  }
+
   function init() {
     getData().then((data) => {
       console.log(data);
@@ -91,50 +96,24 @@ function App() {
         map.addSource("points", geojson);
         map.addSource("state-centers", centers);
         map.addSource("state-shapes", shapes);
-        map.addLayer(
-          "state-bg",
-          "state-shapes",
-          getStateBgStyle,
-          false
-        );
-        map.addLayer(
-          "state-shapes",
-          "state-shapes",
-          getStateBaseStyle
-        );
+        map.addLayer("state-bg", "state-shapes", getStateBgStyle, false);
+        map.addLayer("state-shapes", "state-shapes", getStateBaseStyle);
         map.addLayer(
           "state-outline",
           "state-shapes",
           getStateOutlineStyle,
           false
         );
-        map.addLayer(
-          "facilities-na",
-          "points",
-          getUnavailableCircleStyle
-        );
-        map.addLayer(
-          "facilities-zero",
-          "points",
-          getOutlineCircleStyle
-        );
-        map.addLayer(
-          "facilities-non-zero",
-          "points",
-          getBaseCircleStyle
-        );
+        map.addLayer("facilities-na", "points", getUnavailableCircleStyle);
+        map.addLayer("facilities-zero", "points", getOutlineCircleStyle);
+        map.addLayer("facilities-non-zero", "points", getBaseCircleStyle);
         map.addLayer(
           "state-labels",
           "state-centers",
           getStateLabelStyle,
           false
         );
-        map.addLayer(
-          "facilities-hover",
-          "points",
-          getHoverOutlineStyle,
-          false
-        );
+        map.addLayer("facilities-hover", "points", getHoverOutlineStyle, false);
         update();
         const loaderEl = document.getElementById("loading");
         loaderEl.classList.add("loading--complete");
@@ -151,8 +130,13 @@ function App() {
         centers,
         shapes,
       });
-      MicroModal.init();
-      MicroModal.show("introModal");
+      MicroModal.init({
+        awaitCloseAnimation: true,
+      });
+      MicroModal.show("introModal", {
+        awaitCloseAnimation: true,
+      });
+      modalButton.addEventListener("click", handleShowInfo);
     });
   }
 
