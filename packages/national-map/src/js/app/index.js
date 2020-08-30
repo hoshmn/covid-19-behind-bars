@@ -84,7 +84,6 @@ function App() {
 
   function init() {
     getData().then((data) => {
-      console.log(data);
       // data for the map
       const mapData = getMapData(data);
       // state level features

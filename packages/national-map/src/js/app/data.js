@@ -1,10 +1,5 @@
 import { autoType, csvParse } from "d3-dsv";
-import {
-  extent as getExtent,
-  groups,
-  rollup,
-  sum,
-} from "d3-array";
+import { extent as getExtent, groups, rollup, sum } from "d3-array";
 
 import {
   PROPERTY_MAP,
@@ -45,9 +40,7 @@ function fixCasing(str) {
     .replace(/\b\w/g, (v) => v.toString(v).toUpperCase())
     .split(" ")
     .map((v) =>
-      UPPER_CASE.indexOf(v.toLowerCase()) > -1
-        ? v.toUpperCase()
-        : v
+      UPPER_CASE.indexOf(v.toLowerCase()) > -1 ? v.toUpperCase() : v
     )
     .join(" ");
   return result;
@@ -62,9 +55,7 @@ function fixCasing(str) {
 function hasCounts(row, keys) {
   return keys.reduce(
     (hasCount, key) =>
-      hasCount
-        ? (row[key] || row[key] === 0) && row[key] !== "NA"
-        : false,
+      hasCount ? (row[key] || row[key] === 0) && row[key] !== "NA" : false,
     true
   );
 }
@@ -148,7 +139,7 @@ function fetchCSV(url) {
  * Returns data string
  */
 export function getData() {
-  return fetchCSV("./assets/data/map.csv").then((data) =>
+  return fetchCSV("./assets/data/map081720.csv").then((data) =>
     csvParse(data, autoType)
       // rename properties based on PROPERTY_MAP
       .map(remapProperties)
@@ -217,10 +208,7 @@ export function getUnavailableStateTotal(propName, data) {
  * Gets the number of facilities missing geojson data by state
  */
 export function getMissingCount(data) {
-  return getStateCount(
-    data,
-    (d) => isNaN(d.lat) || isNaN(d.lon)
-  );
+  return getStateCount(data, (d) => isNaN(d.lat) || isNaN(d.lon));
 }
 
 /**
@@ -229,9 +217,7 @@ export function getMissingCount(data) {
  * @param {*} data
  */
 export function getMapData(data) {
-  return data.filter(
-    (row) => !isNaN(row.lat) && !isNaN(row.lon)
-  );
+  return data.filter((row) => !isNaN(row.lat) && !isNaN(row.lon));
 }
 
 /**
@@ -277,21 +263,17 @@ function addTotalsToGeoJson(
   sumMap["count"] = getStateCount(data);
   sumMap["missing"] = getMissingCount(data);
   return features.map((f) => {
-    const newProps = Object.keys(sumMap).reduce(
-      (obj, propName) => {
-        const keyName =
-          propName === "count" || propName === "missing"
-            ? propName
-            : propName + suffix;
-        const value =
-          sumMap[propName].get(f.properties.name) || "--";
-        return {
-          ...obj,
-          [keyName]: value,
-        };
-      },
-      {}
-    );
+    const newProps = Object.keys(sumMap).reduce((obj, propName) => {
+      const keyName =
+        propName === "count" || propName === "missing"
+          ? propName
+          : propName + suffix;
+      const value = sumMap[propName].get(f.properties.name) || "--";
+      return {
+        ...obj,
+        [keyName]: value,
+      };
+    }, {});
     return {
       ...f,
       properties: {
@@ -327,9 +309,7 @@ export function getStatesGeoJson(data) {
           (sf) => sf.properties.id === f.properties.id
         );
         if (!shapeFeature)
-          throw new Error(
-            "no shape feature for id " + f.properties.id
-          );
+          throw new Error("no shape feature for id " + f.properties.id);
         return {
           ...shapeFeature,
           properties: {
