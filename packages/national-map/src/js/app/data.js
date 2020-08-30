@@ -150,9 +150,15 @@ function fetchCSV(url) {
 export function getData() {
   return fetchCSV("./assets/data/map.csv").then((data) =>
     csvParse(data, autoType)
+      // rename properties based on PROPERTY_MAP
       .map(remapProperties)
+      // filter out jails
+      .filter(d => d.facility && d.facility.toLowerCase() !== "jail")
+      // add a unique id for GeoJSON features to use
       .map(addUniqueId)
+      // add metrics that are calculated (totals)
       .map(addCalculatedMetrics)
+      // format strings
       .map(applyFormat)
   );
 }

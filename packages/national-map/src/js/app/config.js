@@ -212,12 +212,12 @@ export const POPULATION_OPTIONS = [
 export const TYPE_OPTIONS = [
   {
     value: "confirmed",
-    label: "Total Cases",
+    label: "Cumulative Cases",
     active: true,
   },
   {
-    value: "active",
-    label: "Active Cases",
+    value: "tested",
+    label: "Tests",
     disabled: true,
   },
   {
