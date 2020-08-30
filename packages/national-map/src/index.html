@@ -2,10 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title><%= htmlWebpackPlugin.options.title %></title>
     <style>
       * {
@@ -198,11 +195,20 @@
     <main>
       <div id="map" class="map">
         <header class="header flow">
+          <button
+            id="openModalButton"
+            class="button button--primary button--icon flow"
+          >
+            <svg aria-label="show map info" viewBox="0 0 24 24">
+              <path
+                fill="currentColor"
+                d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"
+              />
+            </svg>
+            <span>Map Info</span>
+          </button>
           <div class="ui header__controls sm-stack flow">
-            <div
-              id="populationButtonGroup"
-              class="ui__control"
-            ></div>
+            <div id="populationButtonGroup" class="ui__control"></div>
             <div id="typeButtonGroup" class="ui__control"></div>
           </div>
         </header>
@@ -232,18 +238,8 @@
             width="120"
             height="68"
           >
-            <circle
-              class="circle circle--zero"
-              cx="8"
-              cy="16"
-              r="6"
-            />
-            <circle
-              class="circle circle--unavailable"
-              cx="8"
-              cy="44"
-              r="6"
-            />
+            <circle class="circle circle--zero" cx="8" cy="16" r="6" />
+            <circle class="circle circle--unavailable" cx="8" cy="44" r="6" />
             <path d="M 16,16 h 16" />
             <path d="M 16,44 h 16" />
             <text x="36" y="20">0</text>
@@ -253,16 +249,8 @@
       </div>
     </main>
 
-    <div
-      class="modal micromodal-slide"
-      id="introModal"
-      aria-hidden="true"
-    >
-      <div
-        class="modal__overlay"
-        tabindex="-1"
-        data-micromodal-close
-      >
+    <div class="modal micromodal-slide" id="introModal" aria-hidden="true">
+      <div class="modal__overlay" tabindex="-1" data-micromodal-close>
         <div
           class="modal__container"
           role="dialog"
@@ -271,7 +259,7 @@
         >
           <header class="modal__header">
             <a
-              class="header__title stack"
+              class="modal__header-title stack"
               href="https://law.ucla.edu/academics/centers/criminal-justice-program/ucla-covid-19-behind-bars-data-project"
               target="_blank"
             >
@@ -329,45 +317,47 @@
               </svg>
               <h1>COVID-19 Behind Bars Data Project</h1>
             </a>
-            <button
-              class="modal__close"
-              aria-label="Close modal"
-              data-micromodal-close
-            >
-              Close
-            </button>
           </header>
           <main class="modal__content" id="introModalContent">
             <p>
-              This map tracks COVID-19 confirmed cases and deaths
-              in jails and prisons across the US. The data are
-              collected daily from self-reported counts from
-              state Department of Corrections websites. Jails and
-              prisons that do not report COVID-19 counts are not
-              displayed.
+              This map tracks COVID-19 confirmed cases and deaths in jails and
+              prisons across the US. The data are collected daily from
+              self-reported counts from state Department of Corrections
+              websites. Jails and prisons that do not report COVID-19 counts are
+              not displayed.
             </p>
             <p>
-              To download the data in .csv or .xslx format, with
-              daily counts since March 31st, please visit our
-              GitHub page. Questions about the data? Please see
-              our Data Dictionary.
-            </p>
-            <p>
-              Some jails and prisons which do report COVID-19
-              counts, but for which our team has not yet
-              identified the longitude and latitude, do not
-              appear as dots on the map but are included in
-              statewide totals. These will be added to the map as
-              our team identifies more locations.
+              Some jails and prisons which do report COVID-19 counts, but for
+              which our team has not yet identified the longitude and latitude,
+              do not appear as dots on the map but are included in statewide
+              totals. These will be added to the map as our team identifies more
+              locations.
             </p>
           </main>
-          <footer class="modal__footer">
+          <footer class="modal__footer flow">
             <button
-              class="modal__btn modal__btn-primary"
+              class="button button--large button--primary"
               data-micromodal-close
             >
-              Continue
+              Go to Map
             </button>
+            <a
+              class="button button--large button--secondary flow"
+              href="https://github.com/uclalawcovid19behindbars/data"
+              target="_blank"
+            >
+              <svg
+                aria-hidden="true"
+                style="width: 16px; height: 16px;"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="currentColor"
+                  d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z"
+                />
+              </svg>
+              <span>Download Data</span></a
+            >
           </footer>
         </div>
       </div>

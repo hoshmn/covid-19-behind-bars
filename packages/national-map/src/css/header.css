@@ -12,19 +12,29 @@
   justify-content: flex-end;
 }
 
-.header__title {
+.header > .button {
   position: absolute;
-  left: 24px;
+  left: 16px;
   top: 16px;
-  justify-content: flex-start;
-  align-items: flex-start;
-  text-decoration: none;
-  color: #000;
+}
+.header > .button svg {
+  width: 16px;
+  height: 16px;
 }
 
-.header__title h1 {
-  margin: 8px 0 0 0;
-  font-size: 12px;
+@media (max-width: 480px) {
+  .header > .button {
+    left: auto;
+    right: 16px;
+    padding: 5px;
+  }
+  .header > .button span {
+    display: none;
+  }
+  .header > .button svg {
+    width: 24px;
+    height: 24px;
+  }
 }
 
 .header__controls {

@@ -2,7 +2,6 @@
   "name": "root",
   "private": true,
   "devDependencies": {
-    "copy-webpack-plugin": "^6.0.3",
     "lerna": "^3.22.1"
   }
 }
