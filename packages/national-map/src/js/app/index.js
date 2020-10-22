@@ -84,6 +84,7 @@ function App() {
 
   function init() {
     getData().then((data) => {
+      console.log('got data', data, data.map(d => d["res_rate"]))
       // data for the map
       const mapData = getMapData(data);
       // state level features
@@ -123,7 +124,7 @@ function App() {
       // initialize default state
       setState({
         subgroup: "res",
-        type: "confirmed",
+        type: "rate",
         mapData,
         geojson,
         centers,

@@ -5,17 +5,17 @@ export const PROPERTY_MAP = {
   "Name": "name",
   "City": "city",
   "County.FIPS": "county",
-  "Facility.Type": "facility",
+  "Facility": "facility",
   "Latitude": "lat",
   "Longitude": "lon",
   "State": "state",
   "Residents.Confirmed": "res_confirmed",
   "Residents.Tested": "res_tested",
-  "Residents.Deaths": "res_deaths",
+  "Resident.Deaths": "res_deaths",
   "Residents.Recovered": "res_recovered",
   "Residents.Negative": "res_negative",
   "Residents.Pending": "res_pending",
-  "Residents.Population": "res_population",
+  "Population": "res_population",
   "Residents.Quarantine": "res_quarantine",
   "Staff.Confirmed": "stf_confirmed",
   "Staff.Tested": "stf_tested",
@@ -64,6 +64,7 @@ export const STATE_LEVEL_TOTALS = [
  * Legend title for selected metrics
  */
 export const LEGEND_LANG = {
+  res_rate: "Infection rates for residents",
   res_confirmed: "Total cases for residents",
   res_active: "Active cases for residents",
   res_tested: "Number of residents tested",
@@ -211,9 +212,14 @@ export const POPULATION_OPTIONS = [
  */
 export const TYPE_OPTIONS = [
   {
+    value: "rate",
+    label: "Rate",
+    active: true,
+  },
+  {
     value: "confirmed",
     label: "Cumulative Cases",
-    active: true,
+    
   },
   {
     value: "tested",
@@ -224,4 +230,5 @@ export const TYPE_OPTIONS = [
     value: "deaths",
     label: "Deaths",
   },
+  
 ];

@@ -135,6 +135,14 @@
             </tr>
           </thead>
           <tbody>
+            {{#isFacility}}
+            <tr class="table__row type--rate">
+              <td class="table__cell table__cell--string">Rate (%)</td>
+              <td class="table__cell table__cell--number group--residents">{{res_rate}}</td>
+              <td class="table__cell table__cell--number group--staff">--</td>
+              <td class="table__cell table__cell--number group--total">--</td>
+            </tr>
+            {{/isFacility}}
             <tr class="table__row type--confirmed">
               <td class="table__cell table__cell--string">Cumulative</td>
               <td class="table__cell table__cell--number group--residents">{{res_confirmed}}</td>
@@ -164,6 +172,12 @@
               <td class="table__cell table__cell--number group--residents">{{res_recovered}}</td>
               <td class="table__cell table__cell--number group--staff">{{stf_recovered}}</td>
               <td class="table__cell table__cell--number group--total">{{tot_recovered}}</td>
+            </tr>
+            <tr class="table__row type--population">
+              <td class="table__cell table__cell--string">Population</td>
+              <td class="table__cell table__cell--number group--residents">{{res_population}}</td>
+              <td class="table__cell table__cell--number group--staff">--</td>
+              <td class="table__cell table__cell--number group--total">--</td>
             </tr>
           </tbody>
         </table>

@@ -11,9 +11,10 @@ const NONZERO_BORDER_COLOR = "rgba(255,0,0,0.37)";
 const NONZERO_BORDER_WIDTH = 1;
 
 export function generateCircleLayer(layer, context) {
-  const { sizePropExtent } = context;
-  const sizeMap = getSizeMap(sizePropExtent);
+  const { sizePropExtent, sizeProp } = context;
+  const sizeMap = getSizeMap(context);
   const sizeMapArray = getSizeMapArray(sizeMap);
+  console.log('generate circle layer', sizeMap, sizeMapArray)
   return {
     id: layer.layerId,
     type: "circle",
@@ -28,9 +29,12 @@ export function generateCircleLayer(layer, context) {
  * @param {*} dataset
  * @param {*} selector
  */
-const getSizeMap = function (extent) {
+const getSizeMap = function ({ sizePropExtent, sizeProp }) {
+  const extent = sizeProp === 'res_rate'
+    ? [0, Math.ceil(parseFloat(sizePropExtent[1]))]
+    : [1, Math.ceil(parseFloat(sizePropExtent[1]))]
   return {
-    1: CIRCLE_SMALL,
+    [extent[0]]: CIRCLE_SMALL,
     [extent[1]]: CIRCLE_LARGE,
   };
 };
@@ -51,6 +55,7 @@ const getZoomSizing = (sizeProp, sizeMapArray) => {
   const small = resizeSizeMap(sizeMapArray, 0.5);
   const medium = resizeSizeMap(sizeMapArray, 1);
   const large = resizeSizeMap(sizeMapArray, 3);
+  console.log('sizes', sizeMapArray, small, medium, large)
   return [
     "interpolate",
     ["linear"],

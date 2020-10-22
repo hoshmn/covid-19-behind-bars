@@ -3,6 +3,7 @@ import { UNAVAILABLE_LANG } from "./config";
 import { format } from "d3-format";
 
 const formatNumber = format(",d");
+const formatPercent = format(".0%");
 
 /**
  * Returns the feature with the lowest value for the given size prop (smallest circle)
@@ -61,7 +62,13 @@ function getTooltipData(feature, sizeProp, isFacility) {
     missingCount === "--" || missingCount === 0 ? false : missingCount;
   // format numbers
   Object.keys(featureData).forEach((k) => {
-    if (!isNaN(featureData[k])) featureData[k] = formatNumber(featureData[k]);
+    if (isNaN(featureData[k])) return
+    if (k === "res_rate") {
+      featureData[k] = formatPercent(featureData[k])
+    } else {
+      featureData[k] = formatNumber(featureData[k]);
+    }
+    
   });
   // add subgroup, type and if it is a facility to the data
   const result = {

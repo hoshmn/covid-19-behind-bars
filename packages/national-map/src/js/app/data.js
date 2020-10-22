@@ -52,7 +52,7 @@ function fixCasing(str) {
  * @param {*} row
  * @param {*} keys
  */
-function hasCounts(row, keys) {
+function hasValues(row, keys) {
   return keys.reduce(
     (hasCount, key) =>
       hasCount ? (row[key] || row[key] === 0) && row[key] !== "NA" : false,
@@ -69,7 +69,7 @@ function hasCounts(row, keys) {
 function getActiveCount(row, group) {
   const confirmedKey = group + "_confirmed";
   const recoveredKey = group + "_recovered";
-  return hasCounts(row, [confirmedKey, recoveredKey])
+  return hasValues(row, [confirmedKey, recoveredKey])
     ? row[confirmedKey] - row[recoveredKey]
     : "NA";
 }
@@ -83,25 +83,41 @@ function getActiveCount(row, group) {
 function getTotalCount(row, metric) {
   const resKey = "res_" + metric;
   const staffKey = "stf_" + metric;
-  return hasCounts(row, [resKey, staffKey])
+  return hasValues(row, [resKey, staffKey])
     ? row[resKey] + row[staffKey]
     : "NA";
 }
 
 /**
+ * Gets the infection rate given a row with cases and population data
+ */
+function getInfectionRates(row) {
+  const casesKey = "res_confirmed";
+  const popKey = "res_population";
+  // no value for cases or population, return NA
+  if (!hasValues(row, [casesKey, popKey])) return "NA";
+  // cases are more than population, impossible, return NA
+  if (row[casesKey] > row[popKey]) return "NA";
+  // population is 1 or lower, unlikely, return NA
+  if (row[popKey] <= 1) return "NA"
+  // return calculated rate
+  return row[casesKey] / row[popKey];
+}
+
+/**
  * Adds additional metrics to the row that are
- * computed from the base data set. (active counts and totals)
+ * computed from the base data set. (active counts, rates, and totals)
  * @param {*} row
  */
 function addCalculatedMetrics(row) {
-  const activeCounts = {
-    res_active: getActiveCount(row, "res"),
-    stf_active: getActiveCount(row, "stf"),
-  };
+  // add active count and rate values to result object
   let result = {
     ...row,
-    ...activeCounts,
+    res_active: getActiveCount(row, "res"),
+    stf_active: getActiveCount(row, "stf"),
+    res_rate: getInfectionRates(row)
   };
+  // add total counts values to result object
   const allCounts = [
     "confirmed",
     "active",
@@ -139,8 +155,10 @@ function fetchCSV(url) {
  * Returns data string
  */
 export function getData() {
-  return fetchCSV("./assets/data/map081720.csv").then((data) =>
-    csvParse(data, autoType)
+  return fetchCSV("./assets/data/map101820.csv").then((data) => {
+    const parsed = csvParse(data, autoType)
+    console.log('parsed data', parsed)
+    return parsed
       // rename properties based on PROPERTY_MAP
       .map(remapProperties)
       // filter out jails
@@ -151,6 +169,8 @@ export function getData() {
       .map(addCalculatedMetrics)
       // format strings
       .map(applyFormat)
+  }
+
   );
 }
 
