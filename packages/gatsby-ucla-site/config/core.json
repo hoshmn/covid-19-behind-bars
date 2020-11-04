@@ -1,0 +1,33 @@
+{
+  "contentPath": "content/pages",
+  "assetPath": "content/assets",
+  "header": {
+    "displaySiteLogo": true,
+    "displaySiteTitle": false,
+    "displaySiteLogoMobile": true,
+    "displaySiteTitleMobile": false,
+    "useStickyHeader": true,
+    "useShrinkHeader": true,
+    "mobileMenuBreakpoint": 768,
+    "headerContentMaxWidth": 960,
+    "headerHeight": 80,
+    "shrinkHeaderHeight": 56,
+    "shrinkOffset": -32
+  },
+  "useSocialLinks": true,
+  "useDarkMode": false,
+  "useKatex": false,
+  "contentMaxWidth": 768,
+  "remarkImagesWidth": 1440,
+  "fonts": {
+    "google": [
+      { "family": "Tinos", "variants": ["400", "700"] },
+      { "family": "Helvetica", "variants": ["400", "700"] },
+      { "family": "Fira Mono", "variants": ["400"] }
+    ]
+  },
+  "responsiveFontSizes": {
+    "breakpoints": ["sm", "md", "lg", "xl"],
+    "factor": 2
+  }
+}

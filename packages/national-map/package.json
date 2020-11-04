@@ -1,5 +1,5 @@
 {
-  "name": "@ucla-law/national-map",
+  "name": "national-map",
   "version": "0.1.5",
   "description": "an interactive map of COVID-19 data in jails and prisons",
   "author": "Lane Olson <laneolson@gmail.com>",
@@ -9,7 +9,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "webpack --config webpack.prod.js && mkdir -p ../website/dist/map && cp -rf dist/* ../website/dist/map",
+    "build": "webpack --config webpack.prod.js && mkdir -p ../gatsby-ucla-site/public/map && cp -rf dist/* ../gatsby-ucla-site/public/map",
     "start": "webpack-dev-server --open --config webpack.dev.js",
     "build-data": "node ./scripts/build-data.js --debug",
     "test": "echo \"Error: run tests from root\" && exit 1"

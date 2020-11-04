@@ -1,0 +1,138 @@
+---
+title: Style Guide
+---
+
+import Colors from "../../src/components/colors"
+
+## Style Guide
+
+The following section provides some formatting tests for default content rendered with markdown.
+
+### Colors
+
+<Colors />
+
+### Headers
+
+# H1
+
+## H2
+
+### H3
+
+#### H4
+
+##### H5
+
+###### H6
+
+### Code
+
+Pre-formatted code blocks are used for writing about programming or
+markup source code. Rather than forming normal paragraphs, the lines
+of a code block are interpreted literally. Markdown wraps a code block
+in both `<pre>` and `<code>` tags.
+
+To indicate a span of code, wrap it with backtick quotes (`` ` ``).
+Unlike a pre-formatted code block, a `code span` indicates code within a
+normal paragraph.
+
+Sample line of code:
+
+```html
+<iframe href="example.html"></iframe>
+```
+
+Sample block of code:
+
+```js
+module.exports = (themeOptions) => {
+  const contentPath = themeOptions.contentPath || `content/pages`
+  const assetPath = themeOptions.assetPath || `content/assets`
+
+  return {
+    contentPath,
+    assetPath,
+  }
+}
+```
+
+### Blockquotes
+
+> This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,
+> consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.
+> Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.
+>
+> Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse
+> id sem consectetuer libero luctus adipiscing.
+
+### Links
+
+This is [an example](https://www.google.com) link.
+
+[This link](https://www.google.com) has no title attribute and is in a longer set of words. Let's see how long I can type before I get bored and stop typing. Here is me filling in some more spaces. And wow we have [encountered another link](https://www.google.com) in the wild!
+
+### Buttons
+
+<button>Sample Button</button>
+
+### Tables
+
+<table>
+  <thead>
+    <tr>
+      <th>Heading</th>
+      <th>Another Heading</th>
+      <th>More Heading</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Something</td>
+      <td>124891</td>
+      <td>Default is volcanoes.</td>
+    </tr>
+    <tr>
+      <td>Strange</td>
+      <td>1098731</td>
+      <td>Some longer text to test how it looks</td>
+    </tr>
+    <tr>
+      <td>Is</td>
+      <td>1874</td>
+      <td>Oranges are better than apples.</td>
+    </tr>
+    <tr>
+      <td>Happening</td>
+      <td>912641969</td>
+      <td>To the moon and back.</td>
+    </tr>
+  </tbody>
+</table>
+
+### Lists
+
+Markdown supports ordered (numbered) and unordered (bulleted) lists.
+
+Unordered lists use asterisks, pluses, and hyphens -- interchangably
+-- as list markers:
+
+- Red
+- Green
+- Blue
+
+Ordered lists use numbers followed by periods:
+
+1.  Bird
+2.  McHale
+3.  Parish
+
+### Emphasis
+
+_single underscores_
+
+_Some more text in italics to get a better feel for how it can look. Here it goes just continuing on._
+
+**double asterisks**
+
+**Some more BOLD text. This really draws attention to it and helps to give a feel for what it looks like just a bit longer.**

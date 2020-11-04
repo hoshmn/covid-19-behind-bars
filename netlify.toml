@@ -1,3 +1,0 @@
-[build]
-publish = "packages/website/dist"
-command = "lerna bootstrap && lerna run build"

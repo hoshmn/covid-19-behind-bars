@@ -1,0 +1,61 @@
+{
+  "logoImage": "site-logo.svg",
+  "socialImage": "site-social.jpg",
+  "iconImage": "site-icon.png",
+  "title": "COVID-19 Behind Bars",
+  "description": "Reporting COVID-19 data from facilities across the country",
+  "keywords": ["gatsby", "theme", "react"],
+  "author": "Lane Olson",
+  "copyright": "Copyright © 2020",
+  "siteUrl": "https://covid-19-behind-bars.netlify.app",
+  "menuLinks": [
+    {
+      "name": "Home",
+      "link": "/",
+      "type": "internal",
+      "location": "footer"
+    },
+    {
+      "name": "About",
+      "link": "/about",
+      "type": "internal"
+    },
+    {
+      "name": "Media",
+      "link": "/media",
+      "type": "internal"
+    },
+    {
+      "name": "Resources",
+      "link": "/resources",
+      "type": "internal"
+    },
+    {
+      "name": "Methods",
+      "link": "/methods",
+      "type": "internal"
+    },
+    {
+      "name": "Contact",
+      "link": "/contact",
+      "type": "internal"
+    }
+  ],
+  "socialLinks": [
+    {
+      "name": "Email",
+      "link": "hyperobjekt@hyperobjekt.com",
+      "location": "footer"
+    },
+    {
+      "name": "Twitter",
+      "link": "https://twitter.com/hyperobjekt",
+      "location": "header"
+    },
+    {
+      "name": "Github",
+      "link": "https://www.github.com/hyperobjekt",
+      "location": "all"
+    }
+  ]
+}

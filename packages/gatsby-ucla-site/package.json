@@ -1,0 +1,39 @@
+{
+  "name": "gatsby-ucla-site",
+  "description": "Gatsby site for COVID-19 Behind Bars",
+  "version": "1.0.0",
+  "author": "Lane Olson <laneolson@gmail.com>",
+  "dependencies": {
+    "@material-ui/core": "^4.11.0",
+    "gatsby": "^2.24.58",
+    "gatsby-plugin-netlify-cms": "^4.3.17",
+    "gatsby-theme-hyperobjekt-core": "^1.0.9",
+    "mdx-scoped-runtime": "^0.7.5",
+    "netlify-cms-app": "^2.13.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "resolutions": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "keywords": [
+    "gatsby",
+    "gatsby-starter",
+    "gatsby-plugin"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "build": "gatsby build",
+    "develop": "gatsby develop",
+    "clean": "gatsby clean",
+    "format": "prettier --write src/**/*.{js,jsx}",
+    "start": "npm run develop",
+    "serve": "gatsby serve",
+    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Hyperobjekt/covid-19-behind-bars"
+  }
+}

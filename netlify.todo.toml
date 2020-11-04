@@ -1,0 +1,3 @@
+# [build]
+# publish = "packages/gatsby-ucla-site/build"
+# command = "yarn workspace gatsby-ucla-site build"
