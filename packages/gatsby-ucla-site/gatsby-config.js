@@ -8,10 +8,18 @@ module.exports = {
       options: coreOptions,
     },
     {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `data`,
+        path: `${__dirname}/data/`,
+      },
+    },
+    `gatsby-transformer-csv`,
+    {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `gatsby-starter-hyperobjekt`,
-        short_name: `hyperobjekt`,
+        name: `COVID-19 Behind Bars`,
+        short_name: `COVID Behind Bars`,
         start_url: `/`,
         background_color: `#ffffff`,
         theme_color: `#cccccc`,

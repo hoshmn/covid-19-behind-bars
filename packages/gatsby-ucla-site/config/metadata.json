@@ -41,21 +41,5 @@
       "type": "internal"
     }
   ],
-  "socialLinks": [
-    {
-      "name": "Email",
-      "link": "hyperobjekt@hyperobjekt.com",
-      "location": "footer"
-    },
-    {
-      "name": "Twitter",
-      "link": "https://twitter.com/hyperobjekt",
-      "location": "header"
-    },
-    {
-      "name": "Github",
-      "link": "https://www.github.com/hyperobjekt",
-      "location": "all"
-    }
-  ]
+  "socialLinks": []
 }

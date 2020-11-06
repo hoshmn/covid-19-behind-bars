@@ -9,7 +9,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "webpack --config webpack.prod.js && mkdir -p ../gatsby-ucla-site/public/map && cp -rf dist/* ../gatsby-ucla-site/public/map",
+    "build": "webpack --config webpack.prod.js && mkdir -p ../gatsby-ucla-site/static/map && cp -rf dist/* ../gatsby-ucla-site/static/map",
     "start": "webpack-dev-server --open --config webpack.dev.js",
     "build-data": "node ./scripts/build-data.js --debug",
     "test": "echo \"Error: run tests from root\" && exit 1"

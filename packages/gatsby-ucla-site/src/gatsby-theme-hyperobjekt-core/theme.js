@@ -15,6 +15,8 @@ const base = {
     background: {
       default: "#F9FCF8",
       paper: "#fff",
+      alt1: "#FEF3E7",
+      alt2: "#F5F5ED",
     },
     text: {
       primary: "#283224",
@@ -22,7 +24,7 @@ const base = {
     },
   },
   typography: {
-    fontFamily: ["Helvetica", "sans-serif"].join(","),
+    fontFamily: ["sans-serif"].join(","),
   },
   overrides: {
     MuiCssBaseline: {
@@ -80,11 +82,24 @@ const CovidTheme = () => {
       HypHeader: {
         root: {
           boxShadow: "none",
+          background: "#fff",
+          borderBottom: `1px solid ${theme.palette.divider}`,
         },
-        toolbar: {},
-        branding: {},
-        title: {},
-        logo: {},
+        title: {
+          color: theme.palette.text.primary,
+          marginTop: 0,
+        },
+        nav: {
+          "& a": {
+            color: theme.palette.text.primary,
+          },
+        },
+        menuButton: {
+          height: theme.spacing(6),
+          color: theme.palette.text.primary,
+          marginTop: "auto",
+          marginBottom: "auto",
+        },
       },
       /** Content area style overrides */
       HypContent: {
@@ -131,7 +146,9 @@ const CovidTheme = () => {
       HypFooter: {
         root: {},
         wrapper: {},
-        copyright: {},
+        copyright: {
+          position: "static!important",
+        },
         links: {},
         listItem: {},
         link: {},

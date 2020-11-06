@@ -2,10 +2,10 @@
   "contentPath": "content/pages",
   "assetPath": "content/assets",
   "header": {
-    "displaySiteLogo": true,
-    "displaySiteTitle": false,
-    "displaySiteLogoMobile": true,
-    "displaySiteTitleMobile": false,
+    "displaySiteLogo": false,
+    "displaySiteTitle": true,
+    "displaySiteLogoMobile": false,
+    "displaySiteTitleMobile": true,
     "useStickyHeader": true,
     "useShrinkHeader": true,
     "mobileMenuBreakpoint": 768,
@@ -14,7 +14,7 @@
     "shrinkHeaderHeight": 56,
     "shrinkOffset": -32
   },
-  "useSocialLinks": true,
+  "useSocialLinks": false,
   "useDarkMode": false,
   "useKatex": false,
   "contentMaxWidth": 768,
