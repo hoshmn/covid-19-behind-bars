@@ -5,7 +5,13 @@ module.exports = {
   plugins: [
     {
       resolve: `gatsby-theme-hyperobjekt-core`,
-      options: coreOptions,
+      options: {
+        ...coreOptions,
+        typekitId: "uiz8duz",
+        templates: {
+          home: require.resolve("./src/templates/home-template.js"),
+        },
+      },
     },
     {
       resolve: `gatsby-source-filesystem`,

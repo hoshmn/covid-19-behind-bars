@@ -24,7 +24,7 @@ const base = {
     },
   },
   typography: {
-    fontFamily: ["sans-serif"].join(","),
+    fontFamily: "neue-haas-grotesk-display, sans-serif",
   },
   overrides: {
     MuiCssBaseline: {
@@ -52,7 +52,7 @@ const CovidTheme = () => {
   const theme = createMuiTheme(base)
 
   const headingStyles = {
-    fontFamily: ["Tinos", "serif"].join(","),
+    fontFamily: "plantin, sans-serif",
     marginTop: "1em",
   }
   // build overrides

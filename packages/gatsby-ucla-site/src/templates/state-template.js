@@ -8,13 +8,7 @@ const StateTemplate = (props) => {
   console.log("state page", props)
   const { state, facilities } = props.pageContext
   return (
-    <Layout
-      pageContext={{
-        frontmatter: {
-          title: "state Page",
-        },
-      }}
-    >
+    <Layout title={state}>
       <Typography variant="h2">{state}</Typography>
       <pre>{JSON.stringify(facilities, null, 2)}</pre>
     </Layout>
