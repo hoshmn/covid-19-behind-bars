@@ -27,7 +27,7 @@ collections:
     files:
       - label: "Metadata"
         name: "metadata"
-        file: "packages/gatsby-ucla-site/config/metadata.json"
+        file: "/packages/gatsby-ucla-site/config/metadata.json"
         fields:
           - {
               label: "Site Logo",
@@ -143,7 +143,7 @@ collections:
                 }
       - label: "Core Settings"
         name: "core"
-        file: "packages/gatsby-ucla-site/config/core.json"
+        file: "/packages/gatsby-ucla-site/config/core.json"
         fields:
           - {
               label: "Content Path",
@@ -315,7 +315,7 @@ collections:
     extension: mdx
     format: frontmatter
     create: true
-    folder: "packages/gatsby-ucla-site/content/pages"
+    folder: "/packages/gatsby-ucla-site/content/pages"
     editor:
       preview: false
     fields:
