@@ -1,7 +1,7 @@
 backend:
   name: github
   repo: Hyperobjekt/covid-19-behind-bars
-  branch: master
+  branch: production
 
 # FOR LOCAL DEVELOPMENT:
 # ---
