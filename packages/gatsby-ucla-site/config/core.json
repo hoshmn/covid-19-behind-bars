@@ -1,7 +1,7 @@
 {
   "useDarkMode": false,
   "fonts": {
-    "google": []
+    "google": [{ "family": "Fira Mono", "variants": ["400"] }]
   },
   "useSocialLinks": false,
   "useKatex": false,
@@ -20,12 +20,7 @@
   },
   "remarkImagesWidth": 1440,
   "responsiveFontSizes": {
-    "breakpoints": [
-      "sm",
-      "md",
-      "lg",
-      "xl"
-    ],
+    "breakpoints": ["sm", "md", "lg", "xl"],
     "factor": 2
   },
   "assetPath": "content/assets",
