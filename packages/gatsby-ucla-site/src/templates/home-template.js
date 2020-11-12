@@ -1,9 +1,8 @@
 import { graphql } from "gatsby"
 import { MDXRenderer } from "gatsby-plugin-mdx"
-import Layout from "gatsby-theme-hyperobjekt-core/src/components/layout"
+import { Layout } from "gatsby-theme-hyperobjekt-core"
 import React from "react"
-import HomeMap from "../components/maps/home-map"
-import { navigate } from "gatsby"
+import HomeMap from "../components/home/home-map"
 
 export const query = graphql`
   query($pathSlug: String!) {
@@ -17,12 +16,9 @@ export const query = graphql`
 `
 
 const HomeTemplate = ({ pageContext, data: { mdx } }) => {
-  const handleSelect = (geo) => {
-    navigate(`states/${geo.properties.name.toLowerCase()}`)
-  }
   return (
     <Layout title={"home"}>
-      <HomeMap interactive showLabels onSelect={handleSelect} />
+      <HomeMap />
       <MDXRenderer>{mdx.body}</MDXRenderer>
     </Layout>
   )

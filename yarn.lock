@@ -1380,10 +1380,10 @@
     react "^16.13.1"
     react-dom "^16.13.1"
 
-"@hyperobjekt/svg-maps@1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@hyperobjekt/svg-maps/-/svg-maps-1.0.4.tgz#584bfceebc241565a345dcd926fcebd4debb612d"
-  integrity sha512-ZDwRk67ELFl/Z2vnQ8MBMXLcvp4YKBWCQdQ+3LKAFG/QjZJnxR+buI+5w9pPT8QT0dwzisnFxR19ubASP/9opw==
+"@hyperobjekt/svg-maps@1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@hyperobjekt/svg-maps/-/svg-maps-1.0.5.tgz#90aab7b64d1fde51b30854d893c9bde19ba00dbd"
+  integrity sha512-enZV3nAfUk0dg/GwccbSUdCLsQL2NlwClrYuRxo38qVineaXUdqlnQcK1w3CPVePxpcudbzJ//IEFifd6QSiFw==
   dependencies:
     "@hyperobjekt/us-states" "^1.0.4"
     "@material-ui/styles" "^4.10.0"
@@ -5254,7 +5254,7 @@ d3-array@1, d3-array@^1.1.1, d3-array@^1.2.0:
   resolved "https://registry.yarnpkg.com/d3-array/-/d3-array-1.2.4.tgz#635ce4d5eea759f6f605863dbcfc30edc737f71f"
   integrity sha512-KHW6M86R+FUPYGb3R5XiYjXPq7VzwxZ22buHhAEVG5ztoEcZZMLov530mmccaqA1GghZArjQV46fuc8kUqhhHw==
 
-d3-array@>=2.5, d3-array@^2.3.0, d3-array@^2.5.0:
+d3-array@>=2.5, d3-array@^2.3.0, d3-array@^2.5.0, d3-array@^2.8.0:
   version "2.8.0"
   resolved "https://registry.yarnpkg.com/d3-array/-/d3-array-2.8.0.tgz#f76e10ad47f1f4f75f33db5fc322eb9ffde5ef23"
   integrity sha512-6V272gsOeg7+9pTW1jSYOR1QE37g95I3my1hBmY+vOUNHRrk9yt4OTz/gK7PMkVAVDrYYq4mq3grTiZ8iJdNIw==
@@ -5450,7 +5450,7 @@ d3-scale@2:
     d3-time "1"
     d3-time-format "2"
 
-d3-scale@^3.2.1:
+d3-scale@^3.2.1, d3-scale@^3.2.3:
   version "3.2.3"
   resolved "https://registry.yarnpkg.com/d3-scale/-/d3-scale-3.2.3.tgz#be380f57f1f61d4ff2e6cbb65a40593a51649cfd"
   integrity sha512-8E37oWEmEzj57bHcnjPVOBS3n4jqakOeuv1EDdQSiSrYnMCBdMd3nc4HtKk7uia8DUHcY/CGuJ42xxgtEYrX0g==
@@ -8128,10 +8128,10 @@ gatsby-telemetry@^1.3.38:
     node-fetch "^2.6.1"
     uuid "3.4.0"
 
-gatsby-theme-hyperobjekt-core@1.0.12:
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/gatsby-theme-hyperobjekt-core/-/gatsby-theme-hyperobjekt-core-1.0.12.tgz#3ca4bff333294414fe504272594976c66f65cab9"
-  integrity sha512-xOcEFZsGMtU24091vu1WPyCnvqyZarw4ruTDfi3Yrv3s9D6gaMhConFh5RD9PdYao3sx2NFJ2CAVKFnAvyqhMQ==
+gatsby-theme-hyperobjekt-core@1.0.14:
+  version "1.0.14"
+  resolved "https://registry.yarnpkg.com/gatsby-theme-hyperobjekt-core/-/gatsby-theme-hyperobjekt-core-1.0.14.tgz#b79ef94c81504744d27916c868959a9a6c455d92"
+  integrity sha512-9kL4GLdh+OrMu1aOWqtly0212g+zsr3JHLE02ve4AnrMQBsgm69gsyU6BJT8ru/HVWU3c0BBHn8PDFbz9Rw/FQ==
   dependencies:
     "@hyperobjekt/hooks" "1.0.8"
     "@material-ui/core" "^4.11.0"
@@ -14595,6 +14595,14 @@ react-split-pane@^0.1.85:
     react-lifecycles-compat "^3.0.4"
     react-style-proptype "^3.2.2"
 
+react-spring@^8.0.27:
+  version "8.0.27"
+  resolved "https://registry.yarnpkg.com/react-spring/-/react-spring-8.0.27.tgz#97d4dee677f41e0b2adcb696f3839680a3aa356a"
+  integrity sha512-nDpWBe3ZVezukNRandTeLSPcwwTMjNVu1IDq9qA/AMiUqHuRN4BeSWvKr3eIxxg1vtiYiOLy4FqdfCP5IoP77g==
+  dependencies:
+    "@babel/runtime" "^7.3.1"
+    prop-types "^15.5.8"
+
 react-style-proptype@^3.2.2:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/react-style-proptype/-/react-style-proptype-3.2.2.tgz#d8e998e62ce79ec35b087252b90f19f1c33968a0"
@@ -18797,7 +18805,7 @@ zen-observable@^0.8.0:
   resolved "https://registry.yarnpkg.com/zen-observable/-/zen-observable-0.8.15.tgz#96415c512d8e3ffd920afd3889604e30b9eaac15"
   integrity sha512-PQ2PC7R9rslx84ndNBZB/Dkv8V8fZEpk83RLgXtYd0fwUgEjseMn1Dgajh2x6S8QbZAFa9p2qVCEuYZNgve0dQ==
 
-zustand@^3.1.3:
+zustand@^3.1.3, zustand@^3.1.4:
   version "3.1.4"
   resolved "https://registry.yarnpkg.com/zustand/-/zustand-3.1.4.tgz#684bb863e27b5a04b551c621a0aa73a5ccafc368"
   integrity sha512-DB/r73Dm3YsUEo9KilbGWsKXQLOrM41aYItznvD68f44P2hYo+FY65D7N8m2ojKVzg6eIPgXZWqkFO60Utko8A==
