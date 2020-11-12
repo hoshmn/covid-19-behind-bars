@@ -1,33 +1,34 @@
 {
-  "contentPath": "content/pages",
-  "assetPath": "content/assets",
-  "header": {
-    "displaySiteLogo": false,
-    "displaySiteTitle": true,
-    "displaySiteLogoMobile": false,
-    "displaySiteTitleMobile": true,
-    "useStickyHeader": true,
-    "useShrinkHeader": true,
-    "mobileMenuBreakpoint": 768,
-    "headerContentMaxWidth": 960,
-    "headerHeight": 80,
-    "shrinkHeaderHeight": 56,
-    "shrinkOffset": -32
+  "useDarkMode": false,
+  "fonts": {
+    "google": []
   },
   "useSocialLinks": false,
-  "useDarkMode": false,
   "useKatex": false,
-  "contentMaxWidth": 768,
-  "remarkImagesWidth": 1440,
-  "fonts": {
-    "google": [
-      { "family": "Tinos", "variants": ["400", "700"] },
-      { "family": "Helvetica", "variants": ["400", "700"] },
-      { "family": "Fira Mono", "variants": ["400"] }
-    ]
+  "header": {
+    "headerContentMaxWidth": 960,
+    "displaySiteTitle": true,
+    "displaySiteTitleMobile": true,
+    "mobileMenuBreakpoint": 768,
+    "displaySiteLogo": false,
+    "headerHeight": 80,
+    "displaySiteLogoMobile": false,
+    "shrinkOffset": -32,
+    "useStickyHeader": true,
+    "useShrinkHeader": true,
+    "shrinkHeaderHeight": 56
   },
+  "remarkImagesWidth": 1440,
   "responsiveFontSizes": {
-    "breakpoints": ["sm", "md", "lg", "xl"],
+    "breakpoints": [
+      "sm",
+      "md",
+      "lg",
+      "xl"
+    ],
     "factor": 2
-  }
+  },
+  "assetPath": "content/assets",
+  "contentMaxWidth": 768,
+  "contentPath": "content/pages"
 }
