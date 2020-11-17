@@ -78,6 +78,17 @@ const CovidTheme = () => {
         h5: headingStyles,
         h6: headingStyles,
       },
+      MuiButtonGroup: {
+        root: {
+          "& .active": {
+            background: theme.palette.secondary.main,
+            color: theme.palette.secondary.contrastText,
+          },
+          "& .active:hover": {
+            background: theme.palette.secondary.dark,
+          },
+        },
+      },
       /** Header style overrides */
       HypHeader: {
         root: {

@@ -6,3 +6,14 @@ export const getUniqueValues = (nodes, selector) => {
       []
     )
 }
+
+// selector for spike length
+export const getDataMetricSelector = (metric) => {
+  return (d) => d.Residents[metric]
+}
+
+// selector for spike color
+export const typeSelector = (d) => d.Facility
+
+// selectory for spike width
+export const widthSelector = (d) => d.PopulationCount

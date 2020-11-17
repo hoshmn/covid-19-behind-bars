@@ -1,20 +1,16 @@
 import React from "react"
 import shallow from "zustand/shallow"
-import PropTypes from "prop-types"
 import clsx from "clsx"
-import useOptionsStore from "./use-options-store"
+import { useOptionsStore } from "../../utils"
 import { ButtonGroup, Button, withStyles } from "@material-ui/core"
 
 const styles = (theme) => ({
   root: {},
   button: {},
-  active: {
-    background: "#D7790F",
-    color: "#fff",
-  },
+  active: {},
 })
 
-const MetricToggle = ({ classes, className, ...props }) => {
+const MapMetricControl = ({ classes, className, ...props }) => {
   const [metric, metrics, setMetric] = useOptionsStore(
     (state) => [state.metric, state.metrics, state.setMetric],
     shallow
@@ -31,7 +27,7 @@ const MetricToggle = ({ classes, className, ...props }) => {
     >
       {metrics.map((m) => (
         <Button
-          className={clsx(classes.button, { [classes.active]: m === metric })}
+          className={clsx(classes.button, { active: m === metric })}
           key={m}
           value={m}
           onClick={(e) => handleSelect(m, e)}
@@ -43,6 +39,6 @@ const MetricToggle = ({ classes, className, ...props }) => {
   )
 }
 
-MetricToggle.propTypes = {}
+MapMetricControl.propTypes = {}
 
-export default withStyles(styles)(MetricToggle)
+export default withStyles(styles)(MapMetricControl)

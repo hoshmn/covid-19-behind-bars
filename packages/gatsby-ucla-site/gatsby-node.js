@@ -15,31 +15,6 @@ exports.createPages = async ({ graphql, actions }) => {
             Longitude
             Date
             State
-            County {
-              FIPS
-            }
-            City
-            Address
-            Residents {
-              Deaths
-              Population
-              Confirmed
-              Negative
-              Pending
-              Quarantine
-              Released
-              Recovered
-              Tested
-            }
-            Staff {
-              Confirmed
-              Deaths
-              Negative
-              Pending
-              Quarantine
-              Recovered
-              Tested
-            }
           }
         }
       }

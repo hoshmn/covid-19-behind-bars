@@ -1,130 +1,93 @@
-import React, { useCallback, useState } from "react"
-import PropTypes from "prop-types"
+import React, { memo, useCallback } from "react"
+import clsx from "clsx"
 import { withStyles } from "@material-ui/core"
 import { navigate } from "gatsby"
-import useFacilitiesData from "../../utils/use-facilities-data"
-import SpikeMap from "../spike-map/spike-map"
-import useOptionsStore from "./use-options-store"
-import MetricToggle from "./metric-toggle"
-import MapLegend from "./legend"
-import shallow from "zustand/shallow"
-const styles = {
-  shape: {
+import {
+  SvgMap,
+  HoverShape,
+  StateLayer,
+  useMapStore,
+} from "@hyperobjekt/svg-maps"
+import { color } from "d3-color"
+import HomeMapSpikeHighlight from "./home-map-spike-highlight"
+import HomeMapGradients from "./home-map-gradients"
+import HomeMapSpikeLayer from "./home-map-spike-layer"
+const styles = (theme) => ({
+  hovered: {},
+  stateLayer: {},
+  spikeLayer: {
+    pointerEvents: "none",
+    opacity: 1,
+  },
+  spikeLayerHovered: {
+    opacity: 0.8,
+  },
+  stateShape: {
     fill: "#F5F5ED",
     stroke: "#DDDDCB",
   },
-  text: {
-    fill: "#67675B",
+  stateLabel: {
+    fill: theme.palette.text.secondary,
+    fillOpacity: 0.5,
+    fontFamily: theme.typography.fontFamily,
+    fontSize: theme.typography.pxToRem(10),
   },
-  hover: {
+  hoverShape: {
+    strokeOpacity: 1,
     strokeWidth: 2,
-    stroke: "#67675B",
+    stroke: color("#DDDDCB").darker(0.4).formatHex(),
+    fill: "transparent",
   },
+  highlightRoot: {
+    pointerEvents: "none",
+  },
+  highlightSpike: {
+    stroke: "rgba(255,0,0,0.5)",
+    fill: "rgba(255,0,0,0.1)",
+    strokeWidth: 1.5,
+  },
+})
+
+// handler for selection
+const handleSelect = (geo) => {
+  navigate(`states/${geo.properties.name.toLowerCase()}`)
 }
-const StyledSpikeMap = withStyles(styles)(SpikeMap)
 
-/**
- * Gradient definitions for map
- */
-const SpikeGradients = ({ colors, topOpacity = 0.9, bottomOpacity = 0 }) => (
-  <defs>
-    {colors.map((c, i) => (
-      <linearGradient
-        key={"g" + i}
-        id={"g" + (i + 1)}
-        x1="0%"
-        y1="0%"
-        x2="0%"
-        y2="100%"
-      >
-        <stop offset="0%" style={{ stopColor: c, stopOpacity: topOpacity }} />
-        <stop
-          offset="100%"
-          style={{ stopColor: c, stopOpacity: bottomOpacity }}
-        />
-      </linearGradient>
-    ))}
-  </defs>
-)
-
-const HomeMap = ({ ...props }) => {
-  const [
-    metric,
-    categories,
-    selectedCategories,
-    categoryColors,
-  ] = useOptionsStore(
-    (state) => [
-      state.metric,
-      state.categories,
-      state.selectedCategories,
-      state.categoryColors,
-    ],
-    shallow
-  )
-  const { nodes } = useFacilitiesData()
-
-  // selector for facility type
-  const typeSelector = (d) => d.Facility
-  // selector for data value
-  const dataSelector = (d) => d.Residents[metric]
-  // selectory for secondary data value
-  const widthSelector = (d) => d.PopulationCount
-
-  // filter out points not in categories provided
-  // or that are missing lat / lon
-  const spikes = nodes.filter(
-    (d) =>
-      selectedCategories.indexOf(typeSelector(d)) > -1 &&
-      !isNaN(d.coords[0]) &&
-      !isNaN(d.coords[1])
-  )
-  // .slice(0, 10)
-
-  // handler for selection
-  const handleSelect = (geo) => {
-    navigate(`states/${geo.properties.name.toLowerCase()}`)
-  }
-
-  // colors for strokes and gradients
-  const colors = categoryColors
-
+const HomeMap = memo(({ classes, className, children, ...props }) => {
+  // const isHovered = useMapStore((state) => Boolean(state.hovered))
+  // changing layer styles on hover is disabled for now, too bad for perf
+  const isHovered = false
   return (
-    <div style={{ position: "relative" }}>
-      <StyledSpikeMap
-        interactive
-        showLabels
-        spikes={spikes}
-        categories={categories}
-        lengths={[0, 200]}
-        widths={7}
-        fills={["url(#g1)", "url(#g2)", "url(#g3)"]}
-        strokes={colors}
-        categorySelector={typeSelector}
-        lengthSelector={dataSelector}
-        widthSelector={widthSelector}
-        onSelect={handleSelect}
-      >
-        <SpikeGradients colors={colors} />
-      </StyledSpikeMap>
-      <div
-        style={{
-          position: "absolute",
-          top: -24,
-          left: 0,
-          right: 0,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-around",
+    <SvgMap
+      projection="geoAlbersUsa"
+      className={clsx({ "svg-map--hovered": isHovered })}
+      {...props}
+    >
+      <HomeMapGradients />
+      <StateLayer
+        className={classes.stateLayer}
+        classes={{
+          shape: classes.stateShape,
+          text: classes.stateLabel,
         }}
-      >
-        <MetricToggle />
-        <MapLegend />
-      </div>
-    </div>
+        onSelect={handleSelect}
+        showLabels
+        interactive
+      />
+      <HoverShape className={classes.hoverShape} />
+      <HomeMapSpikeLayer
+        className={clsx(classes.spikeLayer, {
+          [classes.spikeLayerHovered]: isHovered,
+        })}
+      />
+      <HomeMapSpikeHighlight
+        className={classes.highlightRoot}
+        classes={{ spike: classes.highlightSpike }}
+      />
+    </SvgMap>
   )
-}
+})
 
 HomeMap.propTypes = {}
 
-export default HomeMap
+export default withStyles(styles)(HomeMap)

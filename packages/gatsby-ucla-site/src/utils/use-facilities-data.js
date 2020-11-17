@@ -1,41 +1,5 @@
 import { useStaticQuery, graphql } from "gatsby"
-
-export const parseFacility = (facility = {}) => {
-  const result = { ...facility }
-
-  // parse coordinates
-  if (
-    facility.hasOwnProperty("Latitude") &&
-    facility.hasOwnProperty("Longitude")
-  ) {
-    result.Latitude = parseFloat(facility["Latitude"])
-    result.Longitude = parseFloat(facility["Longitude"])
-    result.coords = [result.Longitude, result.Latitude]
-  }
-
-  // parse residents data
-  if (facility.hasOwnProperty("Residents")) {
-    result.Residents = Object.keys(facility.Residents).reduce((obj, key) => {
-      obj[key] = parseInt(facility.Residents[key])
-      return obj
-    }, {})
-  }
-
-  // parse staff data
-  if (facility.hasOwnProperty("Staff")) {
-    result.Staff = Object.keys(facility.Staff).reduce((obj, key) => {
-      obj[key] = parseInt(facility.Staff[key])
-      return obj
-    }, {})
-  }
-
-  // parse population
-  if (facility.hasOwnProperty("PopulationCount")) {
-    result.PopulationCount = parseInt(facility.PopulationCount)
-  }
-
-  return result
-}
+import { parseFacility } from "./parsers"
 
 export default function useFacilitiesData() {
   const { allFacilitiesCsv } = useStaticQuery(
@@ -48,8 +12,24 @@ export default function useFacilitiesData() {
             Latitude
             Longitude
             Residents {
+              Deaths
+              Population
+              Confirmed
+              Negative
+              Pending
+              Quarantine
+              Released
+              Recovered
+              Tested
+            }
+            Staff {
               Confirmed
               Deaths
+              Negative
+              Pending
+              Quarantine
+              Recovered
+              Tested
             }
             State
             Facility

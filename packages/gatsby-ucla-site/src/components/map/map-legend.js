@@ -1,17 +1,15 @@
 import React from "react"
-import PropTypes from "prop-types"
 import clsx from "clsx"
 import {
   Checkbox,
   FormControl,
   FormControlLabel,
   FormGroup,
-  FormLabel,
   Paper,
   withStyles,
 } from "@material-ui/core"
 import shallow from "zustand/shallow"
-import useOptionsStore from "./use-options-store"
+import { useOptionsStore } from "../../utils"
 
 const styles = (theme) => ({
   root: {
@@ -43,7 +41,7 @@ const LegendLabel = ({ color, checked, children, ...props }) => {
           height: 12,
           borderColor: color,
           borderWidth: 1,
-          borderStyle: checked ? "solid" : "dashed",
+          borderStyle: "solid",
           background: checked ? color : "transparent",
           display: "block",
           marginRight: 8,
