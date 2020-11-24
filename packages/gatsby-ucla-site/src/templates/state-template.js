@@ -4,7 +4,7 @@ import { Typography } from "@material-ui/core"
 import NumberStat from "../components/stats/number-stat"
 import { format } from "d3-format"
 import Stack from "../components/stack"
-import StateMap from "../components/map/state-map/state-map"
+import StateMap from "../components/maps/state-map/state-map"
 import { useFacilitiesData } from "../common/hooks"
 
 const sumTotal = (data, accessor) =>
