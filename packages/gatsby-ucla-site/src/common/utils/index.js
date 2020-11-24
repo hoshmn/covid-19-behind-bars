@@ -4,7 +4,6 @@ export {
   getDataMetricSelector,
   typeSelector,
   widthSelector,
-  getComparator,
   getTopValues,
   getStateCodeByName,
   getStateCenter,
