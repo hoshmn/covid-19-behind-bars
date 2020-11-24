@@ -2,9 +2,10 @@ import React from "react"
 import { Layout } from "gatsby-theme-hyperobjekt-core"
 import { Typography } from "@material-ui/core"
 import NumberStat from "../components/stats/number-stat"
-import { useFacilitiesData } from "../utils"
 import { format } from "d3-format"
 import Stack from "../components/stack"
+import StateMap from "../components/map/state-map/state-map"
+import { useFacilitiesData } from "../common/hooks"
 
 const sumTotal = (data, accessor) =>
   data.reduce(
@@ -16,16 +17,16 @@ const sumTotal = (data, accessor) =>
 const numFormat = format(",d")
 
 const StateTemplate = (props) => {
-  const { state, facilities } = props.pageContext
+  const { state } = props.pageContext
   const data = useFacilitiesData()
   const stateData = data.nodes.filter((d) => d.State === state)
-  console.log(facilities, stateData)
   const cases = sumTotal(stateData, (d) => d.Residents.Confirmed)
   const deaths = sumTotal(stateData, (d) => d.Residents.Deaths)
   const staffCases = sumTotal(stateData, (d) => d.Staff.Confirmed)
   const staffDeaths = sumTotal(stateData, (d) => d.Staff.Deaths)
   return (
     <Layout title={state}>
+      <StateMap stateName={state} />
       <Stack spacing={3}>
         <Typography variant="h2">{state}</Typography>
         <Stack spacing={2}>

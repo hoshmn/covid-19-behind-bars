@@ -1,5 +1,6 @@
 import { createMuiTheme } from "@material-ui/core"
 import { deepmerge } from "@material-ui/utils"
+import { fade as alpha } from "@material-ui/core/styles"
 
 /**
  * Base theme definitions
@@ -23,9 +24,13 @@ const base = {
       secondary: "#555526",
     },
   },
+  shape: {
+    borderRadius: 0,
+  },
   typography: {
     fontFamily: "neue-haas-grotesk-display, sans-serif",
   },
+  shadows: ["none", "0 3px 4px rgba(0,0,0,0.2)", "none", "none"],
   overrides: {
     MuiCssBaseline: {
       "@global": {
@@ -43,6 +48,23 @@ const base = {
   },
 }
 
+export const serifTypography = {
+  fontFamily: "plantin, sans-serif",
+  textTransform: "none",
+}
+export const titleTypography = {
+  fontFamily: `"Champion Heavywt A", "Champion Heavywt B"`,
+  fontStyle: "normal",
+  fontWeight: 400,
+  textTransform: "uppercase",
+}
+export const subtitleTypography = {
+  fontFamily: `"Champion Featherwt A", "Champion Featherwt B"`,
+  fontStyle: "normal",
+  fontWeight: 400,
+  textTransform: "uppercase",
+}
+
 /**
  * A function that accepts site context (currently only `isDarkMode`)
  * and returns a theme object that is applied to the site.
@@ -52,7 +74,7 @@ const CovidTheme = () => {
   const theme = createMuiTheme(base)
 
   const headingStyles = {
-    fontFamily: "plantin, sans-serif",
+    ...serifTypography,
     marginTop: "1em",
   }
   // build overrides
@@ -78,14 +100,29 @@ const CovidTheme = () => {
         h5: headingStyles,
         h6: headingStyles,
       },
+      MuiButton: {
+        root: {
+          ...serifTypography,
+          background: "transparent",
+          border: "1px solid",
+          borderColor: "#92926C",
+          color: "#555526",
+          letterSpacing: "0.03em",
+        },
+      },
       MuiButtonGroup: {
         root: {
           "& .active": {
-            background: theme.palette.secondary.main,
-            color: theme.palette.secondary.contrastText,
+            background: alpha("#A75E0C", 0.1),
+            color: "#A75E0C",
+            borderColor: "#A75E0C",
+          },
+          "& .active + .MuiButton-root": {
+            borderLeftColor: "#A75E0C",
           },
           "& .active:hover": {
-            background: theme.palette.secondary.dark,
+            background: alpha("#A75E0C", 0.25),
+            borderColor: "#A75E0C",
           },
         },
       },
@@ -94,7 +131,7 @@ const CovidTheme = () => {
         root: {
           boxShadow: "none",
           background: "#fff",
-          borderBottom: `1px solid ${theme.palette.divider}`,
+          borderBottom: `none`,
         },
         title: {
           color: theme.palette.text.primary,
@@ -110,6 +147,12 @@ const CovidTheme = () => {
           color: theme.palette.text.primary,
           marginTop: "auto",
           marginBottom: "auto",
+        },
+      },
+      HypNavigation: {
+        link: {
+          fontFamily: "plantin, sans-serif",
+          fontSize: theme.typography.pxToRem(13),
         },
       },
       /** Content area style overrides */

@@ -1380,10 +1380,10 @@
     react "^16.13.1"
     react-dom "^16.13.1"
 
-"@hyperobjekt/svg-maps@1.0.8":
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/@hyperobjekt/svg-maps/-/svg-maps-1.0.8.tgz#da44080de0087a40b46fe8694ce6e2d20eca3117"
-  integrity sha512-8CV0OmFuoBakJPb0yphw0JB/A+83sF33qolnYoBwZTgCY9uHj4PO5OIuPQpxV7luPvDGezHJYLhQh/aJtgpH3A==
+"@hyperobjekt/svg-maps@1.0.10":
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/@hyperobjekt/svg-maps/-/svg-maps-1.0.10.tgz#0837a91b5c3750c60ef2e925e50615d77d461861"
+  integrity sha512-bk9LEm9GkMU9TECUWaUHjeTekHYsDdRyG26cdUh+DThNKvpBEVVBNCXw7KUnqvjsfbjvDuRyxR32Tu46CFFmIA==
   dependencies:
     "@hyperobjekt/us-states" "^1.0.4"
     "@material-ui/styles" "^4.10.0"

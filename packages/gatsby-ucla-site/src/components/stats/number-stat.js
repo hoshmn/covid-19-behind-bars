@@ -31,6 +31,11 @@ const NumberStat = ({ classes, className, value, label, ...props }) => {
   )
 }
 
-NumberStat.propTypes = {}
+NumberStat.propTypes = {
+  classes: PropTypes.object,
+  className: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  label: PropTypes.string,
+}
 
 export default withStyles(styles)(NumberStat)

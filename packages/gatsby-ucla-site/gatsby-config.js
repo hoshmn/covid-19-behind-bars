@@ -9,7 +9,7 @@ module.exports = {
         ...coreOptions,
         typekitId: "uiz8duz",
         templates: {
-          home: require.resolve("./src/templates/home-template.js"),
+          home: require.resolve("./src/components/home/home.js"),
         },
       },
     },
