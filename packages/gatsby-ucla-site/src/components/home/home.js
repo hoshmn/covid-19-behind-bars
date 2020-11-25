@@ -1,13 +1,10 @@
 import React from "react"
 import { graphql } from "gatsby"
-import { MDXRenderer } from "gatsby-plugin-mdx"
-import { Block, Layout } from "gatsby-theme-hyperobjekt-core"
+import { Layout } from "gatsby-theme-hyperobjekt-core"
 import Intro from "./intro"
 import HomeMap from "./map"
 import Sponsors from "./sponsors"
-import { Grid } from "@material-ui/core"
-import Subscribe from "../page/subscribe"
-// import Table from "./table"
+import Table from "./table"
 
 export const query = graphql`
   query($pathSlug: String!) {
@@ -35,16 +32,13 @@ const HomeTemplate = ({
     <Layout title={"home"}>
       <Intro title={title} subtitle={subtitle} body={body} />
       <HomeMap />
-      {/* <Table /> */}
-      <Block type="fullWidth" style={{ background: "#fff" }}>
-        <Grid container justify="center">
-          <Grid item xs={12} md={10}>
-            <MDXRenderer>{mdx.body}</MDXRenderer>
-          </Grid>
-        </Grid>
-      </Block>
+      <Table />
+      {/* <Block type="fullWidth" style={{ background: "#fff" }}>
+        <Container maxWidth="lg">
+          <MDXRenderer>{mdx.body}</MDXRenderer>
+        </Container>
+      </Block> */}
       <Sponsors />
-      <Subscribe />
     </Layout>
   )
 }

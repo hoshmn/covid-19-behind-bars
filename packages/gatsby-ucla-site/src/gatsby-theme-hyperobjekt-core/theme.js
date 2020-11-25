@@ -75,7 +75,6 @@ const CovidTheme = () => {
 
   const headingStyles = {
     ...serifTypography,
-    marginTop: "1em",
   }
   // build overrides
   const overrides = {
@@ -100,14 +99,26 @@ const CovidTheme = () => {
         h5: headingStyles,
         h6: headingStyles,
       },
+      MuiInputBase: {
+        input: {
+          padding: `10px 0 9px`,
+          fontSize: theme.typography.pxToRem(15),
+          letterSpacing: "0.03em",
+          ...serifTypography,
+        },
+      },
       MuiButton: {
         root: {
           ...serifTypography,
           background: "transparent",
           border: "1px solid",
           borderColor: "#92926C",
-          color: "#555526",
+          color: theme.palette.text.secondary,
+          fontSize: theme.typography.pxToRem(15),
           letterSpacing: "0.03em",
+          "&$text": {
+            padding: `${theme.spacing(0.5)}px ${theme.spacing(3)}px`,
+          },
         },
       },
       MuiButtonGroup: {
@@ -162,6 +173,9 @@ const CovidTheme = () => {
           "& .MuiLink-root.MuiTypography-root": {
             color: theme.palette.secondary.main,
           },
+          "& > .block:last-child": {
+            paddingBottom: undefined,
+          },
         },
       },
       /** Default hero style overrides */
@@ -180,34 +194,6 @@ const CovidTheme = () => {
             borderRadius: theme.shape.borderRadius,
           },
         },
-      },
-      /** Slide open side panel overrides */
-      HypDrawer: {
-        root: {},
-        content: {},
-        close: {},
-      },
-      HypFooterNav: {
-        list: {
-          display: "flex",
-          flexDirection: "row",
-          "& li:last-child": {
-            paddingBottom: theme.spacing(0.5),
-          },
-        },
-      },
-      /** Footer style overrides */
-      HypFooter: {
-        root: {},
-        wrapper: {},
-        copyright: {
-          position: "static!important",
-        },
-        links: {},
-        listItem: {},
-        link: {},
-        social: {},
-        socialLink: {},
       },
     },
     /** Apply default props to components */

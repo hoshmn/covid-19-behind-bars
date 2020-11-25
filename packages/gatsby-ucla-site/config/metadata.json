@@ -169,5 +169,16 @@
       "type": "internal"
     }
   ],
-  "socialLinks": []
+  "socialLinks": [
+    {
+      "name": "Twitter",
+      "link": "https://twitter.com/uclaprisondata",
+      "location": "footer"
+    },
+    {
+      "name": "Instagram",
+      "link": "https://instagram.com/uclaprisondata",
+      "location": "footer"
+    }
+  ]
 }

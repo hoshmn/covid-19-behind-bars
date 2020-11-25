@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useContext } from "react"
+import React, { memo, useCallback } from "react"
 import SpikeLayer from "./spike-layer"
 import { useOptionsStore, useSpikeData } from "../../../common/hooks"
 import shallow from "zustand/shallow"

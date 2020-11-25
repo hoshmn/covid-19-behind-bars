@@ -7,8 +7,10 @@ import GlobalFilter from "./global-filter"
 
 const useToolbarStyles = makeStyles((theme) => ({
   root: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(1),
+    paddingLeft: 0,
+    paddingRight: 0,
+    display: "flex",
+    justifyContent: "flex-end",
   },
   highlight:
     theme.palette.type === "light"

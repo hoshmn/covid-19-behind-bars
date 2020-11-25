@@ -3,7 +3,7 @@
   "fonts": {
     "google": [{ "family": "Fira Mono", "variants": ["400"] }]
   },
-  "useSocialLinks": false,
+  "useSocialLinks": true,
   "useKatex": false,
   "header": {
     "headerContentMaxWidth": 960,

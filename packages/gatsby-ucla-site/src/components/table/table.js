@@ -20,7 +20,7 @@ import {
   useTable,
 } from "react-table"
 
-const Table = ({ columns, data, skipPageReset, options }) => {
+const Table = ({ columns, data, skipPageReset, options, ...props }) => {
   const {
     getTableProps,
     headerGroups,
@@ -53,7 +53,7 @@ const Table = ({ columns, data, skipPageReset, options }) => {
   }
 
   return (
-    <TableContainer>
+    <TableContainer {...props}>
       <TableToolbar
         numSelected={Object.keys(selectedRowIds).length}
         preGlobalFilteredRows={preGlobalFilteredRows}
@@ -123,7 +123,7 @@ const Table = ({ columns, data, skipPageReset, options }) => {
                 25,
                 { label: "All", value: data.length },
               ]}
-              colSpan={3}
+              colSpan={7}
               count={data.length}
               rowsPerPage={pageSize}
               page={pageIndex}

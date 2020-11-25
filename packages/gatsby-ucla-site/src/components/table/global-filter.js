@@ -1,9 +1,9 @@
 import React from "react"
 
-import InputBase from "@material-ui/core/InputBase"
 import { fade, makeStyles } from "@material-ui/core/styles"
 import PropTypes from "prop-types"
 import SearchIcon from "@material-ui/icons/Search"
+import { InputAdornment, TextField } from "@material-ui/core"
 
 const useStyles = makeStyles((theme) => ({
   search: {
@@ -56,23 +56,25 @@ const GlobalFilter = ({
   // only the current page is downloaded.
 
   return (
-    <div className={classes.search}>
-      <div className={classes.searchIcon}>
-        <SearchIcon />
-      </div>
-      <InputBase
-        value={globalFilter || ""}
-        onChange={(e) => {
-          setGlobalFilter(e.target.value || undefined) // Set undefined to remove the filter entirely
-        }}
-        placeholder={`${count} records...`}
-        classes={{
-          root: classes.inputRoot,
-          input: classes.inputInput,
-        }}
-        inputProps={{ "aria-label": "search" }}
-      />
-    </div>
+    <TextField
+      value={globalFilter || ""}
+      onChange={(e) => {
+        setGlobalFilter(e.target.value || undefined) // Set undefined to remove the filter entirely
+      }}
+      placeholder={`${count} records...`}
+      classes={{
+        root: classes.inputRoot,
+        input: classes.inputInput,
+      }}
+      InputProps={{
+        startAdornment: (
+          <InputAdornment position="start">
+            <SearchIcon />
+          </InputAdornment>
+        ),
+      }}
+      inputProps={{ "aria-label": "search" }}
+    />
   )
 }
 

@@ -1,7 +1,10 @@
 import React from "react"
 import { Block } from "gatsby-theme-hyperobjekt-core"
 import Stack from "../stack"
-import { Grid, Typography, withStyles } from "@material-ui/core"
+import { Container, Typography, withStyles } from "@material-ui/core"
+import CdcLogo from "../../../content/assets/cdc-logo.svg"
+import VitalProjectsFundLogo from "../../../content/assets/vital-projects-fund-logo.svg"
+import ArnoldVenturesLogo from "../../../content/assets/arnold-ventures-logo.svg"
 
 export const styles = (theme) => ({
   root: {},
@@ -10,26 +13,44 @@ export const styles = (theme) => ({
     maxWidth: "10em",
     marginTop: 0,
   },
+  titleWrapper: {
+    [theme.breakpoints.up("md")]: {
+      minWidth: "33%",
+    },
+  },
   logo: {},
 })
 
 const Sponsors = ({ classes, ...props }) => {
   return (
     <Block className={classes.root} type="fullWidth" {...props}>
-      <Grid container justify="center">
-        <Grid item xs={12} md={10}>
-          <Stack horizontal justify="space-between" align="center">
+      <Container maxWidth="lg">
+        <Stack horizontal justify="space-between" align="center">
+          <div className={classes.titleWrapper}>
             <Typography className={classes.title} variant="h3">
               Our generous supporters include:
             </Typography>
-            <Stack horizontal justify="space-around" style={{ flex: 1 }}>
-              <img src="https://placehold.it/80x40" />
-              <img src="https://placehold.it/120x40" />
-              <img src="https://placehold.it/100x40" />
-            </Stack>
+          </div>
+
+          <Stack horizontal justify="space-around" style={{ flex: 1 }}>
+            <img
+              className={classes.logo}
+              src={CdcLogo}
+              alt="center for disease control logo"
+            />
+            <img
+              className={classes.logo}
+              src={VitalProjectsFundLogo}
+              alt="Vital Projects Fund logo"
+            />
+            <img
+              className={classes.logo}
+              src={ArnoldVenturesLogo}
+              alt="Arnold Ventures logo"
+            />
           </Stack>
-        </Grid>
-      </Grid>
+        </Stack>
+      </Container>
     </Block>
   )
 }

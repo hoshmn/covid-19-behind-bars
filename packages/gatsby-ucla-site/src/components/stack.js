@@ -59,7 +59,12 @@ const Stack = ({
   ...props
 }) => {
   const { root } = useStyles({ spacing, horizontal, align, justify })
-  return <Component className={clsx("stack", classes.root, root)} {...props} />
+  return (
+    <Component
+      className={clsx("stack", classes.root, root, className)}
+      {...props}
+    />
+  )
 }
 
 Stack.propTypes = {
