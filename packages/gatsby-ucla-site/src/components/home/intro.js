@@ -5,6 +5,7 @@ import {
   subtitleTypography,
   titleTypography,
 } from "../../gatsby-theme-hyperobjekt-core/theme"
+import ResponsiveContainer from "../responsive-container"
 
 const styles = (theme) => ({
   root: {
@@ -30,7 +31,7 @@ const styles = (theme) => ({
 const Intro = ({ classes, className, title, subtitle, body, ...props }) => {
   return (
     <Block className={classes.root} type="fullWidth" {...props}>
-      <Container maxWidth="lg">
+      <ResponsiveContainer>
         <Grid container justify="center" spacing={3}>
           <Grid item xs={12}>
             <Typography className={classes.title} variant="h2">
@@ -46,7 +47,7 @@ const Intro = ({ classes, className, title, subtitle, body, ...props }) => {
             </Typography>
           </Grid>
         </Grid>
-      </Container>
+      </ResponsiveContainer>
     </Block>
   )
 }

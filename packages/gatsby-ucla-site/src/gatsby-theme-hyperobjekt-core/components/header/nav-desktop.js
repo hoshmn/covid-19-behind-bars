@@ -5,7 +5,6 @@ import Navigation from "gatsby-theme-hyperobjekt-core/src/components/header/nav"
 const cols = 6
 
 const styles = (theme) => ({
-  root: {},
   list: {
     display: "flex",
   },
@@ -46,22 +45,22 @@ const styles = (theme) => ({
     opacity: 0,
     display: "block",
     height: 248,
-    columnCount: cols,
-    padding: `${theme.spacing(4)}px ${theme.spacing(6)}px`,
+    padding: theme.spacing(4, 0),
     boxShadow: theme.shadows[1],
-    "& .nav__sub-list-item": {
-      display: "inline-block",
-      width: `calc(20vw - (${theme.spacing(12)}px / ${cols}))`,
-      height: "auto",
-    },
-    "& .nav__sub-link": {
+    "& .SubMenu-list": {
+      columnCount: cols,
       padding: 0,
+    },
+    "& .SubMenu-listItem": {
+      display: "inline-block",
+    },
+    "& .SubMenu-link": {
+      padding: 0,
+      display: "inline",
       fontFamily: "plantin, sans-serif",
       fontSize: theme.typography.pxToRem(13),
     },
   },
-  subMenuList: {},
-  subMenuLink: {},
 })
 
 export default withStyles(styles)(Navigation)

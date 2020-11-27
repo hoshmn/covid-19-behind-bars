@@ -30,7 +30,30 @@ const base = {
   typography: {
     fontFamily: "neue-haas-grotesk-display, sans-serif",
   },
-  shadows: ["none", "0 3px 4px rgba(0,0,0,0.2)", "none", "none"],
+  shadows: [
+    "none",
+    "0 3px 4px rgba(0,0,0,0.2)",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+    "none",
+  ],
   overrides: {
     MuiCssBaseline: {
       "@global": {

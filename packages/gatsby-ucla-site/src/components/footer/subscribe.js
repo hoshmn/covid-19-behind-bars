@@ -4,9 +4,6 @@ import { titleTypography } from "../../gatsby-theme-hyperobjekt-core/theme"
 import Stack from "../stack"
 
 export const styles = (theme) => ({
-  root: {
-    background: "#f5f5ed",
-  },
   title: {
     ...titleTypography,
     fontSize: theme.typography.pxToRem(26),
@@ -15,14 +12,15 @@ export const styles = (theme) => ({
     marginBottom: theme.spacing(1),
   },
   textField: {
-    width: 236,
+    width: "100%",
+    maxWidth: 236,
   },
   button: {},
 })
 
 const Subscribe = ({ classes, ...props }) => {
   return (
-    <Stack>
+    <Stack {...props}>
       <Typography className={classes.title} variant="h3">
         Subscribe to our e-mail updates
       </Typography>

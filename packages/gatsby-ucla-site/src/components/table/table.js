@@ -53,92 +53,94 @@ const Table = ({ columns, data, skipPageReset, options, ...props }) => {
   }
 
   return (
-    <TableContainer {...props}>
+    <>
       <TableToolbar
         numSelected={Object.keys(selectedRowIds).length}
         preGlobalFilteredRows={preGlobalFilteredRows}
         setGlobalFilter={setGlobalFilter}
         globalFilter={globalFilter}
       />
-      <MaUTable {...getTableProps()}>
-        <TableHead>
-          {headerGroups.map((headerGroup) => (
-            <TableRow {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <TableCell
-                  {...(column.id === "selection"
-                    ? column.getHeaderProps({
-                        className: column.className,
-                        style: column.style,
-                      })
-                    : column.getHeaderProps({
-                        ...column.getSortByToggleProps(),
-                        className: column.className,
-                        style: column.style,
-                      }))}
-                >
-                  {column.render("Header")}
-                  {column.id !== "selection" ? (
-                    <TableSortLabel
-                      active={column.isSorted}
-                      // react-table has a unsorted state which is not treated here
-                      direction={column.isSortedDesc ? "desc" : "asc"}
-                    />
-                  ) : null}
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
-        </TableHead>
-        <TableBody>
-          {page.map((row, i) => {
-            prepareRow(row)
-            return (
-              <TableRow {...row.getRowProps()}>
-                {row.cells.map((cell) => {
-                  return (
-                    <TableCell
-                      {...cell.getCellProps([
-                        {
-                          className: cell.column.className,
-                          style: cell.column.style,
-                        },
-                      ])}
-                    >
-                      {cell.render("Cell")}
-                    </TableCell>
-                  )
-                })}
+      <TableContainer {...props}>
+        <MaUTable {...getTableProps()}>
+          <TableHead>
+            {headerGroups.map((headerGroup) => (
+              <TableRow {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column) => (
+                  <TableCell
+                    {...(column.id === "selection"
+                      ? column.getHeaderProps({
+                          className: column.className,
+                          style: column.style,
+                        })
+                      : column.getHeaderProps({
+                          ...column.getSortByToggleProps(),
+                          className: column.className,
+                          style: column.style,
+                        }))}
+                  >
+                    {column.render("Header")}
+                    {column.id !== "selection" ? (
+                      <TableSortLabel
+                        active={column.isSorted}
+                        // react-table has a unsorted state which is not treated here
+                        direction={column.isSortedDesc ? "desc" : "asc"}
+                      />
+                    ) : null}
+                  </TableCell>
+                ))}
               </TableRow>
-            )
-          })}
-        </TableBody>
+            ))}
+          </TableHead>
+          <TableBody>
+            {page.map((row, i) => {
+              prepareRow(row)
+              return (
+                <TableRow {...row.getRowProps()}>
+                  {row.cells.map((cell) => {
+                    return (
+                      <TableCell
+                        {...cell.getCellProps([
+                          {
+                            className: cell.column.className,
+                            style: cell.column.style,
+                          },
+                        ])}
+                      >
+                        {cell.render("Cell")}
+                      </TableCell>
+                    )
+                  })}
+                </TableRow>
+              )
+            })}
+          </TableBody>
 
-        <TableFooter>
-          <TableRow>
-            <TablePagination
-              rowsPerPageOptions={[
-                5,
-                10,
-                25,
-                { label: "All", value: data.length },
-              ]}
-              colSpan={7}
-              count={data.length}
-              rowsPerPage={pageSize}
-              page={pageIndex}
-              SelectProps={{
-                inputProps: { "aria-label": "rows per page" },
-                native: true,
-              }}
-              onChangePage={handleChangePage}
-              onChangeRowsPerPage={handleChangeRowsPerPage}
-              ActionsComponent={TablePaginationActions}
-            />
-          </TableRow>
-        </TableFooter>
-      </MaUTable>
-    </TableContainer>
+          <TableFooter>
+            <TableRow>
+              <TablePagination
+                rowsPerPageOptions={[
+                  5,
+                  10,
+                  25,
+                  { label: "All", value: data.length },
+                ]}
+                colSpan={7}
+                count={data.length}
+                rowsPerPage={pageSize}
+                page={pageIndex}
+                SelectProps={{
+                  inputProps: { "aria-label": "rows per page" },
+                  native: true,
+                }}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+                ActionsComponent={TablePaginationActions}
+              />
+            </TableRow>
+          </TableFooter>
+        </MaUTable>
+      </TableContainer>
+    </>
   )
 }
 

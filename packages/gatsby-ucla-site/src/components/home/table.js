@@ -8,6 +8,7 @@ import {
   serifTypography,
   titleTypography,
 } from "../../gatsby-theme-hyperobjekt-core/theme"
+import ResponsiveContainer from "../responsive-container"
 
 const styles = (theme) => ({
   root: {
@@ -22,18 +23,36 @@ const styles = (theme) => ({
       color: theme.palette.secondary.main,
     },
   },
-  table: {
+  name: {
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
     overflow: "hidden",
+    maxWidth: 224,
+    [theme.breakpoints.up(1440)]: {
+      maxWidth: 320,
+    },
+  },
+  table: {
     "& .MuiTableCell-head": {
       position: "relative",
       ...serifTypography,
+      overflow: "hidden",
     },
     "& .MuiTableCell-head .MuiTableSortLabel-root": {
       position: "absolute",
       right: 0,
-      transform: `translateX(12px)`,
+      transform: `translateX(4px)`,
       top: 0,
       bottom: 0,
+    },
+    "& .MuiTableSortLabel-icon": {
+      fontSize: 12,
+    },
+    "& .MuiTablePagination-spacer": {
+      display: "none",
+      [theme.breakpoints.up("md")]: {
+        display: "block",
+      },
     },
   },
 })
@@ -62,12 +81,17 @@ const HomeTable = ({ classes, ...props }) => {
         Cell: (prop) => {
           return (
             <>
-              <Typography variant="body1">{prop.value}</Typography>
+              <Typography className={classes.name} variant="body1">
+                {prop.value}
+              </Typography>
               <Typography variant="body2" color="textSecondary">
                 {prop.row.original.State}
               </Typography>
             </>
           )
+        },
+        style: {
+          minWidth: 224,
         },
       },
       {
@@ -149,7 +173,7 @@ const HomeTable = ({ classes, ...props }) => {
   )
   return (
     <Block type="fullWidth" className={classes.root}>
-      <Container maxWidth="lg">
+      <ResponsiveContainer>
         <Typography className={classes.title} variant="h3">
           Facilities with the <span>highest</span> counts
         </Typography>
@@ -159,7 +183,7 @@ const HomeTable = ({ classes, ...props }) => {
           columns={columns}
           options={options}
         ></Table>
-      </Container>
+      </ResponsiveContainer>
     </Block>
   )
 }

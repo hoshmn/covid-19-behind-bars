@@ -4,6 +4,8 @@ import PropTypes from "prop-types"
 import { withStyles } from "@material-ui/core"
 import { Block } from "gatsby-theme-hyperobjekt-core"
 import { NationalMap, MapLegend, MapMetricControl } from "../maps"
+import { navigate } from "gatsby"
+import { useMapStore } from "@hyperobjekt/svg-maps"
 
 const styles = (theme) => ({
   root: {
@@ -32,6 +34,12 @@ const styles = (theme) => ({
 })
 
 const HomeMap = ({ classes, className, ...props }) => {
+  const setSelected = useMapStore((state) => state.setSelected)
+  // handler for selection
+  const handleSelect = (geo) => {
+    setSelected(geo)
+    navigate(`states/${geo.properties.name.toLowerCase()}`)
+  }
   return (
     <Block
       type="fullWidth"
@@ -43,7 +51,7 @@ const HomeMap = ({ classes, className, ...props }) => {
         <MapMetricControl />
         <MapLegend />
       </div>
-      <NationalMap />
+      <NationalMap onSelect={handleSelect} />
     </Block>
   )
 }

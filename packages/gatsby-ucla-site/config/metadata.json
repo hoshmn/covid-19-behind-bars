@@ -21,126 +21,142 @@
       "type": "internal",
       "location": "header",
       "subMenu": [
-        { "name": "Alaska", "link": "/state/alaska", "type": "internal" },
-        { "name": "Alabama", "link": "/state/alabama", "type": "internal" },
-        { "name": "Arizona", "link": "/state/arizona", "type": "internal" },
-        { "name": "Arkansas", "link": "/state/arkansas", "type": "internal" },
+        { "name": "Alaska", "link": "/states/alaska", "type": "internal" },
+        { "name": "Alabama", "link": "/states/alabama", "type": "internal" },
+        { "name": "Arizona", "link": "/states/arizona", "type": "internal" },
+        { "name": "Arkansas", "link": "/states/arkansas", "type": "internal" },
         {
           "name": "California",
-          "link": "/state/california",
+          "link": "/states/california",
           "type": "internal"
         },
-        { "name": "Colorado", "link": "/state/colorado", "type": "internal" },
+        { "name": "Colorado", "link": "/states/colorado", "type": "internal" },
         {
           "name": "Connecticut",
-          "link": "/state/connecticut",
+          "link": "/states/connecticut",
           "type": "internal"
         },
         {
           "name": "District of Columbia",
-          "link": "/state/district-of-columbia",
+          "link": "/states/district-of-columbia",
           "type": "internal"
         },
-        { "name": "Delaware", "link": "/state/delaware", "type": "internal" },
-        { "name": "Florida", "link": "/state/florida", "type": "internal" },
-        { "name": "Georgia", "link": "/state/georgia", "type": "internal" },
-        { "name": "Hawaii", "link": "/state/hawaii", "type": "internal" },
-        { "name": "Idaho", "link": "/state/idaho", "type": "internal" },
-        { "name": "Illinois", "link": "/state/illinois", "type": "internal" },
-        { "name": "Indiana", "link": "/state/indiana", "type": "internal" },
-        { "name": "Iowa", "link": "/state/iowa", "type": "internal" },
-        { "name": "Kansas", "link": "/state/kansas", "type": "internal" },
-        { "name": "Kentucky", "link": "/state/kentucky", "type": "internal" },
-        { "name": "Louisiana", "link": "/state/louisiana", "type": "internal" },
-        { "name": "Maine", "link": "/state/maine", "type": "internal" },
-        { "name": "Maryland", "link": "/state/maryland", "type": "internal" },
+        { "name": "Delaware", "link": "/states/delaware", "type": "internal" },
+        { "name": "Florida", "link": "/states/florida", "type": "internal" },
+        { "name": "Georgia", "link": "/states/georgia", "type": "internal" },
+        { "name": "Hawaii", "link": "/states/hawaii", "type": "internal" },
+        { "name": "Idaho", "link": "/states/idaho", "type": "internal" },
+        { "name": "Illinois", "link": "/states/illinois", "type": "internal" },
+        { "name": "Indiana", "link": "/states/indiana", "type": "internal" },
+        { "name": "Iowa", "link": "/states/iowa", "type": "internal" },
+        { "name": "Kansas", "link": "/states/kansas", "type": "internal" },
+        { "name": "Kentucky", "link": "/states/kentucky", "type": "internal" },
+        {
+          "name": "Louisiana",
+          "link": "/states/louisiana",
+          "type": "internal"
+        },
+        { "name": "Maine", "link": "/states/maine", "type": "internal" },
+        { "name": "Maryland", "link": "/states/maryland", "type": "internal" },
         {
           "name": "Massachusetts",
-          "link": "/state/massachusetts",
+          "link": "/states/massachusetts",
           "type": "internal"
         },
-        { "name": "Michigan", "link": "/state/michigan", "type": "internal" },
-        { "name": "Minnesota", "link": "/state/minnesota", "type": "internal" },
+        { "name": "Michigan", "link": "/states/michigan", "type": "internal" },
+        {
+          "name": "Minnesota",
+          "link": "/states/minnesota",
+          "type": "internal"
+        },
         {
           "name": "Mississippi",
-          "link": "/state/mississippi",
+          "link": "/states/mississippi",
           "type": "internal"
         },
-        { "name": "Missouri", "link": "/state/missouri", "type": "internal" },
-        { "name": "Montana", "link": "/state/montana", "type": "internal" },
-        { "name": "Nebraska", "link": "/state/nebraska", "type": "internal" },
-        { "name": "Nevada", "link": "/state/nevada", "type": "internal" },
+        { "name": "Missouri", "link": "/states/missouri", "type": "internal" },
+        { "name": "Montana", "link": "/states/montana", "type": "internal" },
+        { "name": "Nebraska", "link": "/states/nebraska", "type": "internal" },
+        { "name": "Nevada", "link": "/states/nevada", "type": "internal" },
         {
           "name": "New Hampshire",
-          "link": "/state/new-hampshire",
+          "link": "/states/new-hampshire",
           "type": "internal"
         },
         {
           "name": "New Jersey",
-          "link": "/state/new-jersey",
+          "link": "/states/new-jersey",
           "type": "internal"
         },
         {
           "name": "New Mexico",
-          "link": "/state/new-mexico",
+          "link": "/states/new-mexico",
           "type": "internal"
         },
-        { "name": "New York", "link": "/state/new-york", "type": "internal" },
+        { "name": "New York", "link": "/states/new-york", "type": "internal" },
         {
           "name": "North Carolina",
-          "link": "/state/north-carolina",
+          "link": "/states/north-carolina",
           "type": "internal"
         },
         {
           "name": "North Dakota",
-          "link": "/state/north-dakota",
+          "link": "/states/north-dakota",
           "type": "internal"
         },
-        { "name": "Ohio", "link": "/state/ohio", "type": "internal" },
-        { "name": "Oklahoma", "link": "/state/oklahoma", "type": "internal" },
-        { "name": "Oregon", "link": "/state/oregon", "type": "internal" },
+        { "name": "Ohio", "link": "/states/ohio", "type": "internal" },
+        { "name": "Oklahoma", "link": "/states/oklahoma", "type": "internal" },
+        { "name": "Oregon", "link": "/states/oregon", "type": "internal" },
         {
           "name": "Pennsylvania",
-          "link": "/state/pennsylvania",
+          "link": "/states/pennsylvania",
           "type": "internal"
         },
         {
           "name": "Puerto Rico",
-          "link": "/state/puerto-rico",
+          "link": "/states/puerto-rico",
           "type": "internal"
         },
         {
           "name": "Rhode Island",
-          "link": "/state/rhode-island",
+          "link": "/states/rhode-island",
           "type": "internal"
         },
         {
           "name": "South Carolina",
-          "link": "/state/south-carolina",
+          "link": "/states/south-carolina",
           "type": "internal"
         },
         {
           "name": "South Dakota",
-          "link": "/state/south-dakota",
+          "link": "/states/south-dakota",
           "type": "internal"
         },
-        { "name": "Tennessee", "link": "/state/tennessee", "type": "internal" },
-        { "name": "Texas", "link": "/state/texas", "type": "internal" },
-        { "name": "Utah", "link": "/state/utah", "type": "internal" },
-        { "name": "Vermont", "link": "/state/vermont", "type": "internal" },
-        { "name": "Virginia", "link": "/state/virginia", "type": "internal" },
+        {
+          "name": "Tennessee",
+          "link": "/states/tennessee",
+          "type": "internal"
+        },
+        { "name": "Texas", "link": "/states/texas", "type": "internal" },
+        { "name": "Utah", "link": "/states/utah", "type": "internal" },
+        { "name": "Vermont", "link": "/states/vermont", "type": "internal" },
+        { "name": "Virginia", "link": "/states/virginia", "type": "internal" },
         {
           "name": "Washington",
-          "link": "/state/washington",
+          "link": "/states/washington",
           "type": "internal"
         },
         {
           "name": "West Virginia",
-          "link": "/state/west-virginia",
+          "link": "/states/west-virginia",
           "type": "internal"
         },
-        { "name": "Wisconsin", "link": "/state/wisconsin", "type": "internal" },
-        { "name": "Wyoming", "link": "/state/wyoming", "type": "internal" }
+        {
+          "name": "Wisconsin",
+          "link": "/states/wisconsin",
+          "type": "internal"
+        },
+        { "name": "Wyoming", "link": "/states/wyoming", "type": "internal" }
       ]
     },
     {

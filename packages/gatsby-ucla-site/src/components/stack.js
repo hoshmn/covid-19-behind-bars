@@ -1,7 +1,12 @@
 import React from "react"
 import clsx from "clsx"
 import PropTypes from "prop-types"
-import { makeStyles, withStyles } from "@material-ui/core"
+import {
+  makeStyles,
+  useMediaQuery,
+  useTheme,
+  withStyles,
+} from "@material-ui/core"
 
 /**
  * Getter to retrieve align-items and justify-content values.
@@ -25,23 +30,44 @@ const getAlign = (align) => {
 /** Stack styles */
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexDirection: ({ horizontal }) => (horizontal ? "row" : "column"),
+    display: "flex",
+    flexDirection: "column",
     alignItems: ({ align }) => getAlign(align),
     justifyContent: ({ justify }) => getAlign(justify),
     "& > * + *": {
-      marginTop: ({ spacing, horizontal }) =>
-        spacing && !horizontal ? theme.spacing(spacing) : undefined,
-      marginLeft: ({ spacing, horizontal }) =>
-        spacing && horizontal ? theme.spacing(spacing) : undefined,
+      marginTop: ({ spacing, isHorizontal }) =>
+        spacing && !isHorizontal ? theme.spacing(spacing) : "unset",
+      marginLeft: ({ spacing, isHorizontal }) =>
+        spacing && isHorizontal ? theme.spacing(spacing) : "unset",
     },
   },
 }))
 
-/** Default root class styles */
+/**
+ * Generates styles for horizontal layout for a given breakpont
+ * @param {*} globalStyles styles to add to
+ * @param {*} theme material ui theme object
+ * @param {*} breakpoint breakpoint to add styles to
+ */
+function generateStackLayout(globalStyles, theme, breakpoint) {
+  const styles = {}
+  const key = `stack-${breakpoint}-horizontal`
+  styles[key] = { flexDirection: "row" }
+  // No need for a media query for the first size.
+  if (breakpoint === "xs") {
+    Object.assign(globalStyles, styles)
+  } else {
+    globalStyles[theme.breakpoints.up(breakpoint)] = styles
+  }
+}
+
 export const styles = (theme) => ({
-  root: {
-    display: "flex",
-  },
+  // adds classes for horizontal alignment by breakpoint
+  ...theme.breakpoints.keys.reduce((accumulator, key) => {
+    // Use side effect over immutability for better performance.
+    generateStackLayout(accumulator, theme, key)
+    return accumulator
+  }, {}),
 })
 
 /**
@@ -49,8 +75,8 @@ export const styles = (theme) => ({
  */
 const Stack = ({
   classes,
-  className,
-  horizontal,
+  className: propClassName,
+  horizontal = false,
   align,
   justify,
   dense,
@@ -58,13 +84,24 @@ const Stack = ({
   component: Component = "div",
   ...props
 }) => {
-  const { root } = useStyles({ spacing, horizontal, align, justify })
-  return (
-    <Component
-      className={clsx("stack", classes.root, root, className)}
-      {...props}
-    />
+  const theme = useTheme()
+  const breakpoint = horizontal === true ? "xs" : horizontal
+  // get a media query for the horizontal breakpoint, or use unmatchable breakpoint
+  const mq = breakpoint ? theme.breakpoints.up(breakpoint) : "(max-width:1px)"
+  const isHorizontal = useMediaQuery(mq)
+  const { root } = useStyles({ spacing, isHorizontal, align, justify })
+  console.log(isHorizontal)
+  const className = clsx(
+    root,
+    {
+      [classes[`stack-xs-horizontal`]]:
+        horizontal === "xs" || horizontal === true,
+      [classes[`stack-${String(horizontal)}-horizontal`]]:
+        horizontal !== false && typeof horizontal === "string",
+    },
+    propClassName
   )
+  return <Component className={className} {...props} />
 }
 
 Stack.propTypes = {
@@ -74,8 +111,8 @@ Stack.propTypes = {
   className: PropTypes.string,
   /** spacing increment based on the theme spacing function */
   spacing: PropTypes.number,
-  /** true to stack horizontally instead of vertically */
-  horizontal: PropTypes.bool,
+  /** true to stack horizontally, or a breakpoint string where to switch to horizontal */
+  horizontal: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   /** flexbox align-items property value */
   align: PropTypes.string,
   /** flexbox justify-content property value */
