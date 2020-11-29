@@ -18,7 +18,7 @@ const NationalMap = memo(({ children, onSelect, ...props }) => {
       />
       <HoverShape className={shapeClasses.shapeHighlight} />
       <FacilitiesSpikeLayer style={{ pointerEvents: "none" }} />
-      <FacilitiesSpikeHighlight />
+      {/* <FacilitiesSpikeHighlight /> */}
       {children}
     </SvgMap>
   )

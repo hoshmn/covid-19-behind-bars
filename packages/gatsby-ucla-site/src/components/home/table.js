@@ -9,6 +9,7 @@ import {
   titleTypography,
 } from "../../gatsby-theme-hyperobjekt-core/theme"
 import ResponsiveContainer from "../responsive-container"
+import { isNumber } from "../../common/utils/selectors"
 
 const styles = (theme) => ({
   root: {
@@ -61,13 +62,13 @@ const intFormatter = format(",d")
 const perFormatter = format(".0%")
 
 const countFormatter = (value) =>
-  isNaN(value) ? "Unavailable" : intFormatter(value)
+  !isNumber(value) ? "Unavailable" : intFormatter(value)
 
 const activeFormatter = (value) =>
-  isNaN(value) ? "Unavailable" : intFormatter(value * Math.random())
+  !isNumber(value) ? "Unavailable" : intFormatter(value * Math.random())
 
 const rateFormatter = (value) =>
-  isNaN(value)
+  !isNumber(value)
     ? "Unavailable"
     : perFormatter(value / (value + value * Math.random()))
 
@@ -77,7 +78,7 @@ const HomeTable = ({ classes, ...props }) => {
     () => [
       {
         Header: "Facility",
-        accessor: "Name",
+        accessor: "name",
         Cell: (prop) => {
           return (
             <>
@@ -97,7 +98,7 @@ const HomeTable = ({ classes, ...props }) => {
       {
         id: "cases",
         Header: "Total Cases",
-        accessor: "Residents.Confirmed",
+        accessor: "residents.confirmed",
         Cell: (prop) => countFormatter(prop.value),
         style: {
           width: 136,
@@ -108,7 +109,7 @@ const HomeTable = ({ classes, ...props }) => {
       {
         id: "infected",
         Header: "Total % Infected",
-        accessor: "Residents.Confirmed",
+        accessor: "residents.confirmed",
         Cell: (prop) => rateFormatter(prop.value),
         style: {
           width: 158,
@@ -119,7 +120,7 @@ const HomeTable = ({ classes, ...props }) => {
       {
         id: "activeCases",
         Header: "Active Cases",
-        accessor: "Residents.Confirmed",
+        accessor: "residents.confirmed",
         Cell: (prop) => activeFormatter(prop.value),
         style: {
           width: 136,
@@ -130,7 +131,7 @@ const HomeTable = ({ classes, ...props }) => {
       {
         id: "activeInfected",
         Header: "Active % Infected",
-        accessor: "Residents.Confirmed",
+        accessor: "residents.confirmed",
         Cell: (prop) => rateFormatter(prop.value),
         style: {
           width: 156,
@@ -140,7 +141,7 @@ const HomeTable = ({ classes, ...props }) => {
       },
       {
         Header: "Deaths",
-        accessor: "Residents.Deaths",
+        accessor: "residents.deaths",
         Cell: (prop) => countFormatter(prop.value),
         style: {
           width: 120,
@@ -151,7 +152,7 @@ const HomeTable = ({ classes, ...props }) => {
       {
         id: "deathRate",
         Header: "% Resident Deaths",
-        accessor: "Residents.Deaths",
+        accessor: "residents.deaths",
         Cell: (prop) => rateFormatter(prop.value),
         style: {
           width: 156,
@@ -166,7 +167,7 @@ const HomeTable = ({ classes, ...props }) => {
     () => ({
       initialState: {
         pageSize: 5,
-        sortBy: [{ id: "Residents.Confirmed", desc: true }],
+        sortBy: [{ id: "residents.confirmed", desc: true }],
       },
     }),
     []

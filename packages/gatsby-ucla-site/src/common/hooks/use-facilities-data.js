@@ -1,47 +1,31 @@
 import { useStaticQuery, graphql } from "gatsby"
-import { parseFacility } from "../utils"
 
 export default function useFacilitiesData() {
-  const { allFacilitiesCsv } = useStaticQuery(
+  const { allFacilities } = useStaticQuery(
     graphql`
       query {
-        allFacilitiesCsv {
+        allFacilities {
           totalCount
           nodes {
-            Name
-            Latitude
-            Longitude
-            Residents {
-              Deaths
-              Population
-              Confirmed
-              Negative
-              Pending
-              Quarantine
-              Released
-              Recovered
-              Tested
-            }
-            Staff {
-              Confirmed
-              Deaths
-              Negative
-              Pending
-              Quarantine
-              Recovered
-              Tested
-            }
-            State
-            Facility
-            PopulationCount
             id
+            name
+            city
+            state
+            jurisdiction
+            coords
+            residents {
+              confirmed
+              deaths
+              population
+            }
+            staff {
+              confirmed
+              deaths
+            }
           }
         }
       }
     `
   )
-  return {
-    ...allFacilitiesCsv,
-    nodes: allFacilitiesCsv.nodes.map(parseFacility),
-  }
+  return allFacilities
 }

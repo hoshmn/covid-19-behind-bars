@@ -7,7 +7,7 @@ export default function useHoveredFacilities() {
   const spikes = useSpikeData()
   return useMemo(() => {
     return hovered
-      ? spikes.filter((d) => d.State === hovered.properties.name)
+      ? spikes.filter((d) => d.state === hovered.properties.name)
       : spikes
   }, [hovered, spikes])
 }

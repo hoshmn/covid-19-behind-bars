@@ -2,11 +2,7 @@ import React, { memo, useCallback } from "react"
 import SpikeLayer from "./spike-layer"
 import { useOptionsStore, useSpikeData } from "../../../common/hooks"
 import shallow from "zustand/shallow"
-import {
-  typeSelector,
-  widthSelector,
-  getDataMetricSelector,
-} from "../../../common/utils"
+import { typeSelector, getDataMetricSelector } from "../../../common/utils"
 
 const FacilitiesSpikeLayer = memo((props) => {
   const [metric, categories, categoryColors] = useOptionsStore(
@@ -15,7 +11,7 @@ const FacilitiesSpikeLayer = memo((props) => {
   )
   const spikes = useSpikeData()
   const dataSelector = useCallback(getDataMetricSelector(metric), [metric])
-
+  console.log(metric, categories, categoryColors, spikes, dataSelector)
   return (
     <SpikeLayer
       spikes={spikes}
@@ -26,7 +22,6 @@ const FacilitiesSpikeLayer = memo((props) => {
       groups={categories}
       groupSelector={typeSelector}
       lengthSelector={dataSelector}
-      widthSelector={widthSelector}
       {...props}
     />
   )

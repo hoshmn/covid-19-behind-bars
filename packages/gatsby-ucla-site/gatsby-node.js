@@ -1,3 +1,31 @@
+if (typeof fetch !== "function") {
+  global.fetch = require("node-fetch")
+}
+const csv = require("d3-fetch").csv
+const { parseFacility } = require(`./scripts/parseFacility.js`)
+
+const facilitiesData = `https://raw.githubusercontent.com/uclalawcovid19behindbars/data/master/Adult%20Facility%20Counts/adult_facility_covid_counts_today_latest.csv`
+
+exports.sourceNodes = async ({
+  actions,
+  createNodeId,
+  createContentDigest,
+}) => {
+  console.log("fetching latest data for facilities")
+  const facilities = await csv(facilitiesData, parseFacility)
+  facilities.forEach((f, i) => {
+    const node = {
+      ...f,
+      id: createNodeId(`Facility-${f.name}-${i}`),
+      internal: {
+        type: "Facilities",
+        contentDigest: createContentDigest(f),
+      },
+    }
+    actions.createNode(node)
+  })
+}
+
 const StateTemplate = require.resolve(`./src/templates/state-template.js`)
 
 function slugify(text) {
@@ -70,24 +98,23 @@ exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
   const result = await graphql(`
     query {
-      allFacilitiesCsv {
-        group(field: State) {
+      allFacilities {
+        group(field: state) {
           fieldValue
           nodes {
             id
-            Name
-            Facility
-            Latitude
-            Longitude
-            Date
-            State
+            name
+            city
+            state
+            jurisdiction
+            coords
           }
         }
       }
     }
   `)
 
-  const states = result.data.allFacilitiesCsv.group
+  const states = result.data.allFacilities.group
   states.forEach(({ fieldValue: stateName, nodes: facilities }) => {
     const pageName = slugify(stateName)
     if (validStatePages.indexOf(pageName) > -1) {

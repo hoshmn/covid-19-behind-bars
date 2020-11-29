@@ -19,11 +19,11 @@ const numFormat = format(",d")
 const StateTemplate = (props) => {
   const { state } = props.pageContext
   const data = useFacilitiesData()
-  const stateData = data.nodes.filter((d) => d.State === state)
-  const cases = sumTotal(stateData, (d) => d.Residents.Confirmed)
-  const deaths = sumTotal(stateData, (d) => d.Residents.Deaths)
-  const staffCases = sumTotal(stateData, (d) => d.Staff.Confirmed)
-  const staffDeaths = sumTotal(stateData, (d) => d.Staff.Deaths)
+  const stateData = data.nodes.filter((d) => d.state === state)
+  const cases = sumTotal(stateData, (d) => d.residents.confirmed)
+  const deaths = sumTotal(stateData, (d) => d.residents.deaths)
+  const staffCases = sumTotal(stateData, (d) => d.staff.confirmed)
+  const staffDeaths = sumTotal(stateData, (d) => d.staff.deaths)
   return (
     <Layout title={state}>
       <StateMap stateName={state} />

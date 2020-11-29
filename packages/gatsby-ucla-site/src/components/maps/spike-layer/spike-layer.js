@@ -30,9 +30,21 @@ const getSizer = (range, extent, selector) => {
     )
   if (!selector)
     throw new Error("SpikeMap dynamic sizing requires a selector function")
-  const scale = scaleLinear().domain(extent).range(range)
+  const scale = scaleLinear().domain([0, 1, extent[1]]).range([0, 0.15, 1])
   return (spike) => scale(selector(spike))
 }
+
+// const getSizer = (range, extent, selector) => {
+//   if (typeof range === "number") return range
+//   if (range.length !== 2)
+//     throw new Error(
+//       "SpikeMap size props must be number or array containing min / max (e.g. [0, 16])"
+//     )
+//   if (!selector)
+//     throw new Error("SpikeMap dynamic sizing requires a selector function")
+//   const scale = scaleSqrt().domain(extent).range(range)
+//   return (spike) => scale(selector(spike))
+// }
 
 /**
  * Returns a color value, or a color function if an array of values is passed
@@ -107,7 +119,15 @@ const SpikeLayer = ({
             coordinates={coords}
             className={classes.marker}
           >
-            <Spike
+            <circle
+              r={3.5}
+              strokeWidth={1}
+              strokeOpacity={length + 0.2}
+              stroke={stroke}
+              fill={stroke}
+              fillOpacity={length}
+            ></circle>
+            {/* <Spike
               fill={color}
               stroke={stroke}
               length={length}
@@ -115,7 +135,7 @@ const SpikeLayer = ({
               className={clsx(classes.spike, {
                 [classes.highlight]: highlight,
               })}
-            />
+            /> */}
             {label && <text className={classes.text}>{label}</text>}
           </Marker>
         )
