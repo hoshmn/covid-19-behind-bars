@@ -1,11 +1,12 @@
 import React from "react"
 import { Layout } from "gatsby-theme-hyperobjekt-core"
 import { Typography } from "@material-ui/core"
-import NumberStat from "../components/stats/number-stat"
+import NumberStat from "../stats/number-stat"
 import { format } from "d3-format"
-import Stack from "../components/stack"
-import StateMap from "../components/maps/state-map/state-map"
-import { useFacilitiesData } from "../common/hooks"
+import Stack from "../stack"
+import StateMap from "../maps/state-map/state-map"
+import { useFacilitiesData } from "../../common/hooks"
+import FacilitiesMarkerLayer from "../maps/marker-layer/facilities-marker-layer"
 
 const sumTotal = (data, accessor) =>
   data.reduce(
@@ -26,7 +27,9 @@ const StateTemplate = (props) => {
   const staffDeaths = sumTotal(stateData, (d) => d.staff.deaths)
   return (
     <Layout title={state}>
-      <StateMap stateName={state} />
+      <StateMap stateName={state}>
+        <FacilitiesMarkerLayer style={{ pointerEvents: "none" }} />
+      </StateMap>
       <Stack spacing={3}>
         <Typography variant="h2">{state}</Typography>
         <Stack spacing={2}>

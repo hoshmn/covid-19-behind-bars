@@ -72,7 +72,6 @@ const MapLegend = ({ classes, className, ...props }) => {
     const newCategories = isSelected(category)
       ? selectedCategories.filter((c) => c !== category)
       : [category, ...selectedCategories]
-    console.log("new cats", newCategories)
     setSelectedCategories(newCategories)
   }
   return (

@@ -6,6 +6,8 @@ const { parseFacility } = require(`./scripts/parseFacility.js`)
 
 const facilitiesData = `https://raw.githubusercontent.com/uclalawcovid19behindbars/data/master/Adult%20Facility%20Counts/adult_facility_covid_counts_today_latest.csv`
 
+const releasesData = `https://docs.google.com/spreadsheets/d/1X6uJkXXS-O6eePLxw2e4JeRtM41uPZ2eRcOA_HkPVTk/export?gid=1678228533&format=csv`
+
 exports.sourceNodes = async ({
   actions,
   createNodeId,
@@ -26,7 +28,7 @@ exports.sourceNodes = async ({
   })
 }
 
-const StateTemplate = require.resolve(`./src/templates/state-template.js`)
+const StateTemplate = require.resolve(`./src/components/states/states.js`)
 
 function slugify(text) {
   return text

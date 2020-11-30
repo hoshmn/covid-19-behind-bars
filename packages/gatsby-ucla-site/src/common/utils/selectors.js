@@ -1,6 +1,4 @@
 import STATE_CENTERS from "../data/us_state_centers"
-import { scaleLinear, scaleOrdinal } from "d3-scale"
-import { extent } from "d3-array"
 
 export const getUniqueValues = (nodes, selector) => {
   return nodes
@@ -72,40 +70,4 @@ export const getStateCenter = (stateId) => {
 
 export const isNumber = (val) => {
   return Boolean(val) && !isNaN(val)
-}
-
-export const getOpacityScaler = (range, extent, selector) => {
-  if (!selector) throw new Error("requires a selector function")
-  const scale = scaleLinear().domain(extent).range(range)
-  return (data) => scale(selector(data))
-}
-
-/**
- * Returns a size value, or a sizer function if a range array is provided
- * @param {string|Array} range
- * @param {*} extent
- * @param {*} selector
- */
-export const getSizeScaler = (range, extent, selector) => {
-  if (typeof range === "number") return range
-  if (range.length !== 2)
-    throw new Error(
-      "SpikeMap size props must be number or array containing min / max (e.g. [0, 16])"
-    )
-  if (!selector)
-    throw new Error("SpikeMap dynamic sizing requires a selector function")
-  const scale = scaleLinear().domain(extent).range(range)
-  return (data) => scale(selector(data))
-}
-
-/**
- * Returns a color value, or a color function if an array of values is passed
- * @param {string|Array} values
- * @param {*} groups
- * @param {*} selector
- */
-export const getColorScaler = (values, groups, selector) => {
-  if (typeof values === "string") return values
-  const scale = scaleOrdinal(values).domain(groups)
-  return (spike) => scale(selector(spike))
 }

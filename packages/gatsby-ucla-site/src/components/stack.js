@@ -90,7 +90,6 @@ const Stack = ({
   const mq = breakpoint ? theme.breakpoints.up(breakpoint) : "(max-width:1px)"
   const isHorizontal = useMediaQuery(mq)
   const { root } = useStyles({ spacing, isHorizontal, align, justify })
-  console.log(isHorizontal)
   const className = clsx(
     root,
     {

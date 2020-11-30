@@ -86,7 +86,7 @@ const HomeTable = ({ classes, ...props }) => {
                 {prop.value}
               </Typography>
               <Typography variant="body2" color="textSecondary">
-                {prop.row.original.State}
+                {prop.row.original.state}
               </Typography>
             </>
           )

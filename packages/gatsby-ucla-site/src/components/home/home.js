@@ -8,6 +8,7 @@ import Table from "./table"
 import CdcLogo from "../../../content/assets/cdc-logo.svg"
 import VitalProjectsFundLogo from "../../../content/assets/vital-projects-fund-logo.svg"
 import ArnoldVenturesLogo from "../../../content/assets/arnold-ventures-logo.svg"
+import MapTooltip from "./map-tooltip"
 
 export const query = graphql`
   query($pathSlug: String!) {
@@ -64,6 +65,7 @@ const HomeTemplate = ({
         body={content.intro.body}
       />
       <SpikeMap />
+      <MapTooltip />
       <Table />
       {/* <Block type="fullWidth" style={{ background: "#fff" }}>
         <Container maxWidth="lg">

@@ -1,9 +1,9 @@
 import React, { memo } from "react"
 import { SvgMap, HoverShape, StateLayer } from "@hyperobjekt/svg-maps"
-import FacilitiesSpikeHighlight from "../spike-layer/facilities-spike-highlight"
 import MapGradients from "../map-gradients"
-import FacilitiesSpikeLayer from "../spike-layer/facilities-spike-layer"
+import FacilitiesMarkerLayer from "../marker-layer/facilities-marker-layer"
 import { useShapeStyles } from "../styles"
+// import FacilitiesSpikeHighlight from "../spike-layer/facilities-spike-highlight"
 
 const NationalMap = memo(({ children, onSelect, ...props }) => {
   const shapeClasses = useShapeStyles()
@@ -17,7 +17,7 @@ const NationalMap = memo(({ children, onSelect, ...props }) => {
         interactive
       />
       <HoverShape className={shapeClasses.shapeHighlight} />
-      <FacilitiesSpikeLayer style={{ pointerEvents: "none" }} />
+      <FacilitiesMarkerLayer style={{ pointerEvents: "none" }} />
       {/* <FacilitiesSpikeHighlight /> */}
       {children}
     </SvgMap>
