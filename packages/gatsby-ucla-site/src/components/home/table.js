@@ -2,7 +2,7 @@ import React from "react"
 import { Table } from "../table"
 import { format } from "d3-format"
 import { Container, Typography, withStyles } from "@material-ui/core"
-import { useSpikeData } from "../../common/hooks"
+import { useMappableFacilities } from "../../common/hooks"
 import { Block } from "gatsby-theme-hyperobjekt-core"
 import {
   serifTypography,
@@ -73,7 +73,7 @@ const rateFormatter = (value) =>
     : perFormatter(value / (value + value * Math.random()))
 
 const HomeTable = ({ classes, ...props }) => {
-  const spikes = useSpikeData()
+  const data = useMappableFacilities()
   const columns = React.useMemo(
     () => [
       {
@@ -180,7 +180,7 @@ const HomeTable = ({ classes, ...props }) => {
         </Typography>
         <Table
           className={classes.table}
-          data={spikes}
+          data={data}
           columns={columns}
           options={options}
         ></Table>

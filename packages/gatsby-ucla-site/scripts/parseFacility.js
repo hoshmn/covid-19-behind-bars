@@ -100,6 +100,7 @@ exports.parseFacility = (facility = {}) => {
     "released",
     "recovered",
   ]
+  const residentRates = ["confirmed", "deaths", "active"]
   const staffKeys = ["confirmed", "deaths", "active", "recovered"]
 
   const result = {}
@@ -120,6 +121,13 @@ exports.parseFacility = (facility = {}) => {
     obj[key] = parseInt(source.residents[key])
     return obj
   }, {})
+
+  // add rates
+  residentRates.forEach((rateType) => {
+    result.residents[rateType + "_rate"] = result.residents.population
+      ? result.residents[rateType] / result.residents.population
+      : null
+  })
 
   // parse staff data
   result.staff = staffKeys.reduce((obj, key) => {

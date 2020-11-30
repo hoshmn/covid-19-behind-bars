@@ -4,6 +4,7 @@ import { Typography } from "@material-ui/core"
 import NumberStat from "../stats/number-stat"
 import { format } from "d3-format"
 import Stack from "../stack"
+import MapGradients from "../maps/map-gradients"
 import StateMap from "../maps/state-map/state-map"
 import { useFacilitiesData } from "../../common/hooks"
 import FacilitiesMarkerLayer from "../maps/marker-layer/facilities-marker-layer"
@@ -20,6 +21,7 @@ const numFormat = format(",d")
 const StateTemplate = (props) => {
   const { state } = props.pageContext
   const data = useFacilitiesData()
+  const mapFilter = (f) => f.state === state
   const stateData = data.nodes.filter((d) => d.state === state)
   const cases = sumTotal(stateData, (d) => d.residents.confirmed)
   const deaths = sumTotal(stateData, (d) => d.residents.deaths)
@@ -28,7 +30,11 @@ const StateTemplate = (props) => {
   return (
     <Layout title={state}>
       <StateMap stateName={state}>
-        <FacilitiesMarkerLayer style={{ pointerEvents: "none" }} />
+        <MapGradients />
+        <FacilitiesMarkerLayer
+          filter={mapFilter}
+          style={{ pointerEvents: "none" }}
+        />
       </StateMap>
       <Stack spacing={3}>
         <Typography variant="h2">{state}</Typography>

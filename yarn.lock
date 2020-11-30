@@ -14565,6 +14565,11 @@ react-scroll@^1.8.1:
     lodash.throttle "^4.1.1"
     prop-types "^15.7.2"
 
+react-scrollama@^2.2.13:
+  version "2.2.13"
+  resolved "https://registry.yarnpkg.com/react-scrollama/-/react-scrollama-2.2.13.tgz#87079704c930e4ecdaaf37641a61c7bb2d7aa644"
+  integrity sha512-mndwFqgD4NmqCiDOY2K6OBXf3SyMNE3mdEW1DHDdYxM8FBUVcCURJHloml3l/IZzb7cLwemkAAKSGoSvMXiOHw==
+
 react-select@^2.4.2, react-select@^2.4.3:
   version "2.4.4"
   resolved "https://registry.yarnpkg.com/react-select/-/react-select-2.4.4.tgz#ba72468ef1060c7d46fbb862b0748f96491f1f73"

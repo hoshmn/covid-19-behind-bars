@@ -1,10 +1,10 @@
 import { useMapHovered } from "@hyperobjekt/svg-maps"
 import { useMemo } from "react"
-import useSpikeData from "./use-spike-data"
+import useMappableFacilities from "./use-mappable-facilities"
 
 export default function useHoveredFacilities() {
   const [hovered] = useMapHovered()
-  const spikes = useSpikeData()
+  const spikes = useMappableFacilities()
   return useMemo(() => {
     return hovered
       ? spikes.filter((d) => d.state === hovered.properties.name)

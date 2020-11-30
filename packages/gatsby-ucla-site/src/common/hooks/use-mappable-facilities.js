@@ -3,7 +3,7 @@ import useOptionsStore from "./use-options-store"
 import useFacilitiesData from "./use-facilities-data"
 import { typeSelector } from "../utils"
 import { isNumber } from "../utils/selectors"
-export default function useSpikeData() {
+export default function useMappableFacilities() {
   const { nodes } = useFacilitiesData()
   const selectedCategories = useOptionsStore(
     (state) => state.selectedCategories

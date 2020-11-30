@@ -23,6 +23,7 @@
     "netlify-cms-app": "^2.13.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-scrollama": "^2.2.13",
     "react-simple-maps": "^2.3.0",
     "react-spring": "^8.0.27",
     "react-table": "^7.6.2",

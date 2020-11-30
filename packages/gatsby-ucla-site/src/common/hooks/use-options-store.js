@@ -1,11 +1,12 @@
 import create from "zustand"
+import { METRICS, JURISDICTIONS, JURISDICTION_COLORS } from "../constants"
 
 const useOptionsStore = create((set) => ({
-  metric: "confirmed",
-  metrics: ["confirmed", "deaths"],
-  categories: ["state", "federal", "county"],
-  selectedCategories: ["state", "federal", "county"],
-  categoryColors: ["#CA7F26", "#6BA084", "#758EAC"],
+  metric: METRICS[0],
+  metrics: METRICS,
+  categories: JURISDICTIONS,
+  selectedCategories: JURISDICTIONS,
+  categoryColors: JURISDICTION_COLORS,
   setMetric: (metric) => set({ metric }),
   setMetrics: (options) => set({ options }),
   setCategories: (categories) => set({ categories }),
