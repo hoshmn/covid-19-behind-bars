@@ -1,3 +1,4 @@
+import { JURISDICTIONS, KEYS, METRICS } from "../constants"
 import STATE_CENTERS from "../data/us_state_centers"
 
 export const getUniqueValues = (nodes, selector) => {
@@ -69,5 +70,76 @@ export const getStateCenter = (stateId) => {
 }
 
 export const isNumber = (val) => {
-  return Boolean(val) && !isNaN(val)
+  return (Boolean(val) || val === 0) && !isNaN(val)
+}
+
+export const getData = (data, ...keyTree) => {
+  let d = data
+  for (let i = 0; i < keyTree.length; i++) {
+    const key = KEYS[keyTree[i]] || keyTree[i]
+    if (d[key] || d[key] === 0) {
+      if (i === keyTree.length - 1) {
+        // last key in the tree, return the data
+        return d[key]
+      } else {
+        // not at the end of the key tree yet, update data and loop again
+        d = d[key]
+      }
+    } else {
+      // no value for given key tree
+      return null
+    }
+  }
+}
+
+/**
+ * Returns the sum, avg, and the number of items with valid values for a given accessor
+ * @param {object} data
+ * @param {function} accessor
+ * @returns {Array} [sum, avg, count]
+ */
+export const getSumAvgCount = (data, accessor) => {
+  let count = 0
+  const sum = data.reduce((value, current) => {
+    const val =
+      typeof accessor === "string" ? current[accessor] : accessor(current)
+    if (isNumber(val)) {
+      value += val
+      count += 1
+    }
+    return value
+  }, 0)
+  const avg = sum / count
+  return [count === 0 ? null : sum, isNumber(avg) ? avg : null, count]
+}
+
+/**
+ * Groups the provided data by jurisdiction
+ * @param {*} data
+ */
+export const getDataByJurisdiction = (data) => {
+  // create object with data bt jurisdiction
+  const jurData = JURISDICTIONS.reduce((obj, curr, i) => {
+    obj[curr] = data.filter((d) => getData(d, "jurisdiction") === curr)
+    return obj
+  }, {})
+  // get data groups (residents, staff)
+  const groups = Object.keys(METRICS)
+  // get group metrics by jurisdiction
+  return groups.reduce((d, group) => {
+    d[group] = METRICS[group].reduce((obj, metric) => {
+      // add data for each jurisdiction
+      JURISDICTIONS.forEach((j) => {
+        const key = [j, metric].join("_")
+        obj[key] = getSumAvgCount(jurData[j], (jd) =>
+          getData(jd, group, metric)
+        )
+      })
+      // add totals
+      const key = ["total", metric].join("_")
+      obj[key] = getSumAvgCount(data, (sd) => getData(sd, group, metric))
+      return obj
+    }, {})
+    return d
+  }, {})
 }

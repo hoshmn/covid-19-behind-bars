@@ -1,0 +1,20 @@
+{
+  "residents": "Incarcerated People",
+  "staff": "Staff",
+  "confirmed": "Cumulative Cases",
+  "confirmed_rate": "Cumulative Case Rate",
+  "confirmed_label": "Cases",
+  "deaths": "Cumulative Deaths",
+  "deaths_rate": "Death Rate",
+  "deaths_label": "Deaths",
+  "active": "Active Cases",
+  "active_rate": "Active Case Rate",
+  "active_label": "Active Cases",
+  "tests": "Tests",
+  "tests_rate": "Test Rate",
+  "state": "State Facilities",
+  "federal": "Federal Facilities",
+  "county": "County Jails",
+  "state_summary_title": "Summary",
+  "unavailable": "Unavailable"
+}
