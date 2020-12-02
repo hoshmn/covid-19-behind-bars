@@ -22,7 +22,7 @@ const styles = (theme) => ({
     },
   },
   mapTitle: {
-    fontSize: theme.typography.pxToRem(20),
+    fontSize: theme.typography.pxToRem(21),
     "& span": {
       color: theme.palette.secondary.main,
       borderBottom: `3px dotted #555526`,

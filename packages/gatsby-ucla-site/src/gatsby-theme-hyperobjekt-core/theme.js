@@ -128,12 +128,21 @@ const CovidTheme = () => {
         h5: headingStyles,
         h6: headingStyles,
         body1: {
+          fontSize: theme.typography.pxToRem(14),
           [theme.breakpoints.up("lg")]: {
             fontSize: theme.typography.pxToRem(16),
           },
         },
         body2: {
           ...sansSerifyTypography,
+        },
+      },
+      MuiListItem: {
+        root: {
+          fontSize: theme.typography.pxToRem(14),
+          [theme.breakpoints.up("lg")]: {
+            fontSize: theme.typography.pxToRem(16),
+          },
         },
       },
       MuiInputBase: {
