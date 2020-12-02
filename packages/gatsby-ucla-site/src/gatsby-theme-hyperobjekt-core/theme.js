@@ -28,7 +28,8 @@ const base = {
     borderRadius: 0,
   },
   typography: {
-    fontFamily: "neue-haas-grotesk-display, sans-serif",
+    fontFamily: "plantin, sans-serif",
+    fontSize: 18,
   },
   shadows: [
     "none",
@@ -71,18 +72,23 @@ const base = {
   },
 }
 
+export const sansSerifyTypography = {
+  fontFamily: "neue-haas-grotesk-display, sans-serif",
+  textTransform: "none",
+}
+
 export const serifTypography = {
-  fontFamily: "plantin, sans-serif",
+  fontFamily: "plantin, serif",
   textTransform: "none",
 }
 export const titleTypography = {
-  fontFamily: `"Champion Heavywt A", "Champion Heavywt B"`,
+  fontFamily: `"Champion Heavywt A", "Champion Heavywt B", sans-serif`,
   fontStyle: "normal",
   fontWeight: 400,
   textTransform: "uppercase",
 }
 export const subtitleTypography = {
-  fontFamily: `"Champion Featherwt A", "Champion Featherwt B"`,
+  fontFamily: `"Champion Featherwt A", "Champion Featherwt B", sans-serif`,
   fontStyle: "normal",
   fontWeight: 400,
   textTransform: "uppercase",
@@ -121,18 +127,26 @@ const CovidTheme = () => {
         h4: headingStyles,
         h5: headingStyles,
         h6: headingStyles,
+        body1: {
+          [theme.breakpoints.up("lg")]: {
+            fontSize: theme.typography.pxToRem(16),
+          },
+        },
+        body2: {
+          ...sansSerifyTypography,
+        },
       },
       MuiInputBase: {
         input: {
           padding: `10px 0 9px`,
-          fontSize: theme.typography.pxToRem(15),
+          fontSize: theme.typography.pxToRem(14),
           letterSpacing: "0.03em",
-          ...serifTypography,
+          ...sansSerifyTypography,
         },
       },
       MuiButton: {
         root: {
-          ...serifTypography,
+          ...sansSerifyTypography,
           background: "transparent",
           border: "1px solid",
           borderColor: "#92926C",
@@ -186,7 +200,7 @@ const CovidTheme = () => {
       HypNavigation: {
         link: {
           fontFamily: "plantin, sans-serif",
-          fontSize: theme.typography.pxToRem(13),
+          fontSize: theme.typography.pxToRem(16),
         },
       },
       /** Content area style overrides */

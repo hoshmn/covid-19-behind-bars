@@ -6,10 +6,12 @@ import {
   FormControlLabel,
   FormGroup,
   Paper,
+  Typography,
   withStyles,
 } from "@material-ui/core"
 import shallow from "zustand/shallow"
 import { useOptionsStore } from "../../common/hooks"
+import { sansSerifyTypography } from "../../gatsby-theme-hyperobjekt-core/theme"
 
 const styles = (theme) => ({
   root: {
@@ -20,7 +22,7 @@ const styles = (theme) => ({
     marginBottom: theme.spacing(1),
   },
   group: {
-    flexDirection: "row",
+    flexDirection: "column",
   },
   formControl: {
     marginLeft: 0,
@@ -47,7 +49,9 @@ const LegendLabel = ({ color, checked, children, ...props }) => {
           marginRight: 8,
         }}
       ></span>
-      <span>{children}</span>
+      <Typography variant="body2" style={{ ...sansSerifyTypography }}>
+        {children}
+      </Typography>
     </div>
   )
 }

@@ -44,7 +44,7 @@ const styles = (theme) => ({
     transition: `transform 400ms ${theme.transitions.easing.easeInOut}, opacity 400ms ${theme.transitions.easing.easeInOut}`,
     opacity: 0,
     display: "block",
-    height: 248,
+    height: theme.typography.pxToRem(216),
     padding: theme.spacing(4, 0),
     boxShadow: theme.shadows[1],
     "& .SubMenu-list": {

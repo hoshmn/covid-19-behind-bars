@@ -8,7 +8,7 @@ export const styles = (theme) => ({
     ...titleTypography,
     fontSize: theme.typography.pxToRem(26),
     color: "#656647",
-    maxWidth: "20rem",
+    maxWidth: "26rem",
     marginBottom: theme.spacing(1),
   },
   textField: {

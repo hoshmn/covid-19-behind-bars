@@ -5,6 +5,7 @@ import { Container, Typography, withStyles } from "@material-ui/core"
 import { useMappableFacilities } from "../../common/hooks"
 import { Block } from "gatsby-theme-hyperobjekt-core"
 import {
+  sansSerifyTypography,
   serifTypography,
   titleTypography,
 } from "../../gatsby-theme-hyperobjekt-core/theme"
@@ -36,7 +37,9 @@ const styles = (theme) => ({
   table: {
     "& .MuiTableCell-head": {
       position: "relative",
-      ...serifTypography,
+      ...sansSerifyTypography,
+      fontWeight: 700,
+      lineHeight: 1.2,
       overflow: "hidden",
     },
     "& .MuiTableCell-head .MuiTableSortLabel-root": {
