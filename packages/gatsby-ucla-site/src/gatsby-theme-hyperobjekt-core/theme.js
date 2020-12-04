@@ -24,12 +24,12 @@ const base = {
       secondary: "#555526",
     },
   },
+  spacing: (factor) => `${0.5 * factor}rem`,
   shape: {
     borderRadius: 0,
   },
   typography: {
-    fontFamily: "plantin, sans-serif",
-    fontSize: 18,
+    fontFamily: "neue-haas-grotesk-display, sans-serif",
   },
   shadows: [
     "none",
@@ -88,7 +88,7 @@ export const titleTypography = {
   textTransform: "uppercase",
 }
 export const subtitleTypography = {
-  fontFamily: `"Champion Featherwt A", "Champion Featherwt B", sans-serif`,
+  fontFamily: `"Champion Bantamwt A", "Champion Bantamwt B", sans-serif`,
   fontStyle: "normal",
   fontWeight: 400,
   textTransform: "uppercase",
@@ -111,6 +111,13 @@ const CovidTheme = () => {
       /** Site wide global style overrides */
       MuiCssBaseline: {
         "@global": {
+          // remove overflow from html to prevent shift on menu open
+          html: {
+            overflowX: "visible",
+            [theme.breakpoints.up("lg")]: {
+              fontSize: 20,
+            },
+          },
           // update padding and font on <code> elements
           code: {
             padding: `2px ${theme.spacing(1)}px`,
@@ -128,17 +135,12 @@ const CovidTheme = () => {
         h5: headingStyles,
         h6: headingStyles,
         body1: {
-          fontSize: theme.typography.pxToRem(14),
-          [theme.breakpoints.up("lg")]: {
-            fontSize: theme.typography.pxToRem(16),
-          },
+          ...serifTypography,
+          letterSpacing: `0.01em`,
         },
         body2: {
           ...sansSerifyTypography,
-          fontSize: theme.typography.pxToRem(12),
-          [theme.breakpoints.up("lg")]: {
-            fontSize: theme.typography.pxToRem(14),
-          },
+          letterSpacing: `0.01em`,
         },
       },
       MuiListItem: {
@@ -167,7 +169,7 @@ const CovidTheme = () => {
           fontSize: theme.typography.pxToRem(15),
           letterSpacing: "0.03em",
           "&$text": {
-            padding: `${theme.spacing(0.5)}px ${theme.spacing(3)}px`,
+            padding: theme.spacing(0.5, 3),
           },
         },
       },

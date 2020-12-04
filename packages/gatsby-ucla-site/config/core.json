@@ -11,17 +11,17 @@
     "displaySiteTitleMobile": false,
     "mobileMenuBreakpoint": 768,
     "displaySiteLogo": false,
-    "headerHeight": 56,
+    "headerHeight": "3.5rem",
     "displaySiteLogoMobile": false,
     "shrinkOffset": -32,
     "useStickyHeader": true,
     "useShrinkHeader": false,
-    "shrinkHeaderHeight": 56
+    "shrinkHeaderHeight": "3.5rem"
   },
   "remarkImagesWidth": 1440,
   "responsiveFontSizes": {
     "breakpoints": ["sm", "md", "lg", "xl"],
-    "factor": 2
+    "factor": 1
   },
   "assetPath": "content/assets",
   "contentMaxWidth": 768,

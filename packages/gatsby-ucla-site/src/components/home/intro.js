@@ -13,13 +13,13 @@ const styles = (theme) => ({
   },
   title: {
     ...titleTypography,
-    fontSize: theme.typography.pxToRem(38),
+    fontSize: theme.typography.pxToRem(44),
     maxWidth: "16em",
     marginTop: 0,
   },
   subtitle: {
     ...subtitleTypography,
-    fontSize: theme.typography.pxToRem(36),
+    fontSize: theme.typography.pxToRem(55),
     color: theme.palette.secondary.main,
     marginTop: 0,
   },
@@ -34,11 +34,11 @@ const Intro = ({ classes, className, title, subtitle, body, ...props }) => {
       <ResponsiveContainer>
         <Grid container justify="center" spacing={3}>
           <Grid item xs={12}>
-            <Typography className={classes.title} variant="h2">
-              {title}
-            </Typography>
             <Typography className={classes.subtitle} variant="h2">
               {subtitle}
+            </Typography>
+            <Typography className={classes.title} variant="h2">
+              {title}
             </Typography>
           </Grid>
           <Grid item xs={12}>

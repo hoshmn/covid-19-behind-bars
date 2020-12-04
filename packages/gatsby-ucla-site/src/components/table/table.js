@@ -30,7 +30,7 @@ const Table = ({ columns, data, skipPageReset, options, ...props }) => {
     setPageSize,
     preGlobalFilteredRows,
     setGlobalFilter,
-    state: { pageIndex, pageSize, selectedRowIds, globalFilter },
+    state: { pageIndex, pageSize, globalFilter },
   } = useTable(
     {
       columns,
@@ -55,7 +55,6 @@ const Table = ({ columns, data, skipPageReset, options, ...props }) => {
   return (
     <>
       <TableToolbar
-        numSelected={Object.keys(selectedRowIds).length}
         preGlobalFilteredRows={preGlobalFilteredRows}
         setGlobalFilter={setGlobalFilter}
         globalFilter={globalFilter}

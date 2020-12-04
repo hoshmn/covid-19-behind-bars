@@ -24,9 +24,14 @@ export const query = graphql`
 
 const content = {
   intro: {
-    title: "COVID-19 in American Jails and Prisons:",
-    subtitle: "Cumulative Cases, Active Cases, and Deaths",
-    body: `The UCLA COVID-19 Behind Bars Data Project tracks the spread and impact of COVID-19 in American carceral facilities and pushes for greater transparency and accountability around the pandemic response of the carceral system.`,
+    title: "COVID-19 behind bars data project",
+    subtitle: "UCLA Law",
+    body: `We are tracking the spread and impact of Covid-19 in American carceral facilities and pushing for greater transparency and accountability around the pandemic response of the carceral system.`,
+  },
+  map: {
+    title: "Showing ${metric} in American carceral facilities",
+    description:
+      "Each spike represents the number of cases in a facility, select a state for more details",
   },
   sponsors: {
     title: "Our generous supporters include:",
@@ -64,7 +69,10 @@ const HomeTemplate = ({
         subtitle={content.intro.subtitle}
         body={content.intro.body}
       />
-      <SpikeMap />
+      <SpikeMap
+        title={content.map.title}
+        description={content.map.description}
+      />
       <MapTooltip />
       <Table />
       {/* <Block type="fullWidth" style={{ background: "#fff" }}>

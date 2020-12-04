@@ -27,8 +27,8 @@ const useStyles = makeStyles((theme) => ({
   visual: {
     position: "sticky",
     top: theme.layout.headerHeight,
-    maxWidth: `calc(100% - 420px)`,
-    height: `calc(100vh - ${theme.layout.headerHeight}px)`,
+    maxWidth: `calc(100% - 26.25rem)`,
+    height: `calc(100vh - ${theme.layout.headerHeight})`,
     marginLeft: "auto",
     transform: `translateX(5%)`,
     display: "flex",
@@ -37,13 +37,13 @@ const useStyles = makeStyles((theme) => ({
     "& svg": { flex: 1 },
   },
   section: {
-    minHeight: `calc(100vh - ${theme.layout.headerHeight}px)`,
+    minHeight: `calc(100vh - ${theme.layout.headerHeight})`,
     justifyContent: "center",
   },
   content: {
-    marginTop: `calc(-100vh + ${theme.layout.headerHeight}px)`,
+    marginTop: `calc(-100vh + ${theme.layout.headerHeight})`,
     position: "relative",
-    maxWidth: 420,
+    maxWidth: "26.25rem",
   },
 }))
 

@@ -2,7 +2,7 @@ import React from "react"
 import { Table } from "../table"
 import { format } from "d3-format"
 import { Typography, withStyles } from "@material-ui/core"
-import { useMappableFacilities } from "../../common/hooks"
+import { useMappableFacilities, useOptionsStore } from "../../common/hooks"
 import { Block } from "gatsby-theme-hyperobjekt-core"
 import {
   sansSerifyTypography,
@@ -10,6 +10,8 @@ import {
 } from "../../gatsby-theme-hyperobjekt-core/theme"
 import ResponsiveContainer from "../responsive-container"
 import { isNumber } from "../../common/utils/selectors"
+import shallow from "zustand/shallow"
+import { getLang } from "../../common/utils/i18n"
 
 const styles = (theme) => ({
   root: {
@@ -26,6 +28,7 @@ const styles = (theme) => ({
   },
   name: {
     fontSize: theme.typography.pxToRem(14),
+    fontWeight: 600,
     whiteSpace: "nowrap",
     textOverflow: "ellipsis",
     overflow: "hidden",
@@ -71,17 +74,15 @@ const intFormatter = format(",d")
 const perFormatter = format(".0%")
 
 const countFormatter = (value) =>
-  !isNumber(value) ? "Unavailable" : intFormatter(value)
+  !isNumber(value) ? "--" : intFormatter(value)
 
-const activeFormatter = (value) =>
-  !isNumber(value) ? "Unavailable" : intFormatter(value * Math.random())
-
-const rateFormatter = (value) =>
-  !isNumber(value)
-    ? "Unavailable"
-    : perFormatter(value / (value + value * Math.random()))
+const rateFormatter = (value) => (!isNumber(value) ? "--" : perFormatter(value))
 
 const HomeTable = ({ classes, ...props }) => {
+  const [metric, setMetric] = useOptionsStore(
+    (state) => [state.metric, state.setMetric],
+    shallow
+  )
   const data = useMappableFacilities()
   const columns = React.useMemo(
     () => [
@@ -105,8 +106,8 @@ const HomeTable = ({ classes, ...props }) => {
         },
       },
       {
-        id: "cases",
-        Header: "Total Cases",
+        id: "confirmed",
+        Header: getLang("confirmed"),
         accessor: "residents.confirmed",
         Cell: (prop) => countFormatter(prop.value),
         style: {
@@ -116,9 +117,9 @@ const HomeTable = ({ classes, ...props }) => {
         },
       },
       {
-        id: "infected",
-        Header: "Total % Infected",
-        accessor: "residents.confirmed",
+        id: "confirmed_rate",
+        Header: getLang("confirmed_rate"),
+        accessor: "residents.confirmed_rate",
         Cell: (prop) => rateFormatter(prop.value),
         style: {
           width: 158,
@@ -127,10 +128,10 @@ const HomeTable = ({ classes, ...props }) => {
         },
       },
       {
-        id: "activeCases",
-        Header: "Active Cases",
-        accessor: "residents.confirmed",
-        Cell: (prop) => activeFormatter(prop.value),
+        id: "active",
+        Header: getLang("active"),
+        accessor: "residents.active",
+        Cell: (prop) => countFormatter(prop.value),
         style: {
           width: 136,
           maxWidth: 136,
@@ -138,9 +139,9 @@ const HomeTable = ({ classes, ...props }) => {
         },
       },
       {
-        id: "activeInfected",
-        Header: "Active % Infected",
-        accessor: "residents.confirmed",
+        id: "active_rate",
+        Header: getLang("active_rate"),
+        accessor: "residents.active_rate",
         Cell: (prop) => rateFormatter(prop.value),
         style: {
           width: 156,
@@ -149,7 +150,8 @@ const HomeTable = ({ classes, ...props }) => {
         },
       },
       {
-        Header: "Deaths",
+        id: "deaths",
+        Header: getLang("deaths"),
         accessor: "residents.deaths",
         Cell: (prop) => countFormatter(prop.value),
         style: {
@@ -159,9 +161,9 @@ const HomeTable = ({ classes, ...props }) => {
         },
       },
       {
-        id: "deathRate",
-        Header: "% Resident Deaths",
-        accessor: "residents.deaths",
+        id: "deaths_rate",
+        Header: getLang("deaths_rate"),
+        accessor: "residents.deaths_rate",
         Cell: (prop) => rateFormatter(prop.value),
         style: {
           width: 156,
@@ -176,7 +178,7 @@ const HomeTable = ({ classes, ...props }) => {
     () => ({
       initialState: {
         pageSize: 5,
-        sortBy: [{ id: "residents.confirmed", desc: true }],
+        sortBy: [{ id: metric, desc: true }],
       },
     }),
     []
@@ -185,7 +187,7 @@ const HomeTable = ({ classes, ...props }) => {
     <Block type="fullWidth" className={classes.root}>
       <ResponsiveContainer>
         <Typography className={classes.title} variant="h3">
-          Facilities with the <span>highest</span> counts
+          Facilities with the <span>highest</span> {getLang(metric)}
         </Typography>
         <Table
           className={classes.table}
