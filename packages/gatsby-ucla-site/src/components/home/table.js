@@ -1,12 +1,11 @@
 import React from "react"
 import { Table } from "../table"
 import { format } from "d3-format"
-import { Container, Typography, withStyles } from "@material-ui/core"
+import { Typography, withStyles } from "@material-ui/core"
 import { useMappableFacilities } from "../../common/hooks"
 import { Block } from "gatsby-theme-hyperobjekt-core"
 import {
   sansSerifyTypography,
-  serifTypography,
   titleTypography,
 } from "../../gatsby-theme-hyperobjekt-core/theme"
 import ResponsiveContainer from "../responsive-container"
@@ -26,6 +25,7 @@ const styles = (theme) => ({
     },
   },
   name: {
+    fontSize: theme.typography.pxToRem(14),
     whiteSpace: "nowrap",
     textOverflow: "ellipsis",
     overflow: "hidden",
@@ -35,6 +35,12 @@ const styles = (theme) => ({
     },
   },
   table: {
+    "& .MuiTableCell-root": {
+      ...sansSerifyTypography,
+    },
+    "& .MuiTypography-root": {
+      ...sansSerifyTypography,
+    },
     "& .MuiTableCell-head": {
       position: "relative",
       ...sansSerifyTypography,
@@ -164,7 +170,7 @@ const HomeTable = ({ classes, ...props }) => {
         },
       },
     ],
-    []
+    [classes.name]
   )
   const options = React.useMemo(
     () => ({

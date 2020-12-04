@@ -135,6 +135,10 @@ const CovidTheme = () => {
         },
         body2: {
           ...sansSerifyTypography,
+          fontSize: theme.typography.pxToRem(12),
+          [theme.breakpoints.up("lg")]: {
+            fontSize: theme.typography.pxToRem(14),
+          },
         },
       },
       MuiListItem: {

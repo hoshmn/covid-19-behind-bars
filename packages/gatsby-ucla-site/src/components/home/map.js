@@ -3,10 +3,9 @@ import clsx from "clsx"
 import PropTypes from "prop-types"
 import { Typography, withStyles } from "@material-ui/core"
 import { Block } from "gatsby-theme-hyperobjekt-core"
-import { NationalMap, MapLegend, MapMetricControl } from "../maps"
+import { NationalMap, MapLegend } from "../maps"
 import { navigate } from "gatsby"
 import { useMapStore } from "@hyperobjekt/svg-maps"
-import { getLang } from "../../common/utils/i18n"
 import ResponsiveContainer from "../responsive-container"
 import Stack from "../stack"
 const styles = (theme) => ({
@@ -26,6 +25,7 @@ const styles = (theme) => ({
     "& span": {
       color: theme.palette.secondary.main,
       borderBottom: `3px dotted #555526`,
+      fontWeight: 700,
     },
   },
   mapDescription: {

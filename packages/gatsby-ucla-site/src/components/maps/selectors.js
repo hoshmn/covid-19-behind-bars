@@ -1,5 +1,4 @@
 import { scaleLinear, scaleOrdinal } from "d3-scale"
-import { extent } from "d3-array"
 
 /**
  * Returns a size value, or a sizer function if a range array is provided

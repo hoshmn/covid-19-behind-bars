@@ -1,5 +1,5 @@
 import React from "react"
-import { Container, Grid, Typography, withStyles } from "@material-ui/core"
+import { Grid, Typography, withStyles } from "@material-ui/core"
 import { Block } from "gatsby-theme-hyperobjekt-core"
 import {
   subtitleTypography,

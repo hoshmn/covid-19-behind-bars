@@ -2,7 +2,6 @@ import React from "react"
 import { Table } from "../table"
 import { format } from "d3-format"
 import { Typography, withStyles } from "@material-ui/core"
-import { useMappableFacilities } from "../../common/hooks"
 import {
   serifTypography,
   titleTypography,
@@ -93,7 +92,7 @@ const HomeTable = ({ classes, ...props }) => {
         },
       },
     ],
-    []
+    [classes.name]
   )
   const options = React.useMemo(
     () => ({

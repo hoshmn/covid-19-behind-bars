@@ -1,11 +1,11 @@
 import React from "react"
+import { graphql } from "gatsby"
 import { Block, Layout } from "gatsby-theme-hyperobjekt-core"
 import { Grid, makeStyles, Typography } from "@material-ui/core"
 import Stack from "../stack"
 import MapGradients from "../maps/map-gradients"
 import StateMap from "../maps/state-map/state-map"
 import FacilitiesMarkerLayer from "../maps/marker-layer/facilities-marker-layer"
-import useStateData from "./use-state-data"
 
 import GroupStats from "./group_stats"
 import ResponsiveContainer from "../responsive-container"
@@ -13,6 +13,7 @@ import Table from "./facilities-table"
 import NumberStat from "../stats/number-stat"
 
 import HealthJustice from "../../../content/assets/health-justice-logo.png"
+import { getDataByJurisdiction } from "../../common/utils/selectors"
 
 // const sumTotal = (data, accessor) =>
 //   data.reduce(
@@ -46,11 +47,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const StateTemplate = (props) => {
-  const { state } = props.pageContext
-  const { all, summary } = useStateData(state)
+const StateTemplate = ({ pageContext, data }) => {
+  const { state } = pageContext
   const classes = useStyles()
   const mapFilter = (f) => f.state === state
+  const all = data.allFacilities.edges.map((d) => d.node)
+  const summary = getDataByJurisdiction(all)
 
   return (
     <Layout title={state}>
@@ -139,5 +141,121 @@ const StateTemplate = (props) => {
 }
 
 StateTemplate.propTypes = {}
+
+export const query = graphql`
+  query($state: String!) {
+    allFacilities(filter: { state: { eq: $state } }) {
+      edges {
+        node {
+          id
+          name
+          coords
+          city
+          jurisdiction
+          residents {
+            active
+            active_rate
+            confirmed
+            confirmed_rate
+            deaths
+            deaths_rate
+            population
+          }
+          staff {
+            active
+            confirmed
+            deaths
+          }
+          date
+        }
+      }
+    }
+    allFilings(filter: { state: { eq: $state } }) {
+      edges {
+        node {
+          courtCount
+          facilityCount
+          granted
+          total
+        }
+      }
+    }
+    allFundraisers(filter: { state: { eq: $state } }) {
+      edges {
+        node {
+          ongoing
+          goal
+          fundraiser
+          date
+          organization
+          sources
+        }
+      }
+    }
+    allGrassroots(filter: { state: { eq: $state } }) {
+      edges {
+        node {
+          county
+          external_effort
+          facility
+          internal_effort
+          organization
+          releases
+          response
+          sanitary
+          success
+          testing
+          type
+        }
+      }
+    }
+    allImmigrationCases(filter: { state: { eq: $state } }) {
+      edges {
+        node {
+          cases
+          deaths
+          facility
+          fieldOffice
+        }
+      }
+    }
+    allImmigrationFilings(filter: { state: { eq: $state } }) {
+      edges {
+        node {
+          cancer
+          diabetes
+          heart
+          facility
+          lung
+          medication
+          other
+          smoking
+          substance
+        }
+      }
+    }
+    allReleases(filter: { state: { eq: $state } }) {
+      edges {
+        node {
+          facility
+          capacity
+          releases
+          source
+        }
+      }
+    }
+    allYouth(filter: { state: { eq: $state } }) {
+      edges {
+        node {
+          cases_staff
+          cases_youth
+          city
+          county
+          facility
+        }
+      }
+    }
+  }
+`
 
 export default StateTemplate

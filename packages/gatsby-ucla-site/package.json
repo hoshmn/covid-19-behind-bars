@@ -54,6 +54,8 @@
     "url": "https://github.com/Hyperobjekt/covid-19-behind-bars"
   },
   "devDependencies": {
+    "d3-array": "^2.8.0",
+    "d3-dsv": "^2.0.0",
     "node-fetch": "^2.6.1"
   }
 }

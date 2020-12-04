@@ -89,7 +89,7 @@ const groupObjectData = (data) =>
  * Parses a facility object
  * @param {*} facility
  */
-exports.parseFacility = (facility = {}) => {
+const parseFacility = (facility = {}) => {
   const source = groupObjectData(facility)
 
   const residentKeys = [
@@ -136,4 +136,69 @@ exports.parseFacility = (facility = {}) => {
   }, {})
 
   return result
+}
+
+const parseIntComma = (value) => parseInt(value.replace(/,/g, ""))
+const parseFloatComma = (value) => parseFloat(value.replace(/,/g, ""))
+
+const getParser = (type) => {
+  // if it's already a parsing function, return it
+  if (typeof type === "function") return type
+  switch (type) {
+    case "int":
+      return parseIntComma
+    case "float":
+      return parseFloatComma
+    case "string":
+      return (a) => a.trim()
+    default:
+      // do nothing by default
+      return (a) => a
+  }
+}
+
+// checks if b is exact match to a
+const exactMatch = (a, b) => a.toLowerCase() === b.toLowerCase() && a
+
+// checks if b is contained within a
+const roughMatch = (a, b) => a.toLowerCase().indexOf(b.toLowerCase()) > -1 && a
+
+// checks if the regex matches the key
+const regexMatch = (a, b) => {
+  const regex = new RegExp(b)
+  const matches = a.match(regex)
+  return !!matches && a
+}
+
+const getSourceValue = (row, colName, checkMatch = exactMatch) => {
+  const keys = Object.keys(row)
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i]
+    const matchKey = checkMatch(key, colName, row)
+    if (matchKey) return row[matchKey]
+  }
+  console.warn("no match for column: ", colName)
+  console.debug("column names are: ", keys.join("\n"))
+}
+
+const parseMap = (row, colMap) => {
+  const result = {}
+  Object.keys(colMap).forEach((colName) => {
+    const [sourceCol, parser, selector] = colMap[colName]
+    const valueParser = getParser(parser)
+    const rawValue = getSourceValue(row, sourceCol, selector)
+    let parsedValue = valueParser(rawValue)
+    if ((parser === "int" || parser === "float") && isNaN(parsedValue))
+      parsedValue = null
+    result[colName] = parsedValue
+  })
+  return result
+}
+
+module.exports = {
+  parseFacility,
+  parseMap,
+  exactMatch,
+  roughMatch,
+  regexMatch,
 }

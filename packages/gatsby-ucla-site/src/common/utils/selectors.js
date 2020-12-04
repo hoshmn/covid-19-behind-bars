@@ -1,5 +1,5 @@
 import { JURISDICTIONS, KEYS, METRICS } from "../constants"
-import STATE_CENTERS from "../data/us_state_centers"
+import STATE_CENTERS from "../data/us_state_centers.json"
 
 export const getUniqueValues = (nodes, selector) => {
   return nodes

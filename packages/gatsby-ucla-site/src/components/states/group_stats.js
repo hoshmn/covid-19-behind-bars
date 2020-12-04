@@ -1,5 +1,4 @@
 import React from "react"
-import PropTypes from "prop-types"
 import clsx from "clsx"
 import { Typography, withStyles } from "@material-ui/core"
 import { getLang } from "../../common/utils/i18n"
@@ -39,6 +38,7 @@ const groupHasRates = (group) =>
   )
 
 const GroupStats = ({ classes, className, group, groupData, ...props }) => {
+  console.log(group, groupData)
   return (
     <div className={clsx(classes.root, className)} {...props}>
       <Typography className={classes.groupTitle} variant="h4">
@@ -73,7 +73,7 @@ const GroupStats = ({ classes, className, group, groupData, ...props }) => {
                 {groupHasRates(group) && (
                   <NumberStat
                     className={classes.stat}
-                    value={groupData[getKey(jurisdiction, metric, "rate")][0]}
+                    value={groupData[getKey(jurisdiction, metric, "rate")][1]}
                     label={getLang(metric, "rate")}
                     format=".1%"
                   ></NumberStat>
