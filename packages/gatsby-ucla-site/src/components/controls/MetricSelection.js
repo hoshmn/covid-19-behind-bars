@@ -1,7 +1,6 @@
 import { ButtonBase, Menu, MenuItem, withStyles } from "@material-ui/core"
 import React from "react"
 import shallow from "zustand/shallow"
-import clsx from "clsx"
 import { useOptionsStore } from "../../common/hooks"
 import { getLang } from "../../common/utils/i18n"
 import ArrowDown from "@material-ui/icons/ArrowDropDown"
@@ -45,14 +44,14 @@ const MetricSelection = ({ classes, className, ...props }) => {
         className={classes.menu}
         anchorEl={anchorEl}
         keepMounted
+        MenuListProps={{ disablePadding: true }}
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
         {metrics.map((m) => (
           <MenuItem
-            className={clsx(classes.menuItem, {
-              [classes.menuItemActive]: m === metric,
-            })}
+            className={classes.menuItem}
+            selected={m === metric}
             key={m}
             onClick={(e) => handleSelect(m, e)}
           >

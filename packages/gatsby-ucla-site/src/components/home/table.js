@@ -1,29 +1,37 @@
 import React from "react"
 import { Table } from "../table"
 import { format } from "d3-format"
-import { Typography, withStyles } from "@material-ui/core"
+import { fade, Typography, withStyles } from "@material-ui/core"
 import { useMappableFacilities, useOptionsStore } from "../../common/hooks"
 import { Block } from "gatsby-theme-hyperobjekt-core"
 import {
   sansSerifyTypography,
-  titleTypography,
+  serifTypography,
 } from "../../gatsby-theme-hyperobjekt-core/theme"
 import ResponsiveContainer from "../responsive-container"
 import { isNumber } from "../../common/utils/selectors"
 import shallow from "zustand/shallow"
 import { getLang } from "../../common/utils/i18n"
+import MetricSelection from "../controls/MetricSelection"
 
 const styles = (theme) => ({
   root: {
     background: theme.palette.background.paper,
   },
   title: {
-    ...titleTypography,
-    fontSize: theme.typography.pxToRem(38),
-    maxWidth: "14em",
     marginTop: 0,
-    "& span": {
+    // TODO: refactor these styles so they are defined in one place instead of duplicated in home/map.js
+    "& .MuiButtonBase-root": {
+      ...serifTypography,
+      fontWeight: 700,
+      fontSize: theme.typography.pxToRem(26),
       color: theme.palette.secondary.main,
+      textTransform: "lowercase",
+      border: `2px dotted transparent`,
+      borderBottomColor: fade(theme.palette.text.secondary, 0.333),
+      borderRadius: 5,
+      position: "relative",
+      top: "-0.15rem",
     },
   },
   name: {
@@ -181,13 +189,13 @@ const HomeTable = ({ classes, ...props }) => {
         sortBy: [{ id: metric, desc: true }],
       },
     }),
-    []
+    [metric]
   )
   return (
     <Block type="fullWidth" className={classes.root}>
       <ResponsiveContainer>
         <Typography className={classes.title} variant="h3">
-          Facilities with the <span>highest</span> {getLang(metric)}
+          Facilities with the <span>highest</span> <MetricSelection />
         </Typography>
         <Table
           className={classes.table}

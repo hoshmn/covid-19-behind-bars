@@ -5,8 +5,18 @@ import shallow from "zustand/shallow"
 import { typeSelector, getDataMetricSelector } from "../../../common/utils"
 
 const FacilitiesMarkerLayer = memo(({ filter, ...props }) => {
-  const [metric, categories, categoryColors] = useOptionsStore(
-    (state) => [state.metric, state.categories, state.categoryColors],
+  const [
+    metric,
+    categories,
+    categoryColors,
+    categoryGradients,
+  ] = useOptionsStore(
+    (state) => [
+      state.metric,
+      state.categories,
+      state.categoryColors,
+      state.categoryGradients,
+    ],
     shallow
   )
   const facilities = useMappableFacilities()
@@ -18,7 +28,7 @@ const FacilitiesMarkerLayer = memo(({ filter, ...props }) => {
 
   const isDots = props.type && props.type === "dots"
   const size = isDots ? 3.5 : [0, 200]
-  const colors = isDots ? categoryColors : ["url(#g1)", "url(#g2)", "url(#g3)"]
+  const colors = isDots ? categoryColors : categoryGradients
   const dataSelector = useCallback(getDataMetricSelector(metric), [metric])
   return (
     <MarkerLayer

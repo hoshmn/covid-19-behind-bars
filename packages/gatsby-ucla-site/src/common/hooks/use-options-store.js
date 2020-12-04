@@ -1,5 +1,10 @@
 import create from "zustand"
-import { METRICS, JURISDICTIONS, JURISDICTION_COLORS } from "../constants"
+import {
+  METRICS,
+  JURISDICTIONS,
+  JURISDICTION_COLORS,
+  JURISDICTION_GRADIENTS,
+} from "../constants"
 
 // grab first group (residents)
 const metricGroup = Object.keys(METRICS)[0]
@@ -10,6 +15,7 @@ const useOptionsStore = create((set) => ({
   categories: JURISDICTIONS,
   selectedCategories: JURISDICTIONS,
   categoryColors: JURISDICTION_COLORS,
+  categoryGradients: JURISDICTION_GRADIENTS,
   setMetric: (metric) => set({ metric }),
   setMetrics: (options) => set({ options }),
   setCategories: (categories) => set({ categories }),

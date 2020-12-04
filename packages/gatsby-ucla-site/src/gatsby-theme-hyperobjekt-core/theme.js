@@ -1,6 +1,6 @@
 import { createMuiTheme } from "@material-ui/core"
 import { deepmerge } from "@material-ui/utils"
-import { fade as alpha } from "@material-ui/core/styles"
+import { fade as alpha, fade } from "@material-ui/core/styles"
 
 /**
  * Base theme definitions
@@ -22,6 +22,11 @@ const base = {
     text: {
       primary: "#283224",
       secondary: "#555526",
+    },
+    action: {
+      hover: fade("#555526", 0.05),
+      selected: fade("#555526", 0.1),
+      active: fade("#555526", 0.2),
     },
   },
   spacing: (factor) => `${0.5 * factor}rem`,
@@ -118,6 +123,18 @@ const CovidTheme = () => {
               fontSize: 20,
             },
           },
+          a: {
+            "&:not(.MuiLink-root):not(.MuiButtonBase-root)": {
+              color: theme.palette.secondary.main,
+              textDecoration: "none",
+            },
+            "&:not(.MuiLink-root):not(.MuiButtonBase-root):visited": {
+              color: theme.palette.secondary.main,
+            },
+            "&:not(.MuiLink-root):not(.MuiButtonBase-root):hover": {
+              textDecoration: "underline",
+            },
+          },
           // update padding and font on <code> elements
           code: {
             padding: `2px ${theme.spacing(1)}px`,
@@ -129,8 +146,8 @@ const CovidTheme = () => {
       /** Add margins to material UI typography */
       MuiTypography: {
         h1: headingStyles,
-        h2: headingStyles,
-        h3: headingStyles,
+        h2: { ...headingStyles, fontSize: theme.typography.pxToRem(34) },
+        h3: { ...headingStyles, fontSize: theme.typography.pxToRem(26) },
         h4: headingStyles,
         h5: headingStyles,
         h6: headingStyles,
@@ -140,11 +157,13 @@ const CovidTheme = () => {
         },
         body2: {
           ...sansSerifyTypography,
+          color: theme.palette.text.secondary,
           letterSpacing: `0.01em`,
         },
       },
       MuiListItem: {
         root: {
+          ...serifTypography,
           fontSize: theme.typography.pxToRem(14),
           [theme.breakpoints.up("lg")]: {
             fontSize: theme.typography.pxToRem(16),
@@ -187,6 +206,17 @@ const CovidTheme = () => {
             background: alpha("#A75E0C", 0.25),
             borderColor: "#A75E0C",
           },
+        },
+      },
+      MuiPopover: {
+        paper: {
+          boxShadow: `0 0 0 1px #DDDDCB`,
+        },
+      },
+      MuiMenuItem: {
+        root: {
+          padding: theme.spacing(1, 2),
+          borderBottom: `1px dotted #DDDDCB`,
         },
       },
       /** Header style overrides */

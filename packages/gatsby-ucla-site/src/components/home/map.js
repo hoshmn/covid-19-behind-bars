@@ -1,7 +1,7 @@
 import React from "react"
 import clsx from "clsx"
 import PropTypes from "prop-types"
-import { fade, Typography, withStyles } from "@material-ui/core"
+import { fade, Grid, Typography, withStyles } from "@material-ui/core"
 import { Block } from "gatsby-theme-hyperobjekt-core"
 import { NationalMap, MapLegend } from "../maps"
 import { navigate } from "gatsby"
@@ -10,21 +10,32 @@ import ResponsiveContainer from "../responsive-container"
 import Stack from "../stack"
 import MetricSelection from "../controls/MetricSelection"
 import { serifTypography } from "../../gatsby-theme-hyperobjekt-core/theme"
+import { useActiveMetric } from "../../common/hooks"
+import { getLang } from "../../common/utils/i18n"
 const styles = (theme) => ({
   root: {
     position: "relative",
     display: "flex",
     padding: theme.spacing(3, 0),
-    height: `calc(100vh - ${theme.layout.headerHeight})`,
+    minHeight: 650,
     "& .svg-map": {
-      margin: "auto auto 0 auto",
       width: "100%",
-      height: `calc(100% - ${theme.layout.headerHeight} - ${theme.spacing(4)})`,
+      margin: "auto",
+    },
+    [theme.breakpoints.up("md")]: {
+      height: `calc(100vh - ${theme.layout.headerHeight})`,
+      "& .svg-map": {
+        margin: "auto auto 0 auto",
+        height: `calc(100% - ${theme.layout.headerHeight} - ${theme.spacing(
+          2
+        )})`,
+      },
     },
   },
+  textContainer: {},
   mapTitle: {
     display: "inline",
-    fontSize: theme.typography.pxToRem(26),
+    // TODO: refactor these styles so they are defined in one place instead of duplicated in home/table.js
     "& .MuiButtonBase-root": {
       ...serifTypography,
       fontWeight: 700,
@@ -35,25 +46,41 @@ const styles = (theme) => ({
       borderBottomColor: fade("#555526", 0.333),
       borderRadius: 5,
       position: "relative",
-      top: "-0.2rem",
+      top: "-0.15rem",
     },
   },
   mapDescription: {
-    color: "#555526",
+    maxWidth: "20rem",
   },
-  controls: {
+  notes: {
     position: "absolute",
-    top: theme.spacing(8),
+    bottom: theme.spacing(3),
     left: 0,
     right: 0,
+    margin: "auto",
+    textAlign: "center",
+    color: fade(theme.palette.text.secondary, 0.666),
+    fontSize: theme.typography.pxToRem(12),
+  },
+  controls: {
     display: "flex",
-    alignItems: "flex-start",
-    justifyContent: "space-between",
+    flexDirection: "column",
+    marginTop: theme.spacing(4),
+    [theme.breakpoints.up("md")]: {
+      flexDirection: "row",
+      position: "absolute",
+      top: 0,
+      left: 0,
+      right: 0,
+      alignItems: "flex-start",
+      justifyContent: "space-between",
+    },
   },
 })
 
 const HomeMap = ({ classes, title, description, className, ...props }) => {
   const setSelected = useMapStore((state) => state.setSelected)
+  const metric = useActiveMetric()
   // inject metric selection into the title
   const titleParts = title.split("${metric}")
   const titleArray =
@@ -73,20 +100,30 @@ const HomeMap = ({ classes, title, description, className, ...props }) => {
       {...props}
     >
       <ResponsiveContainer className={classes.controls}>
-        <Stack>
-          <Typography className={classes.mapTitle} variant="h3">
-            {titleArray.map((t, i) => (
-              <React.Fragment key={i}>{t}</React.Fragment>
-            ))}
-          </Typography>
-          <Typography className={classes.mapDescription} variant="body2">
-            {description}
-          </Typography>
-        </Stack>
-        <MapLegend />
+        <Grid container spacing={1}>
+          <Grid item xs={12} md={9}>
+            <Stack className={classes.textContainer} spacing={0.5}>
+              <Typography className={classes.mapTitle} variant="h3">
+                {titleArray.map((t, i) => (
+                  <React.Fragment key={i}>{t}</React.Fragment>
+                ))}
+              </Typography>
+              <Typography className={classes.mapDescription} variant="body2">
+                {getLang("map", metric)}
+              </Typography>
+            </Stack>
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <MapLegend className={classes.legend} />
+          </Grid>
+        </Grid>
       </ResponsiveContainer>
-
       <NationalMap onSelect={handleSelect} />
+      <Typography
+        variant="body2"
+        className={classes.notes}
+        dangerouslySetInnerHTML={{ __html: getLang("map", "notes") }}
+      />
     </Block>
   )
 }

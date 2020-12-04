@@ -20,7 +20,7 @@
   },
   "remarkImagesWidth": 1440,
   "responsiveFontSizes": {
-    "breakpoints": ["sm", "md", "lg", "xl"],
+    "breakpoints": ["xxl"],
     "factor": 1
   },
   "assetPath": "content/assets",
