@@ -288,7 +288,5 @@ exports.getResources = () =>
         )
       return d
     })
-    // group by category
-    const result = groups(data, (d) => d.category)
-    return result
+    return data
   })
