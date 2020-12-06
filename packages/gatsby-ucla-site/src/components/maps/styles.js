@@ -11,7 +11,7 @@ export const shapeStyles = (theme) => ({
   },
   shapeLabel: {
     fill: theme.palette.text.secondary,
-    fillOpacity: 0.5,
+    fillOpacity: 1,
     fontFamily: theme.typography.fontFamily,
     fontSize: theme.typography.pxToRem(10),
   },

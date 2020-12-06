@@ -225,6 +225,22 @@ const CovidTheme = () => {
           boxShadow: "none",
           background: "#fff",
           borderBottom: `none`,
+          "& .header__branding": {
+            opacity: 0,
+            transition: `opacity 400ms ease-in-out`,
+          },
+        },
+        toolbar: {
+          maxWidth: theme.breakpoints.values["md"],
+          [theme.breakpoints.up("lg")]: {
+            maxWidth: theme.breakpoints.values["lg"],
+          },
+        },
+        shrunk: {
+          boxShadow: `inset 0 -1px 0 #DDDDCB`,
+          "& .header__branding": {
+            opacity: 1,
+          },
         },
         title: {
           color: theme.palette.text.primary,
@@ -240,6 +256,12 @@ const CovidTheme = () => {
           color: theme.palette.text.primary,
           marginTop: "auto",
           marginBottom: "auto",
+        },
+      },
+      HypBranding: {
+        logo: {
+          width: theme.typography.pxToRem(200),
+          height: theme.typography.pxToRem(40),
         },
       },
       HypNavigation: {

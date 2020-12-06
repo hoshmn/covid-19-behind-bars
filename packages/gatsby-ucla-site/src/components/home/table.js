@@ -58,6 +58,10 @@ const styles = (theme) => ({
       fontWeight: 700,
       lineHeight: 1.2,
       overflow: "hidden",
+      "&.tableCell--active": {
+        boxShadow: `inset 0 -4px ${theme.palette.secondary.main}`,
+        background: theme.palette.background.default,
+      },
     },
     "& .MuiTableCell-head .MuiTableSortLabel-root": {
       position: "absolute",
@@ -65,9 +69,13 @@ const styles = (theme) => ({
       transform: `translateX(4px)`,
       top: 0,
       bottom: 0,
+      display: "none",
     },
     "& .MuiTableSortLabel-icon": {
       fontSize: 12,
+    },
+    "& .MuiTableCell-body.tableCell--active": {
+      background: theme.palette.background.default,
     },
     "& .MuiTablePagination-spacer": {
       display: "none",
@@ -92,6 +100,14 @@ const HomeTable = ({ classes, ...props }) => {
     shallow
   )
   const data = useMappableFacilities()
+  const rateSorter = React.useCallback((a, b, columnId) => {
+    const vals = [a, b].map((v) => v["original"]["residents"][columnId])
+    if (isNumber(vals[0]) && !isNumber(vals[1])) return 1
+    if (!isNumber(vals[0]) && isNumber(vals[1])) return -1
+    if (!isNumber(vals[0]) && !isNumber(vals[1])) return 0
+    const diff = vals[0] - vals[1]
+    return diff < 0 ? -1 : 1
+  }, [])
   const columns = React.useMemo(
     () => [
       {
@@ -110,7 +126,8 @@ const HomeTable = ({ classes, ...props }) => {
           )
         },
         style: {
-          minWidth: 224,
+          width: "25%",
+          minWidth: 260,
         },
       },
       {
@@ -119,8 +136,8 @@ const HomeTable = ({ classes, ...props }) => {
         accessor: "residents.confirmed",
         Cell: (prop) => countFormatter(prop.value),
         style: {
-          width: 136,
-          maxWidth: 136,
+          width: "12.5%",
+          minWidth: 100,
           textAlign: "right",
         },
       },
@@ -128,10 +145,11 @@ const HomeTable = ({ classes, ...props }) => {
         id: "confirmed_rate",
         Header: getLang("confirmed_rate"),
         accessor: "residents.confirmed_rate",
+        sortType: rateSorter,
         Cell: (prop) => rateFormatter(prop.value),
         style: {
-          width: 158,
-          maxWidth: 158,
+          width: "12.5%",
+          minWidth: 100,
           textAlign: "right",
         },
       },
@@ -141,8 +159,8 @@ const HomeTable = ({ classes, ...props }) => {
         accessor: "residents.active",
         Cell: (prop) => countFormatter(prop.value),
         style: {
-          width: 136,
-          maxWidth: 136,
+          width: "12.5%",
+          minWidth: 100,
           textAlign: "right",
         },
       },
@@ -150,10 +168,12 @@ const HomeTable = ({ classes, ...props }) => {
         id: "active_rate",
         Header: getLang("active_rate"),
         accessor: "residents.active_rate",
+        sortType: rateSorter,
+
         Cell: (prop) => rateFormatter(prop.value),
         style: {
-          width: 156,
-          maxWidth: 156,
+          width: "12.5%",
+          minWidth: 100,
           textAlign: "right",
         },
       },
@@ -163,8 +183,8 @@ const HomeTable = ({ classes, ...props }) => {
         accessor: "residents.deaths",
         Cell: (prop) => countFormatter(prop.value),
         style: {
-          width: 120,
-          maxWidth: 120,
+          width: "12.5%",
+          minWidth: 100,
           textAlign: "right",
         },
       },
@@ -172,10 +192,12 @@ const HomeTable = ({ classes, ...props }) => {
         id: "deaths_rate",
         Header: getLang("deaths_rate"),
         accessor: "residents.deaths_rate",
+        sortType: rateSorter,
+
         Cell: (prop) => rateFormatter(prop.value),
         style: {
-          width: 156,
-          maxWidth: 156,
+          width: "12.5%",
+          minWidth: 100,
           textAlign: "right",
         },
       },
@@ -189,6 +211,15 @@ const HomeTable = ({ classes, ...props }) => {
         sortBy: [{ id: metric, desc: true }],
       },
     }),
+    []
+  )
+
+  const handleSortChange = React.useCallback(
+    (sortBy) => {
+      const newMetric = sortBy
+      console.log("change metric", metric, newMetric)
+      metric !== newMetric && setMetric(newMetric)
+    },
     [metric]
   )
   return (
@@ -202,6 +233,8 @@ const HomeTable = ({ classes, ...props }) => {
           data={data}
           columns={columns}
           options={options}
+          sortColumn={metric}
+          onSort={handleSortChange}
         ></Table>
       </ResponsiveContainer>
     </Block>

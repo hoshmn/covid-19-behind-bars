@@ -1,5 +1,5 @@
-import React from "react"
-
+import React, { useEffect } from "react"
+import clsx from "clsx"
 import MaUTable from "@material-ui/core/Table"
 import PropTypes from "prop-types"
 import TableBody from "@material-ui/core/TableBody"
@@ -12,6 +12,7 @@ import TablePaginationActions from "./table-pagination-actions"
 import TableRow from "@material-ui/core/TableRow"
 import TableSortLabel from "@material-ui/core/TableSortLabel"
 import TableToolbar from "./table-toolbar"
+import { usePrevious } from "@hyperobjekt/hooks"
 import {
   useGlobalFilter,
   usePagination,
@@ -20,7 +21,15 @@ import {
   useTable,
 } from "react-table"
 
-const Table = ({ columns, data, skipPageReset, options, ...props }) => {
+const Table = ({
+  columns,
+  data,
+  skipPageReset = false,
+  onSort,
+  sortColumn,
+  options,
+  ...props
+}) => {
   const {
     getTableProps,
     headerGroups,
@@ -30,7 +39,8 @@ const Table = ({ columns, data, skipPageReset, options, ...props }) => {
     setPageSize,
     preGlobalFilteredRows,
     setGlobalFilter,
-    state: { pageIndex, pageSize, globalFilter },
+    toggleSortBy,
+    state: { pageIndex, pageSize, globalFilter, sortBy },
   } = useTable(
     {
       columns,
@@ -43,6 +53,26 @@ const Table = ({ columns, data, skipPageReset, options, ...props }) => {
     usePagination,
     useRowSelect
   )
+
+  const prevSortBy = usePrevious(sortBy)
+
+  // fire sort callback
+  // useEffect(() => {
+  //   const prevId = prevSortBy ? prevSortBy[0].id : null
+  //   const newId = sortBy[0].id
+  //   onSort && prevId !== newId && onSort(sortBy)
+  // }, [sortBy, prevSortBy, onSort])
+
+  // override sort direction from prop
+  useEffect(() => {
+    if (sortColumn) {
+      const currentSortColumn = sortBy[0].id
+      if (currentSortColumn !== sortColumn) {
+        console.log("toggle sorting", sortColumn, sortBy)
+        toggleSortBy(sortColumn, true)
+      }
+    }
+  }, [sortColumn, toggleSortBy, sortBy])
 
   const handleChangePage = (event, newPage) => {
     gotoPage(newPage)
@@ -62,33 +92,34 @@ const Table = ({ columns, data, skipPageReset, options, ...props }) => {
       <TableContainer {...props}>
         <MaUTable {...getTableProps()}>
           <TableHead>
-            {headerGroups.map((headerGroup) => (
-              <TableRow {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column) => (
-                  <TableCell
-                    {...(column.id === "selection"
-                      ? column.getHeaderProps({
-                          className: column.className,
-                          style: column.style,
-                        })
-                      : column.getHeaderProps({
-                          ...column.getSortByToggleProps(),
-                          className: column.className,
-                          style: column.style,
-                        }))}
-                  >
-                    {column.render("Header")}
-                    {column.id !== "selection" ? (
-                      <TableSortLabel
-                        active={column.isSorted}
-                        // react-table has a unsorted state which is not treated here
-                        direction={column.isSortedDesc ? "desc" : "asc"}
-                      />
-                    ) : null}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}
+            {headerGroups.map((headerGroup) => {
+              return (
+                <TableRow {...headerGroup.getHeaderGroupProps()}>
+                  {headerGroup.headers.map((column) => {
+                    const sortProps = column.getSortByToggleProps()
+                    return (
+                      <TableCell
+                        {...column.getHeaderProps({
+                          onClick: () => onSort && onSort(column.id),
+                          className: clsx(column.className, {
+                            "tableCell--active": column.isSorted,
+                          }),
+                          style: { ...column.style, ...sortProps.style },
+                        })}
+                        variant="head"
+                      >
+                        {column.render("Header")}
+                        <TableSortLabel
+                          active={column.isSorted}
+                          // react-table has a unsorted state which is not treated here
+                          direction="desc"
+                        />
+                      </TableCell>
+                    )
+                  })}
+                </TableRow>
+              )
+            })}
           </TableHead>
           <TableBody>
             {page.map((row, i) => {
@@ -100,7 +131,9 @@ const Table = ({ columns, data, skipPageReset, options, ...props }) => {
                       <TableCell
                         {...cell.getCellProps([
                           {
-                            className: cell.column.className,
+                            className: clsx(cell.column.className, {
+                              "tableCell--active": cell.column.isSorted,
+                            }),
                             style: cell.column.style,
                           },
                         ])}
@@ -150,7 +183,7 @@ Table.defaultProps = {
 Table.propTypes = {
   columns: PropTypes.array.isRequired,
   data: PropTypes.array.isRequired,
-  skipPageReset: PropTypes.bool.isRequired,
+  skipPageReset: PropTypes.bool,
 }
 
 export default Table

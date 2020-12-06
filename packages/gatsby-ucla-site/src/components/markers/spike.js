@@ -19,7 +19,6 @@ const spikePath = (length, width = 7) => {
 const Spike = ({ length, width, classes, className, ...props }) => {
   const { path } = useSpring({
     to: { path: spikePath(length, width) },
-    from: { path: spikePath(0, width) },
   })
 
   return (

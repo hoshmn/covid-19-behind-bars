@@ -46,7 +46,7 @@ const Sponsors = ({ title, logos, children, classes, ...props }) => {
             style={{ flex: 1 }}
           >
             {logos.map((logo) => (
-              <img src={logo.image} alt={logo.alt} />
+              <img key={logo.alt} src={logo.image} alt={logo.alt} />
             ))}
           </Stack>
         </Stack>

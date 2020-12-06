@@ -33,7 +33,7 @@ const styles = (theme) => ({
   },
   subMenu: {
     position: "fixed",
-    top: theme.layout.headerHeight,
+    top: `calc(${theme.layout.headerHeight} - 2px)`,
     left: 0,
     width: "100%",
     marginLeft: 0,

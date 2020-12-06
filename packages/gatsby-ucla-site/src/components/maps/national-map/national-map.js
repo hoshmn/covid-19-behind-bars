@@ -11,7 +11,10 @@ const NationalMap = memo(({ children, onSelect, ...props }) => {
     <SvgMap {...props}>
       <MapGradients />
       <StateLayer
-        classes={shapeClasses}
+        classes={{
+          shape: shapeClasses.shape,
+          label: shapeClasses.shapeLabel,
+        }}
         onSelect={onSelect}
         showLabels
         interactive

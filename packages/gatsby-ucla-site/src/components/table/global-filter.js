@@ -64,7 +64,6 @@ const GlobalFilter = ({
       placeholder={`${count} records...`}
       classes={{
         root: classes.inputRoot,
-        input: classes.inputInput,
       }}
       InputProps={{
         startAdornment: (
