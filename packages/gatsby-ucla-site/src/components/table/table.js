@@ -12,7 +12,6 @@ import TablePaginationActions from "./table-pagination-actions"
 import TableRow from "@material-ui/core/TableRow"
 import TableSortLabel from "@material-ui/core/TableSortLabel"
 import TableToolbar from "./table-toolbar"
-import { usePrevious } from "@hyperobjekt/hooks"
 import {
   useGlobalFilter,
   usePagination,
@@ -28,6 +27,7 @@ const Table = ({
   onSort,
   sortColumn,
   options,
+  children,
   ...props
 }) => {
   const {
@@ -54,15 +54,6 @@ const Table = ({
     useRowSelect
   )
 
-  const prevSortBy = usePrevious(sortBy)
-
-  // fire sort callback
-  // useEffect(() => {
-  //   const prevId = prevSortBy ? prevSortBy[0].id : null
-  //   const newId = sortBy[0].id
-  //   onSort && prevId !== newId && onSort(sortBy)
-  // }, [sortBy, prevSortBy, onSort])
-
   // override sort direction from prop
   useEffect(() => {
     if (sortColumn) {
@@ -88,7 +79,9 @@ const Table = ({
         preGlobalFilteredRows={preGlobalFilteredRows}
         setGlobalFilter={setGlobalFilter}
         globalFilter={globalFilter}
-      />
+      >
+        {children}
+      </TableToolbar>
       <TableContainer {...props}>
         <MaUTable {...getTableProps()}>
           <TableHead>

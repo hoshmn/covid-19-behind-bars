@@ -1,24 +1,18 @@
 import React from "react"
 import clsx from "clsx"
-import {
-  FormControlLabel,
-  makeStyles,
-  Typography,
-  withStyles,
-} from "@material-ui/core"
+import { makeStyles, Typography, withStyles } from "@material-ui/core"
 import shallow from "zustand/shallow"
 import {
   useActiveMetric,
   useMappableFacilities,
   useOptionsStore,
 } from "../../common/hooks"
-import { getLang } from "../../common/utils/i18n"
 import Stack from "../stack"
 import SpikeMarker from "../markers/spike-marker"
-import Checkbox from "../controls/Checkbox"
 import { extent } from "d3-array"
 import { getDataMetricSelector } from "../../common/utils"
 import { formatMetricValue } from "../../common/utils/formatters"
+import JurisdictionToggles from "../controls/JurisdictionToggles"
 
 const styles = (theme) => ({
   root: {
@@ -27,83 +21,7 @@ const styles = (theme) => ({
   toggleContainer: {
     marginBottom: "-0.25rem",
   },
-  title: {
-    marginBottom: theme.spacing(1),
-  },
-  group: {
-    flexDirection: "column",
-  },
-  formControl: {
-    marginLeft: 0,
-    marginRight: 0,
-  },
-  label: {
-    whiteSpace: "nowrap",
-  },
-  checkbox: {
-    padding: theme.spacing(0.75, 1),
-  },
 })
-
-const LabelStack = (props) => (
-  <Stack horizontal spacing={1} align="center" {...props} />
-)
-
-const JurisdictionToggles = ({ classes, ...props }) => {
-  const [
-    categories,
-    selectedCategories,
-    setSelectedCategories,
-    categoryColors,
-    categoryGradients,
-  ] = useOptionsStore(
-    (state) => [
-      state.categories,
-      state.selectedCategories,
-      state.setSelectedCategories,
-      state.categoryColors,
-      state.categoryGradients,
-    ],
-    shallow
-  )
-  const isSelected = (category) => selectedCategories.indexOf(category) > -1
-  const handleToggleCategory = (category) => {
-    const newCategories = isSelected(category)
-      ? selectedCategories.filter((c) => c !== category)
-      : [category, ...selectedCategories]
-    setSelectedCategories(newCategories)
-  }
-  return (
-    <Stack className={classes.root} spacing={0} {...props}>
-      {categories.map((c, i) => (
-        <FormControlLabel
-          key={c}
-          value={c}
-          control={
-            <Checkbox
-              className={classes.checkbox}
-              checked={isSelected(c)}
-              onClick={(e) => handleToggleCategory(c, e)}
-            />
-          }
-          label={
-            <Typography variant="body2" component={LabelStack}>
-              <SpikeMarker
-                width={7}
-                height={10}
-                fill={categoryGradients[i]}
-                stroke={categoryColors[i]}
-              />{" "}
-              <span>{getLang(c)}</span>
-            </Typography>
-          }
-          labelPlacement="end"
-          classes={{ root: classes.formControl, label: classes.label }}
-        />
-      ))}
-    </Stack>
-  )
-}
 
 const useSpikeLegendStyles = makeStyles((theme) => ({
   label: {
@@ -186,9 +104,6 @@ const MapLegend = ({ classes, className, ...props }) => {
       <JurisdictionToggles
         classes={{
           root: classes.toggleContainer,
-          formControl: classes.formControl,
-          label: classes.label,
-          checkbox: classes.checkbox,
         }}
       />
       <SpikeLegend />

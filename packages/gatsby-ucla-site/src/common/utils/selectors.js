@@ -1,4 +1,4 @@
-import { JURISDICTIONS, KEYS, METRICS } from "../constants"
+import { JURISDICTIONS, JURISDICTION_COLORS, KEYS, METRICS } from "../constants"
 import STATE_CENTERS from "../data/us_state_centers.json"
 
 export const getUniqueValues = (nodes, selector) => {
@@ -142,4 +142,10 @@ export const getDataByJurisdiction = (data) => {
     }, {})
     return d
   }, {})
+}
+
+export const getColorForJurisdiction = (jurisdiction) => {
+  const index = JURISDICTIONS.findIndex((j) => j === jurisdiction)
+  if (index > -1) return JURISDICTION_COLORS[index]
+  throw new Error("no color for provided jurisdiction: " + jurisdiction)
 }

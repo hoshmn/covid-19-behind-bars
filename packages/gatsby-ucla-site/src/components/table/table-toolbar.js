@@ -10,7 +10,13 @@ const useToolbarStyles = makeStyles((theme) => ({
     paddingLeft: 0,
     paddingRight: 0,
     display: "flex",
-    justifyContent: "flex-end",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    [theme.breakpoints.up("sm")]: {
+      flexDirection: "row",
+      alignItems: "center",
+    },
   },
   highlight:
     theme.palette.type === "light"

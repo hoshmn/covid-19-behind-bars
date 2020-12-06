@@ -14,7 +14,6 @@ export const style = {
 const Dot = ({ radius, classes, className, ...props }) => {
   const { r } = useSpring({
     to: { r: radius },
-    from: { r: 0 },
   })
 
   return (

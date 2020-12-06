@@ -9,10 +9,12 @@ import {
   serifTypography,
 } from "../../gatsby-theme-hyperobjekt-core/theme"
 import ResponsiveContainer from "../responsive-container"
-import { isNumber } from "../../common/utils/selectors"
+import { getColorForJurisdiction, isNumber } from "../../common/utils/selectors"
 import shallow from "zustand/shallow"
 import { getLang } from "../../common/utils/i18n"
 import MetricSelection from "../controls/MetricSelection"
+import JurisdictionToggles from "../controls/JurisdictionToggles"
+import DotMarker from "../markers/dot-marker"
 
 const styles = (theme) => ({
   root: {
@@ -32,6 +34,12 @@ const styles = (theme) => ({
       borderRadius: 5,
       position: "relative",
       top: "-0.15rem",
+    },
+  },
+  toggleContainer: {
+    margin: theme.spacing(2, 0, 1, -0.75),
+    [theme.breakpoints.up("md")]: {
+      margin: theme.spacing(0, 0, 0, -0.75),
     },
   },
   name: {
@@ -94,25 +102,28 @@ const countFormatter = (value) =>
 
 const rateFormatter = (value) => (!isNumber(value) ? "--" : perFormatter(value))
 
+const rateSorter = (a, b, columnId) => {
+  const vals = [a, b].map((v) => v["original"]["residents"][columnId])
+  if (isNumber(vals[0]) && !isNumber(vals[1])) return 1
+  if (!isNumber(vals[0]) && isNumber(vals[1])) return -1
+  if (!isNumber(vals[0]) && !isNumber(vals[1])) return 0
+  const diff = vals[0] - vals[1]
+  return diff < 0 ? -1 : 1
+}
+
 const HomeTable = ({ classes, ...props }) => {
   const [metric, setMetric] = useOptionsStore(
     (state) => [state.metric, state.setMetric],
     shallow
   )
   const data = useMappableFacilities()
-  const rateSorter = React.useCallback((a, b, columnId) => {
-    const vals = [a, b].map((v) => v["original"]["residents"][columnId])
-    if (isNumber(vals[0]) && !isNumber(vals[1])) return 1
-    if (!isNumber(vals[0]) && isNumber(vals[1])) return -1
-    if (!isNumber(vals[0]) && !isNumber(vals[1])) return 0
-    const diff = vals[0] - vals[1]
-    return diff < 0 ? -1 : 1
-  }, [])
+
   const columns = React.useMemo(
     () => [
       {
         Header: "Facility",
         accessor: "name",
+        disableSortBy: true,
         Cell: (prop) => {
           return (
             <>
@@ -120,7 +131,11 @@ const HomeTable = ({ classes, ...props }) => {
                 {prop.value}
               </Typography>
               <Typography variant="body2" color="textSecondary">
-                {prop.row.original.state}
+                {prop.row.original.state}{" "}
+                <DotMarker
+                  radius={4}
+                  fill={getColorForJurisdiction(prop.row.original.jurisdiction)}
+                />
               </Typography>
             </>
           )
@@ -211,7 +226,7 @@ const HomeTable = ({ classes, ...props }) => {
         sortBy: [{ id: metric, desc: true }],
       },
     }),
-    []
+    [metric]
   )
 
   const handleSortChange = React.useCallback(
@@ -220,7 +235,7 @@ const HomeTable = ({ classes, ...props }) => {
       console.log("change metric", metric, newMetric)
       metric !== newMetric && setMetric(newMetric)
     },
-    [metric]
+    [metric, setMetric]
   )
   return (
     <Block type="fullWidth" className={classes.root}>
@@ -235,7 +250,13 @@ const HomeTable = ({ classes, ...props }) => {
           options={options}
           sortColumn={metric}
           onSort={handleSortChange}
-        ></Table>
+        >
+          <JurisdictionToggles
+            marker="dot"
+            horizontal="md"
+            classes={{ root: classes.toggleContainer }}
+          />
+        </Table>
       </ResponsiveContainer>
     </Block>
   )
