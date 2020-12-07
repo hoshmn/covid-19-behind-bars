@@ -19,6 +19,51 @@ import {
   useSortBy,
   useTable,
 } from "react-table"
+import { withStyles } from "@material-ui/core"
+import { sansSerifyTypography } from "../../gatsby-theme-hyperobjekt-core/theme"
+
+const styles = (theme) => ({
+  table: {
+    "& .MuiTableCell-root": {
+      ...sansSerifyTypography,
+    },
+    "& .MuiTypography-root": {
+      ...sansSerifyTypography,
+    },
+    "& .MuiTableCell-head": {
+      position: "relative",
+      ...sansSerifyTypography,
+      fontWeight: 700,
+      lineHeight: 1.2,
+      overflow: "hidden",
+      "&.tableCell--active": {
+        boxShadow: `inset 0 -4px ${theme.palette.secondary.main}`,
+        background: theme.palette.background.default,
+      },
+    },
+    "& .MuiTableCell-head .MuiTableSortLabel-root": {
+      position: "absolute",
+      right: 0,
+      transform: `translateX(4px)`,
+      top: 0,
+      bottom: 0,
+      display: "none",
+    },
+    "& .MuiTableSortLabel-icon": {
+      fontSize: 12,
+    },
+    "& .MuiTableCell-body.tableCell--active": {
+      background: theme.palette.background.default,
+    },
+    "& .MuiTablePagination-spacer": {
+      display: "none",
+      [theme.breakpoints.up("md")]: {
+        display: "block",
+      },
+    },
+  },
+  toolbar: {},
+})
 
 const Table = ({
   columns,
@@ -27,6 +72,8 @@ const Table = ({
   onSort,
   sortColumn,
   options,
+  classes,
+  className,
   children,
   ...props
 }) => {
@@ -76,13 +123,14 @@ const Table = ({
   return (
     <>
       <TableToolbar
+        className={classes.toolbar}
         preGlobalFilteredRows={preGlobalFilteredRows}
         setGlobalFilter={setGlobalFilter}
         globalFilter={globalFilter}
       >
         {children}
       </TableToolbar>
-      <TableContainer {...props}>
+      <TableContainer className={clsx(classes.table, className)} {...props}>
         <MaUTable {...getTableProps()}>
           <TableHead>
             {headerGroups.map((headerGroup) => {
@@ -179,4 +227,4 @@ Table.propTypes = {
   skipPageReset: PropTypes.bool,
 }
 
-export default Table
+export default withStyles(styles)(Table)

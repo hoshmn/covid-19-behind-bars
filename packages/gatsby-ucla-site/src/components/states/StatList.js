@@ -33,13 +33,24 @@ const styles = (theme) => ({
 
 const getKey = (...args) => args.join("_")
 
-const groupHasRates = (group) =>
-  METRICS[group].reduce(
+const groupHasRates = (group) => {
+  const result = METRICS[group].reduce(
     (hasRates, metric) => (hasRates ? true : metric.indexOf("_rate") > -1),
     false
   )
+  return result
+}
 
 const StatList = ({ classes, className, title, metric, group, groupData }) => {
+  const baseMetric = metric.split("_")[0]
+  const getGroupData = (jurisdiction, metric, isRate) => {
+    const key = isRate
+      ? getKey(jurisdiction, metric, "rate")
+      : getKey(jurisdiction, metric)
+    if (!groupData[key] || !groupData[key].length > 0) return null
+    // key 0 has count, key 1 has avg
+    return isRate ? groupData[key][0] : groupData[key][1]
+  }
   return (
     <Stack className={clsx(classes.root, className)} spacing={2}>
       <MetricSelectionTitle title={title} />
@@ -56,14 +67,14 @@ const StatList = ({ classes, className, title, metric, group, groupData }) => {
           </Typography>
           <NumberStat
             className={classes.stat}
-            value={groupData[getKey(jurisdiction, metric)][0]}
-            label={getLang(metric, "label")}
+            value={getGroupData(jurisdiction, baseMetric)}
+            label={getLang(baseMetric, "label")}
           ></NumberStat>
           {groupHasRates(group) && (
             <NumberStat
               className={classes.stat}
-              value={groupData[getKey(jurisdiction, metric, "rate")][1]}
-              label={getLang(metric, "rate")}
+              value={getGroupData(jurisdiction, baseMetric + "_rate", true)}
+              label={getLang(baseMetric, "rate")}
               format=".1%"
             ></NumberStat>
           )}

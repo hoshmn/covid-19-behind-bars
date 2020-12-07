@@ -9,6 +9,8 @@ export const KEYS = {
   population: "population",
 }
 
+export const GROUPS = ["residents", "staff"]
+
 export const JURISDICTIONS = ["state", "federal", "county"]
 
 export const METRICS = {

@@ -38,45 +38,7 @@ const styles = (theme) => ({
       maxWidth: 320,
     },
   },
-  table: {
-    "& .MuiTableCell-root": {
-      ...sansSerifyTypography,
-    },
-    "& .MuiTypography-root": {
-      ...sansSerifyTypography,
-    },
-    "& .MuiTableCell-head": {
-      position: "relative",
-      ...sansSerifyTypography,
-      fontWeight: 700,
-      lineHeight: 1.2,
-      overflow: "hidden",
-      "&.tableCell--active": {
-        boxShadow: `inset 0 -4px ${theme.palette.secondary.main}`,
-        background: theme.palette.background.default,
-      },
-    },
-    "& .MuiTableCell-head .MuiTableSortLabel-root": {
-      position: "absolute",
-      right: 0,
-      transform: `translateX(4px)`,
-      top: 0,
-      bottom: 0,
-      display: "none",
-    },
-    "& .MuiTableSortLabel-icon": {
-      fontSize: 12,
-    },
-    "& .MuiTableCell-body.tableCell--active": {
-      background: theme.palette.background.default,
-    },
-    "& .MuiTablePagination-spacer": {
-      display: "none",
-      [theme.breakpoints.up("md")]: {
-        display: "block",
-      },
-    },
-  },
+  table: {},
 })
 
 const intFormatter = format(",d")

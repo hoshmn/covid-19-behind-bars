@@ -115,7 +115,7 @@ const HomeMap = ({ classes, title, description, className, ...props }) => {
           </Grid>
         </Grid>
       </ResponsiveContainer>
-      <NationalMap onSelect={handleSelect} />
+      <NationalMap metric={metric} onSelect={handleSelect} />
       <Typography
         variant="body2"
         className={classes.notes}

@@ -11,8 +11,8 @@ export const getUniqueValues = (nodes, selector) => {
 }
 
 // selector for spike length
-export const getDataMetricSelector = (metric) => {
-  return (d) => d.residents[metric]
+export const getDataMetricSelector = (metric, group = "residents") => {
+  return (d) => d[group][metric]
 }
 
 // selector for spike color

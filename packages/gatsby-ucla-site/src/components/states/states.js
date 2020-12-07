@@ -1,20 +1,19 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { graphql } from "gatsby"
 import { Block, Layout } from "gatsby-theme-hyperobjekt-core"
 import { Grid, makeStyles, Typography } from "@material-ui/core"
 import Stack from "../stack"
-import MapGradients from "../maps/map-gradients"
-import StateMap from "../maps/state-map/state-map"
-import FacilitiesMarkerLayer from "../maps/marker-layer/facilities-marker-layer"
-
-import GroupStats from "./group_stats"
-import Table from "./facilities-table"
+import FacilitiesTable from "./facilities-table"
 import NumberStat from "../stats/number-stat"
 
 import HealthJustice from "../../../content/assets/health-justice-logo.png"
 import { getDataByJurisdiction } from "../../common/utils/selectors"
 import { useActiveMetric } from "../../common/hooks"
 import StatList from "./StatList"
+import { Step, Scrollama } from "react-scrollama"
+import MetricSelectionTitle from "../controls/MetricSelectionTitle"
+import FacilitiesMap from "./FacilitiesMap"
+import { GROUPS } from "../../common/constants"
 
 // const sumTotal = (data, accessor) =>
 //   data.reduce(
@@ -34,13 +33,21 @@ const useStyles = makeStyles((theme) => ({
   visual: {
     position: "sticky",
     top: theme.layout.headerHeight,
-    minWidth: `calc(100% - 26.25rem)`,
+    width: `calc(100% - 26.25rem)`,
     height: `calc(100vh - ${theme.layout.headerHeight})`,
     marginLeft: "auto",
     display: "flex",
     justifyContent: "center",
     alignItems: "stretch",
     "& svg": { flex: 1 },
+  },
+  title: {
+    marginTop: theme.spacing(5),
+    "& + $step": {
+      minHeight: `calc(100vh - ${theme.layout.headerHeight} - ${theme.spacing(
+        10
+      )})`,
+    },
   },
   step: {
     minHeight: `calc(100vh - ${theme.layout.headerHeight})`,
@@ -53,101 +60,192 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
+const STEPS = {
+  RESIDENTS: 0,
+  STAFF: 1,
+  FACILITIES: 2,
+  FILINGS: 3,
+  RELEASES: 4,
+  IMMIGRATION: 5,
+  YOUTH: 6,
+  GRASSROOTS: 7,
+}
+
 const StateTemplate = ({ pageContext, data }) => {
-  const { state } = pageContext
+  // classes used on this page
   const classes = useStyles()
+  // pull state name from page context
+  const { state } = pageContext
+  // track current step index for scrollytelling
+  const [currentStepIndex, setCurrentStepIndex] = useState(null)
+  // track group to show for map
+  const [facilitiesGroup, setFacilitiesGroup] = useState("residents")
+  // metric to show for map
   const metric = useActiveMetric()
+  // filter for map data to only show current state
   const mapFilter = (f) => f.state === state
+  // data for all facilities in the state
   const all = data.allFacilities.edges.map((d) => d.node)
+  // jurisdiction totals for the state
   const summary = getDataByJurisdiction(all)
+
+  // update current step when entering
+  const handleStepEnter = ({ data }) => {
+    setCurrentStepIndex(data)
+  }
+
+  // handler for when table headers are clicked
+  const handleFacilitiesGroupChange = React.useCallback(
+    (newGroup) => {
+      const group = newGroup.split(".")[0]
+      // exit if invalid
+      if (!group || GROUPS.indexOf(group) === -1) return
+      group && group !== facilitiesGroup && setFacilitiesGroup(group)
+    },
+    [facilitiesGroup, setFacilitiesGroup]
+  )
+
+  // getter for the map group based on step
+  const getMapGroup = () => {
+    if (currentStepIndex === STEPS["STAFF"]) return "staff"
+    if (currentStepIndex === STEPS["FACILITIES"]) return facilitiesGroup
+    return "residents"
+  }
+
+  // step activation updates
+  useEffect(() => {}, [currentStepIndex])
 
   return (
     <Layout title={state}>
       <Block type="fullWidth" className={classes.block}>
         <div className={classes.visual}>
-          <StateMap height={800} width={700} stateName={state}>
-            <MapGradients />
-            <FacilitiesMarkerLayer
-              filter={mapFilter}
-              style={{ pointerEvents: "none" }}
-            />
-          </StateMap>
+          <FacilitiesMap
+            height={800}
+            width={700}
+            stateName={state}
+            filter={mapFilter}
+            group={getMapGroup()}
+            metric={metric}
+          />
         </div>
-
-        <Stack className={classes.content} spacing={3}>
-          <Typography variant="h2">{state}</Typography>
-          <Stack className={classes.step}>
-            <StatList
-              title="${metric} for incarcerated people"
-              metric={metric}
-              group="residents"
-              groupData={summary["residents"]}
-            />
-          </Stack>
-          <Stack className={classes.step}>
-            <StatList
-              title="${metric} for staff"
-              metric={metric}
-              group="staff"
-              groupData={summary["staff"]}
-            />
-          </Stack>
-          {/* {Object.keys(summary).map((group) => (
-            <GroupStats key={group} group={group} groupData={summary[group]} />
-          ))} */}
-          <Stack className={classes.step}>
-            <Typography variant="h3">Facilities</Typography>
-            <Table data={all} />
-          </Stack>
-          <Stack className={classes.step}>
-            <Typography variant="h3">Filings and Court Orders</Typography>
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
-                <NumberStat value="27" label="filings coded" />
-              </Grid>
-              <Grid item xs={6}>
-                <NumberStat value="18" label="courts" />
-              </Grid>
-              <Grid item xs={6}>
-                <NumberStat value="14" label="facilities" />
-              </Grid>
-              <Grid item xs={6}>
-                <NumberStat value="72" label="compassionate releases" />
-              </Grid>
-              <Grid item xs={12}>
-                <img
-                  style={{ maxWidth: 200, marginTop: 16 }}
-                  src={HealthJustice}
-                  alt="Health Justice"
-                />
-              </Grid>
-            </Grid>
-          </Stack>
-          <Stack className={classes.section}>
-            <Typography variant="h3">Prison and Jail Releases</Typography>
-            <Typography variant="body1">
-              Releases due to COVID-19 since March 15, 2020:
-            </Typography>
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
-                <NumberStat value="125" label="people released from prisons" />
-              </Grid>
-              <Grid item xs={6}>
-                <NumberStat value="18" label="people released from jail" />
-              </Grid>
-            </Grid>
-          </Stack>
-          <Stack className={classes.section}>
-            <Typography variant="h3">Immigration Detention</Typography>
-          </Stack>
-          <Stack className={classes.section}>
-            <Typography variant="h3">Youth Incarceration</Typography>
-          </Stack>{" "}
-          <Stack className={classes.section}>
-            <Typography variant="h3">
-              Grassroots and Organizing Efforts
-            </Typography>
-          </Stack>
+        <Stack className={classes.content} spacing={0}>
+          <Typography variant="h2" className={classes.title}>
+            {state}
+          </Typography>
+          <Scrollama onStepEnter={handleStepEnter}>
+            <Step data={STEPS["RESIDENTS"]}>
+              <div>
+                <Stack className={classes.step}>
+                  <StatList
+                    title="Total ${metric} among incarcerated people"
+                    metric={metric}
+                    group="residents"
+                    groupData={summary["residents"]}
+                  />
+                </Stack>
+              </div>
+            </Step>
+            <Step data={STEPS["STAFF"]}>
+              <div>
+                <Stack className={classes.step}>
+                  <StatList
+                    title="Total ${metric} among staff"
+                    metric={metric}
+                    group="staff"
+                    groupData={summary["staff"]}
+                  />
+                </Stack>
+              </div>
+            </Step>
+            <Step data={STEPS["FACILITIES"]}>
+              <div>
+                <Stack className={classes.step}>
+                  <MetricSelectionTitle title="Facilities by ${metric}" />
+                  <FacilitiesTable
+                    metric={metric}
+                    group={facilitiesGroup}
+                    data={all}
+                    onSort={handleFacilitiesGroupChange}
+                  />
+                </Stack>
+              </div>
+            </Step>
+            <Step data={STEPS["FILINGS"]}>
+              <div>
+                <Stack className={classes.step}>
+                  <Typography variant="h3">Filings and Court Orders</Typography>
+                  <Grid container spacing={2}>
+                    <Grid item xs={6}>
+                      <NumberStat value="27" label="filings coded" />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <NumberStat value="18" label="courts" />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <NumberStat value="14" label="facilities" />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <NumberStat value="72" label="compassionate releases" />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <img
+                        style={{ maxWidth: 200, marginTop: 16 }}
+                        src={HealthJustice}
+                        alt="Health Justice"
+                      />
+                    </Grid>
+                  </Grid>
+                </Stack>
+              </div>
+            </Step>
+            <Step data={STEPS["RELEASES"]}>
+              <div>
+                <Stack className={classes.step}>
+                  <Typography variant="h3">Prison and Jail Releases</Typography>
+                  <Typography variant="body1">
+                    Releases due to COVID-19 since March 15, 2020:
+                  </Typography>
+                  <Grid container spacing={2}>
+                    <Grid item xs={6}>
+                      <NumberStat
+                        value="125"
+                        label="people released from prisons"
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <NumberStat
+                        value="18"
+                        label="people released from jail"
+                      />
+                    </Grid>
+                  </Grid>
+                </Stack>
+              </div>
+            </Step>
+            <Step data={STEPS["IMMIGRATION"]}>
+              <div>
+                <Stack className={classes.step}>
+                  <Typography variant="h3">Immigration Detention</Typography>
+                </Stack>
+              </div>
+            </Step>
+            <Step data={STEPS["YOUTH"]}>
+              <div>
+                <Stack className={classes.step}>
+                  <Typography variant="h3">Youth Incarceration</Typography>
+                </Stack>
+              </div>
+            </Step>
+            <Step data={STEPS["GRASSROOTS"]}>
+              <div>
+                <Stack className={classes.step}>
+                  <Typography variant="h3">
+                    Grassroots and Organizing Efforts
+                  </Typography>
+                </Stack>
+              </div>
+            </Step>
+          </Scrollama>
         </Stack>
       </Block>
     </Layout>

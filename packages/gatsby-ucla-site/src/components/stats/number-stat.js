@@ -11,7 +11,7 @@ import { getLang } from "../../common/utils/i18n"
 export const styles = (theme) => ({
   root: {},
   number: {
-    fontSize: theme.typography.pxToRem(40),
+    fontSize: theme.typography.pxToRem(32),
     color: theme.palette.secondary.main,
     fontWeight: 700,
     lineHeight: 1,

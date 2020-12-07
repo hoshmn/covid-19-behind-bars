@@ -2,11 +2,10 @@ import React from "react"
 import { Table } from "../table"
 import { format } from "d3-format"
 import { Typography, withStyles } from "@material-ui/core"
-import {
-  serifTypography,
-  titleTypography,
-} from "../../gatsby-theme-hyperobjekt-core/theme"
+import { titleTypography } from "../../gatsby-theme-hyperobjekt-core/theme"
 import { isNumber } from "../../common/utils/selectors"
+import { getLang } from "../../common/utils/i18n"
+import { formatMetricValue } from "../../common/utils/formatters"
 
 const styles = (theme) => ({
   root: {
@@ -23,30 +22,6 @@ const styles = (theme) => ({
   },
   name: {},
   table: {
-    "& .MuiToolbar-regular": {
-      justifyContent: "flex-start",
-    },
-    "& .MuiTableCell-head": {
-      position: "relative",
-      ...serifTypography,
-      overflow: "hidden",
-    },
-    "& .MuiTableCell-head .MuiTableSortLabel-root": {
-      position: "absolute",
-      right: 0,
-      transform: `translateX(4px)`,
-      top: 0,
-      bottom: 0,
-    },
-    "& .MuiTableSortLabel-icon": {
-      fontSize: 12,
-    },
-    "& .MuiTablePagination-spacer": {
-      display: "none",
-      [theme.breakpoints.up("md")]: {
-        display: "block",
-      },
-    },
     "& .MuiTablePagination-input, & .MuiTablePagination-spacer + .MuiTablePagination-caption": {
       display: "none",
     },
@@ -58,12 +33,18 @@ const intFormatter = format(",d")
 const countFormatter = (value) =>
   !isNumber(value) ? "Unavailable" : intFormatter(value)
 
-const HomeTable = ({ classes, ...props }) => {
+const FacilitiesTable = ({
+  classes,
+  group = "residents",
+  metric,
+  ...props
+}) => {
   const columns = React.useMemo(
     () => [
       {
         Header: "Facility",
         accessor: "name",
+        disableSortBy: true,
         Cell: (prop) => {
           return (
             <>
@@ -77,14 +58,29 @@ const HomeTable = ({ classes, ...props }) => {
           )
         },
         style: {
-          minWidth: 224,
+          minWidth: "50%",
         },
       },
       {
-        id: "cases",
-        Header: "Total Cases",
-        accessor: "residents.confirmed",
-        Cell: (prop) => countFormatter(prop.value),
+        id: "residents." + metric,
+        Header: getLang("residents"),
+        accessor: "residents." + metric,
+        Cell: (prop) => {
+          return formatMetricValue(prop.value, metric)
+        },
+        style: {
+          width: 136,
+          maxWidth: 136,
+          textAlign: "right",
+        },
+      },
+      {
+        id: "staff." + metric,
+        Header: `${getLang("staff")}`,
+        accessor: "staff." + metric,
+        Cell: (prop) => {
+          return formatMetricValue(prop.value, metric)
+        },
         style: {
           width: 136,
           maxWidth: 136,
@@ -92,16 +88,16 @@ const HomeTable = ({ classes, ...props }) => {
         },
       },
     ],
-    [classes.name]
+    [classes.name, metric, group]
   )
   const options = React.useMemo(
     () => ({
       initialState: {
         pageSize: 5,
-        sortBy: [{ id: "residents.confirmed", desc: true }],
+        sortBy: [{ id: group + "." + metric, desc: true }],
       },
     }),
-    []
+    [metric, group]
   )
   return (
     <Table
@@ -113,6 +109,6 @@ const HomeTable = ({ classes, ...props }) => {
   )
 }
 
-HomeTable.propTypes = {}
+FacilitiesTable.propTypes = {}
 
-export default withStyles(styles)(HomeTable)
+export default withStyles(styles)(FacilitiesTable)
