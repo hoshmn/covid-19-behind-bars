@@ -38,7 +38,6 @@ const groupHasRates = (group) =>
   )
 
 const GroupStats = ({ classes, className, group, groupData, ...props }) => {
-  console.log(group, groupData)
   return (
     <div className={clsx(classes.root, className)} {...props}>
       <Typography className={classes.groupTitle} variant="h4">

@@ -12,6 +12,7 @@ import MetricSelection from "../controls/MetricSelection"
 import { serifTypography } from "../../gatsby-theme-hyperobjekt-core/theme"
 import { useActiveMetric } from "../../common/hooks"
 import { getLang } from "../../common/utils/i18n"
+import MetricSelectionTitle from "../controls/MetricSelectionTitle"
 const styles = (theme) => ({
   root: {
     position: "relative",
@@ -103,11 +104,7 @@ const HomeMap = ({ classes, title, description, className, ...props }) => {
         <Grid container spacing={1}>
           <Grid item xs={12} md={9}>
             <Stack className={classes.textContainer} spacing={0.5}>
-              <Typography className={classes.mapTitle} variant="h3">
-                {titleArray.map((t, i) => (
-                  <React.Fragment key={i}>{t}</React.Fragment>
-                ))}
-              </Typography>
+              <MetricSelectionTitle title={title} />
               <Typography className={classes.mapDescription} variant="body2">
                 {getLang("map", metric)}
               </Typography>

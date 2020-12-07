@@ -33,6 +33,10 @@ const content = {
     description:
       "Each spike represents the number of cases in a facility, select a state for more details",
   },
+  table: {
+    title: "Facilities with the highest ${metric}",
+    note: "",
+  },
   sponsors: {
     title: "Our generous supporters include:",
     logos: [
@@ -74,7 +78,7 @@ const HomeTemplate = ({
         description={content.map.description}
       />
       <MapTooltip />
-      <Table />
+      <Table title={content.table.title} note={content.table.note} />
       {/* <Block type="fullWidth" style={{ background: "#fff" }}>
         <Container maxWidth="lg">
           <MDXRenderer>{mdx.body}</MDXRenderer>

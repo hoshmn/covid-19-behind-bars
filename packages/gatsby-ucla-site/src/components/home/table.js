@@ -15,26 +15,11 @@ import { getLang } from "../../common/utils/i18n"
 import MetricSelection from "../controls/MetricSelection"
 import JurisdictionToggles from "../controls/JurisdictionToggles"
 import DotMarker from "../markers/dot-marker"
+import MetricSelectionTitle from "../controls/MetricSelectionTitle"
 
 const styles = (theme) => ({
   root: {
     background: theme.palette.background.paper,
-  },
-  title: {
-    marginTop: 0,
-    // TODO: refactor these styles so they are defined in one place instead of duplicated in home/map.js
-    "& .MuiButtonBase-root": {
-      ...serifTypography,
-      fontWeight: 700,
-      fontSize: theme.typography.pxToRem(26),
-      color: theme.palette.secondary.main,
-      textTransform: "lowercase",
-      border: `2px dotted transparent`,
-      borderBottomColor: fade(theme.palette.text.secondary, 0.333),
-      borderRadius: 5,
-      position: "relative",
-      top: "-0.15rem",
-    },
   },
   toggleContainer: {
     margin: theme.spacing(2, 0, 1, -0.75),
@@ -111,13 +96,24 @@ const rateSorter = (a, b, columnId) => {
   return diff < 0 ? -1 : 1
 }
 
-const HomeTable = ({ classes, ...props }) => {
+const HomeTable = ({ title, note, classes, ...props }) => {
+  // pull active metric from the store, with setter
   const [metric, setMetric] = useOptionsStore(
     (state) => [state.metric, state.setMetric],
     shallow
   )
+
+  // data for table
   const data = useMappableFacilities()
 
+  // styles for number columns in table
+  const numberColStyle = {
+    width: "12.5%",
+    minWidth: 100,
+    textAlign: "right",
+  }
+
+  // column configuration for the table
   const columns = React.useMemo(
     () => [
       {
@@ -150,11 +146,7 @@ const HomeTable = ({ classes, ...props }) => {
         Header: getLang("confirmed"),
         accessor: "residents.confirmed",
         Cell: (prop) => countFormatter(prop.value),
-        style: {
-          width: "12.5%",
-          minWidth: 100,
-          textAlign: "right",
-        },
+        style: numberColStyle,
       },
       {
         id: "confirmed_rate",
@@ -162,63 +154,43 @@ const HomeTable = ({ classes, ...props }) => {
         accessor: "residents.confirmed_rate",
         sortType: rateSorter,
         Cell: (prop) => rateFormatter(prop.value),
-        style: {
-          width: "12.5%",
-          minWidth: 100,
-          textAlign: "right",
-        },
+        style: numberColStyle,
       },
       {
         id: "active",
         Header: getLang("active"),
         accessor: "residents.active",
         Cell: (prop) => countFormatter(prop.value),
-        style: {
-          width: "12.5%",
-          minWidth: 100,
-          textAlign: "right",
-        },
+        style: numberColStyle,
       },
       {
         id: "active_rate",
         Header: getLang("active_rate"),
         accessor: "residents.active_rate",
         sortType: rateSorter,
-
         Cell: (prop) => rateFormatter(prop.value),
-        style: {
-          width: "12.5%",
-          minWidth: 100,
-          textAlign: "right",
-        },
+        style: numberColStyle,
       },
       {
         id: "deaths",
         Header: getLang("deaths"),
         accessor: "residents.deaths",
         Cell: (prop) => countFormatter(prop.value),
-        style: {
-          width: "12.5%",
-          minWidth: 100,
-          textAlign: "right",
-        },
+        style: numberColStyle,
       },
       {
         id: "deaths_rate",
         Header: getLang("deaths_rate"),
         accessor: "residents.deaths_rate",
         sortType: rateSorter,
-
         Cell: (prop) => rateFormatter(prop.value),
-        style: {
-          width: "12.5%",
-          minWidth: 100,
-          textAlign: "right",
-        },
+        style: numberColStyle,
       },
     ],
     [classes.name]
   )
+
+  // memoized table options
   const options = React.useMemo(
     () => ({
       initialState: {
@@ -229,20 +201,18 @@ const HomeTable = ({ classes, ...props }) => {
     [metric]
   )
 
+  // handler for when table headers are clicked
   const handleSortChange = React.useCallback(
     (sortBy) => {
       const newMetric = sortBy
-      console.log("change metric", metric, newMetric)
       metric !== newMetric && setMetric(newMetric)
     },
     [metric, setMetric]
   )
   return (
-    <Block type="fullWidth" className={classes.root}>
+    <Block type="fullWidth" className={classes.root} {...props}>
       <ResponsiveContainer>
-        <Typography className={classes.title} variant="h3">
-          Facilities with the <span>highest</span> <MetricSelection />
-        </Typography>
+        <MetricSelectionTitle title={title} />
         <Table
           className={classes.table}
           data={data}
@@ -261,7 +231,5 @@ const HomeTable = ({ classes, ...props }) => {
     </Block>
   )
 }
-
-HomeTable.propTypes = {}
 
 export default withStyles(styles)(HomeTable)

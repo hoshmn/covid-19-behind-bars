@@ -13,6 +13,8 @@ import NumberStat from "../stats/number-stat"
 
 import HealthJustice from "../../../content/assets/health-justice-logo.png"
 import { getDataByJurisdiction } from "../../common/utils/selectors"
+import { useActiveMetric } from "../../common/hooks"
+import StatList from "./StatList"
 
 // const sumTotal = (data, accessor) =>
 //   data.reduce(
@@ -22,20 +24,25 @@ import { getDataByJurisdiction } from "../../common/utils/selectors"
 //   )
 
 const useStyles = makeStyles((theme) => ({
-  root: {},
+  block: {
+    padding: theme.spacing(0, 2),
+    alignItems: "flex-start",
+    [theme.breakpoints.up("sm")]: {
+      padding: theme.spacing(0, 3),
+    },
+  },
   visual: {
     position: "sticky",
     top: theme.layout.headerHeight,
-    maxWidth: `calc(100% - 26.25rem)`,
+    minWidth: `calc(100% - 26.25rem)`,
     height: `calc(100vh - ${theme.layout.headerHeight})`,
     marginLeft: "auto",
-    transform: `translateX(5%)`,
     display: "flex",
     justifyContent: "center",
     alignItems: "stretch",
     "& svg": { flex: 1 },
   },
-  section: {
+  step: {
     minHeight: `calc(100vh - ${theme.layout.headerHeight})`,
     justifyContent: "center",
   },
@@ -49,13 +56,14 @@ const useStyles = makeStyles((theme) => ({
 const StateTemplate = ({ pageContext, data }) => {
   const { state } = pageContext
   const classes = useStyles()
+  const metric = useActiveMetric()
   const mapFilter = (f) => f.state === state
   const all = data.allFacilities.edges.map((d) => d.node)
   const summary = getDataByJurisdiction(all)
 
   return (
     <Layout title={state}>
-      <Block type="fullWidth">
+      <Block type="fullWidth" className={classes.block}>
         <div className={classes.visual}>
           <StateMap height={800} width={700} stateName={state}>
             <MapGradients />
@@ -68,14 +76,30 @@ const StateTemplate = ({ pageContext, data }) => {
 
         <Stack className={classes.content} spacing={3}>
           <Typography variant="h2">{state}</Typography>
-          {Object.keys(summary).map((group) => (
+          <Stack className={classes.step}>
+            <StatList
+              title="${metric} for incarcerated people"
+              metric={metric}
+              group="residents"
+              groupData={summary["residents"]}
+            />
+          </Stack>
+          <Stack className={classes.step}>
+            <StatList
+              title="${metric} for staff"
+              metric={metric}
+              group="staff"
+              groupData={summary["staff"]}
+            />
+          </Stack>
+          {/* {Object.keys(summary).map((group) => (
             <GroupStats key={group} group={group} groupData={summary[group]} />
-          ))}
-          <Stack className={classes.section}>
+          ))} */}
+          <Stack className={classes.step}>
             <Typography variant="h3">Facilities</Typography>
             <Table data={all} />
           </Stack>
-          <Stack className={classes.section}>
+          <Stack className={classes.step}>
             <Typography variant="h3">Filings and Court Orders</Typography>
             <Grid container spacing={2}>
               <Grid item xs={6}>
