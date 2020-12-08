@@ -255,8 +255,8 @@ collections:
           - {
               label: "Content Max Width",
               name: "contentMaxWidth",
-              widget: "number",
-              default: 768,
+              widget: "string",
+              default: "100%",
               hint: "max width for content on content pages",
             }
           - {

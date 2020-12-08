@@ -10,7 +10,7 @@ import { getData, getDataByJurisdiction } from "../../common/utils/selectors"
 export default function useStateData(state) {
   const data = useFacilitiesData()
   return useMemo(() => {
-    const stateData = data.nodes.filter((d) => getData(d, "state") === state)
+    const stateData = data.filter((d) => getData(d, "state") === state)
     const groupsData = getDataByJurisdiction(stateData)
     return {
       all: stateData,

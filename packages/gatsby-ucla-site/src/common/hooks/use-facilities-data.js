@@ -1,11 +1,15 @@
 import { useStaticQuery, graphql } from "gatsby"
+import { useMemo } from "react"
+import { typeSelector } from "../utils"
+import useOptionsStore from "./use-options-store"
 
 export default function useFacilitiesData() {
-  const { allFacilities } = useStaticQuery(
+  const {
+    allFacilities: { nodes },
+  } = useStaticQuery(
     graphql`
       query {
         allFacilities {
-          totalCount
           nodes {
             id
             name
@@ -32,5 +36,14 @@ export default function useFacilitiesData() {
       }
     `
   )
-  return allFacilities
+  const selectedCategories = useOptionsStore(
+    (state) => state.selectedCategories
+  )
+  return useMemo(
+    () =>
+      nodes.filter((d) => {
+        return selectedCategories.indexOf(typeSelector(d)) > -1
+      }),
+    [nodes, selectedCategories]
+  )
 }

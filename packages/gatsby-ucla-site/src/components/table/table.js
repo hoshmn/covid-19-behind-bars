@@ -27,6 +27,9 @@ const styles = (theme) => ({
     "& .MuiTableCell-root": {
       ...sansSerifyTypography,
     },
+    "& .MuiTableBody-root .MuiTableRow-root:hover": {
+      background: theme.palette.background.default,
+    },
     "& .MuiTypography-root": {
       ...sansSerifyTypography,
     },
@@ -70,6 +73,7 @@ const Table = ({
   data,
   skipPageReset = false,
   onSort,
+  onRowClick,
   sortColumn,
   options,
   classes,
@@ -166,7 +170,12 @@ const Table = ({
             {page.map((row, i) => {
               prepareRow(row)
               return (
-                <TableRow {...row.getRowProps()}>
+                <TableRow
+                  {...row.getRowProps({
+                    onClick: (event) => onRowClick && onRowClick(row, event),
+                    style: { cursor: onRowClick ? "pointer" : undefined },
+                  })}
+                >
                   {row.cells.map((cell) => {
                     return (
                       <TableCell

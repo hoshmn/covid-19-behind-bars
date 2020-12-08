@@ -277,6 +277,7 @@ const CovidTheme = () => {
           "& .MuiLink-root.MuiTypography-root": {
             color: theme.palette.secondary.main,
           },
+          // unset bottom padding
           "& > .block:last-child": {
             paddingBottom: undefined,
           },

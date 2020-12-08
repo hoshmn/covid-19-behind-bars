@@ -8,11 +8,11 @@ import { navigate } from "gatsby"
 import { useMapStore } from "@hyperobjekt/svg-maps"
 import ResponsiveContainer from "../responsive-container"
 import Stack from "../stack"
-import MetricSelection from "../controls/MetricSelection"
 import { serifTypography } from "../../gatsby-theme-hyperobjekt-core/theme"
 import { useActiveMetric } from "../../common/hooks"
 import { getLang } from "../../common/utils/i18n"
 import MetricSelectionTitle from "../controls/MetricSelectionTitle"
+import { getSlug } from "../../common/utils/selectors"
 const styles = (theme) => ({
   root: {
     position: "relative",
@@ -82,16 +82,11 @@ const styles = (theme) => ({
 const HomeMap = ({ classes, title, description, className, ...props }) => {
   const setSelected = useMapStore((state) => state.setSelected)
   const metric = useActiveMetric()
-  // inject metric selection into the title
-  const titleParts = title.split("${metric}")
-  const titleArray =
-    titleParts.length === 2
-      ? [titleParts[0], <MetricSelection />, titleParts[1]]
-      : [...titleParts, <MetricSelection />]
+
   // handler for selection
   const handleSelect = (geo) => {
     setSelected(geo)
-    navigate(`states/${geo.properties.name.toLowerCase()}`)
+    navigate(`states/${getSlug(geo.properties.name)}`)
   }
   return (
     <Block

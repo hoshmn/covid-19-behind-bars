@@ -1,18 +1,19 @@
 import React from "react"
+import { navigate } from "gatsby"
 import { Table } from "../table"
 import { format } from "d3-format"
-import { fade, Typography, withStyles } from "@material-ui/core"
-import { useMappableFacilities, useOptionsStore } from "../../common/hooks"
+import { Typography, withStyles } from "@material-ui/core"
+import { useFacilitiesData, useOptionsStore } from "../../common/hooks"
 import { Block } from "gatsby-theme-hyperobjekt-core"
-import {
-  sansSerifyTypography,
-  serifTypography,
-} from "../../gatsby-theme-hyperobjekt-core/theme"
+
 import ResponsiveContainer from "../responsive-container"
-import { getColorForJurisdiction, isNumber } from "../../common/utils/selectors"
+import {
+  getColorForJurisdiction,
+  getSlug,
+  isNumber,
+} from "../../common/utils/selectors"
 import shallow from "zustand/shallow"
 import { getLang } from "../../common/utils/i18n"
-import MetricSelection from "../controls/MetricSelection"
 import JurisdictionToggles from "../controls/JurisdictionToggles"
 import DotMarker from "../markers/dot-marker"
 import MetricSelectionTitle from "../controls/MetricSelectionTitle"
@@ -66,7 +67,7 @@ const HomeTable = ({ title, note, classes, ...props }) => {
   )
 
   // data for table
-  const data = useMappableFacilities()
+  const data = useFacilitiesData()
 
   // styles for number columns in table
   const numberColStyle = {
@@ -89,7 +90,9 @@ const HomeTable = ({ title, note, classes, ...props }) => {
                 {prop.value}
               </Typography>
               <Typography variant="body2" color="textSecondary">
-                {prop.row.original.state}{" "}
+                <span style={{ marginRight: 8 }}>
+                  {prop.row.original.state}
+                </span>
                 <DotMarker
                   radius={4}
                   fill={getColorForJurisdiction(prop.row.original.jurisdiction)}
@@ -171,6 +174,11 @@ const HomeTable = ({ title, note, classes, ...props }) => {
     },
     [metric, setMetric]
   )
+
+  const handleRowClick = React.useCallback((row) => {
+    const state = row.original.state
+    state && navigate(`states/${getSlug(state)}`)
+  }, [])
   return (
     <Block type="fullWidth" className={classes.root} {...props}>
       <ResponsiveContainer>
@@ -182,6 +190,7 @@ const HomeTable = ({ title, note, classes, ...props }) => {
           options={options}
           sortColumn={metric}
           onSort={handleSortChange}
+          onRowClick={handleRowClick}
         >
           <JurisdictionToggles
             marker="dot"
