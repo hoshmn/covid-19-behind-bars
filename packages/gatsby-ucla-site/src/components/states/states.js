@@ -4,7 +4,7 @@ import { graphql, navigate } from "gatsby"
 import { Layout } from "gatsby-theme-hyperobjekt-core"
 import { makeStyles, Typography } from "@material-ui/core"
 
-import { Step, Scrollama } from "react-scrollama"
+import { Step, Scrollama } from "@hyperobjekt/react-scrollama"
 import {
   ResidentsSummary,
   Facilities,

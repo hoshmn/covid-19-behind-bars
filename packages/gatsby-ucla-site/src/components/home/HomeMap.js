@@ -97,7 +97,7 @@ const HomeMap = ({ classes, title, description, className, ...props }) => {
     >
       <ResponsiveContainer className={classes.controls}>
         <Grid container spacing={1}>
-          <Grid item xs={12} md={9}>
+          <Grid item xs={12} md={8}>
             <Stack className={classes.textContainer} spacing={0.5}>
               <MetricSelectionTitle title={title} />
               <Typography className={classes.mapDescription} variant="body2">
@@ -105,7 +105,7 @@ const HomeMap = ({ classes, title, description, className, ...props }) => {
               </Typography>
             </Stack>
           </Grid>
-          <Grid item xs={12} md={3}>
+          <Grid item xs={12} md={4}>
             <MapLegend className={classes.legend} />
           </Grid>
         </Grid>

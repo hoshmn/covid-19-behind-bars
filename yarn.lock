@@ -1401,6 +1401,11 @@
   resolved "https://registry.yarnpkg.com/@hyperobjekt/hooks/-/hooks-1.0.10.tgz#76962c47c7b7582d562ecd117092e275ec1a5f98"
   integrity sha512-ta34PzvkUNF8jCjTnxI/MjsCJmV1Bnzs1TygbiJJZypESrVDokqlJBSrV9ax7CPTixpVivR1qkPx1uzt0gxDaQ==
 
+"@hyperobjekt/react-scrollama@^2.2.15":
+  version "2.2.15"
+  resolved "https://registry.yarnpkg.com/@hyperobjekt/react-scrollama/-/react-scrollama-2.2.15.tgz#eac84e220274143fa05c6a0d44752ae4ce9b2cc9"
+  integrity sha512-gRyL0FkP6F4lR1n7B/3axBIQapeEop0dD/dsaZAwtihrHHBkLmgSkyWAyTjhukdiSdcADoqBGgBQOkND0WqaPg==
+
 "@hyperobjekt/svg-maps@1.0.10":
   version "1.0.10"
   resolved "https://registry.yarnpkg.com/@hyperobjekt/svg-maps/-/svg-maps-1.0.10.tgz#0837a91b5c3750c60ef2e925e50615d77d461861"
@@ -14707,11 +14712,6 @@ react-scroll@^1.8.1:
   dependencies:
     lodash.throttle "^4.1.1"
     prop-types "^15.7.2"
-
-react-scrollama@^2.2.13:
-  version "2.2.13"
-  resolved "https://registry.yarnpkg.com/react-scrollama/-/react-scrollama-2.2.13.tgz#87079704c930e4ecdaaf37641a61c7bb2d7aa644"
-  integrity sha512-mndwFqgD4NmqCiDOY2K6OBXf3SyMNE3mdEW1DHDdYxM8FBUVcCURJHloml3l/IZzb7cLwemkAAKSGoSvMXiOHw==
 
 react-select@^2.4.2, react-select@^2.4.3:
   version "2.4.4"
