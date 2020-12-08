@@ -8,10 +8,13 @@ import { Link } from "gatsby-theme-material-ui"
 
 const styles = (theme) => ({
   root: {
-    top: theme.layout.headerHeight,
+    background: theme.palette.background.paper,
+    borderTop: `2px dotted #DDDDCB`,
+    // overlay the header border
+    top: `calc(${theme.layout.headerHeight} - 1px)`,
     // must override first child margin
-    marginTop: `0!important`,
     margin: theme.spacing(0, -2),
+    marginTop: `-1px!important`,
     width: `calc(100% + ${theme.spacing(4)})`,
     [theme.breakpoints.up("sm")]: {
       margin: theme.spacing(0, -3),
@@ -74,7 +77,6 @@ function SectionNavigation({
         variant="scrollable"
         scrollButtons="auto"
         aria-label="page sections"
-        centered
         {...TabsProps}
       >
         {sections.map((section, i) => {

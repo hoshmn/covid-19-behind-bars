@@ -3,10 +3,10 @@ import { FormControlLabel, Typography, withStyles } from "@material-ui/core"
 import shallow from "zustand/shallow"
 import { useOptionsStore } from "../../common/hooks"
 import { getLang } from "../../common/utils/i18n"
-import Stack from "../stack"
-import SpikeMarker from "../markers/spike-marker"
+import Stack from "../Stack"
+import SpikeMarker from "../markers/SpikeMarker"
 import Checkbox from "../controls/Checkbox"
-import DotMarker from "../markers/dot-marker"
+import DotMarker from "../markers/DotMarker"
 
 const styles = (theme) => ({
   root: {

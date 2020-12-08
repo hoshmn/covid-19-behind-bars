@@ -1,7 +1,7 @@
 import React, { memo } from "react"
 import { SvgMap, HoverShape, StateLayer } from "@hyperobjekt/svg-maps"
-import MapGradients from "../map-gradients"
-import FacilitiesMarkerLayer from "../marker-layer/facilities-marker-layer"
+import MapGradients from "../MapGradients"
+import FacilitiesMarkerLayer from "../MarkerLayer/FacilitiesMarkerLayer"
 import { useShapeStyles } from "../styles"
 // import FacilitiesSpikeHighlight from "../spike-layer/facilities-spike-highlight"
 

@@ -1,8 +1,12 @@
 import React from "react"
-import PropTypes from "prop-types"
 import { useActiveMetric } from "../../common/hooks"
-import useStatesStore from "./use-states-store"
+import useStatesStore from "./useStatesStore"
 import FacilitiesMap from "./FacilitiesMap"
+import { useSpring, animated } from "react-spring"
+
+const styles = (theme) => ({
+  root: {},
+})
 
 const Visual = ({ stateName, ...props }) => {
   // current step that is scrolled in view
@@ -21,11 +25,16 @@ const Visual = ({ stateName, ...props }) => {
     return "residents"
   }
 
+  const mapStyle = useSpring({
+    opacity:
+      ["residents", "staff", "facilities"].indexOf(currentStep) === -1 ? 0 : 1,
+  })
+
   // track group to show for map
   const facilitiesGroup = useStatesStore((state) => state.facilitiesGroup)
 
   return (
-    <div {...props}>
+    <animated.div style={mapStyle} {...props}>
       <FacilitiesMap
         height={800}
         width={700}
@@ -34,7 +43,7 @@ const Visual = ({ stateName, ...props }) => {
         group={getMapGroup()}
         metric={metric}
       />
-    </div>
+    </animated.div>
   )
 }
 

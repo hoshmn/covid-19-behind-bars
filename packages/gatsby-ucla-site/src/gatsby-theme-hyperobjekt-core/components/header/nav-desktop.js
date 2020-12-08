@@ -1,5 +1,6 @@
 import { withStyles } from "@material-ui/core"
 import Navigation from "gatsby-theme-hyperobjekt-core/src/components/header/nav"
+import { sansSerifyTypography } from "../../theme"
 
 /** number of cols for the subnav */
 const cols = 6
@@ -28,8 +29,7 @@ const styles = (theme) => ({
     },
   },
   link: {
-    fontFamily: "plantin, sans-serif",
-    fontSize: theme.typography.pxToRem(13),
+    fontSize: theme.typography.pxToRem(14),
   },
   subMenu: {
     position: "fixed",
@@ -57,8 +57,8 @@ const styles = (theme) => ({
     "& .SubMenu-link": {
       padding: 0,
       display: "inline",
-      fontFamily: "plantin, sans-serif",
-      fontSize: theme.typography.pxToRem(13),
+      ...sansSerifyTypography,
+      fontSize: theme.typography.pxToRem(14),
     },
   },
 })

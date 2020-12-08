@@ -1,8 +1,8 @@
 import React from "react"
 import { Block } from "gatsby-theme-hyperobjekt-core"
-import Stack from "../stack"
+import Stack from "../Stack"
 import { Typography, withStyles } from "@material-ui/core"
-import ResponsiveContainer from "../responsive-container"
+import ResponsiveContainer from "../ResponsiveContainer"
 
 export const styles = (theme) => ({
   root: {},

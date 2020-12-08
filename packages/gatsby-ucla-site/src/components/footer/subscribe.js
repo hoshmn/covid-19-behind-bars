@@ -2,7 +2,7 @@ import React from "react"
 import clsx from "clsx"
 import { Button, TextField, Typography, withStyles } from "@material-ui/core"
 import { titleTypography } from "../../gatsby-theme-hyperobjekt-core/theme"
-import Stack from "../stack"
+import Stack from "../Stack"
 
 export const styles = (theme) => ({
   root: {},

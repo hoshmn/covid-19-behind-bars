@@ -1,8 +1,7 @@
 import React from "react"
 import clsx from "clsx"
 import { Marker } from "react-simple-maps"
-import Spike from "../../markers/spike"
-import Dot from "../../markers/dot"
+import { Spike, Dot } from "../../markers"
 
 import { withStyles } from "@material-ui/core"
 import { extent } from "d3-array"

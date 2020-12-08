@@ -3,7 +3,7 @@ import clsx from "clsx"
 import { lighten, makeStyles } from "@material-ui/core/styles"
 import PropTypes from "prop-types"
 import { Toolbar } from "@material-ui/core"
-import GlobalFilter from "./global-filter"
+import GlobalFilter from "./GlobalFilter"
 
 const useToolbarStyles = makeStyles((theme) => ({
   root: {

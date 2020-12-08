@@ -8,10 +8,10 @@ import TableContainer from "@material-ui/core/TableContainer"
 import TableFooter from "@material-ui/core/TableFooter"
 import TableHead from "@material-ui/core/TableHead"
 import TablePagination from "@material-ui/core/TablePagination"
-import TablePaginationActions from "./table-pagination-actions"
+import TablePaginationActions from "./TablePaginationActions"
 import TableRow from "@material-ui/core/TableRow"
 import TableSortLabel from "@material-ui/core/TableSortLabel"
-import TableToolbar from "./table-toolbar"
+import TableToolbar from "./TableToolbar"
 import {
   useGlobalFilter,
   usePagination,

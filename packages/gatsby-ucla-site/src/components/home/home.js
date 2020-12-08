@@ -1,14 +1,14 @@
 import React from "react"
 import { graphql } from "gatsby"
 import { Layout } from "gatsby-theme-hyperobjekt-core"
-import Intro from "./intro"
-import SpikeMap from "./map"
-import Sponsors from "./sponsors"
-import Table from "./table"
+import Intro from "./HomeIntro"
+import HomeMap from "./HomeMap"
+import Sponsors from "./HomeSponsors"
+import Table from "./HomeTable"
 import CdcLogo from "../../../content/assets/cdc-logo.svg"
 import VitalProjectsFundLogo from "../../../content/assets/vital-projects-fund-logo.svg"
 import ArnoldVenturesLogo from "../../../content/assets/arnold-ventures-logo.svg"
-import MapTooltip from "./map-tooltip"
+import MapTooltip from "./HomeMapTooltip"
 
 export const query = graphql`
   query($pathSlug: String!) {
@@ -73,7 +73,7 @@ const HomeTemplate = ({
         subtitle={content.intro.subtitle}
         body={content.intro.body}
       />
-      <SpikeMap
+      <HomeMap
         title={content.map.title}
         description={content.map.description}
       />

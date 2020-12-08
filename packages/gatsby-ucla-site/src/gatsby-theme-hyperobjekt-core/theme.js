@@ -219,21 +219,28 @@ const CovidTheme = () => {
           borderBottom: `1px dotted #DDDDCB`,
         },
       },
+      /** Page level overrides */
+      HypPage: {
+        root: {
+          // full width content on state pages
+          "&.page.page--states .content": {
+            maxWidth: "none",
+          },
+        },
+      },
       /** Header style overrides */
       HypHeader: {
         root: {
           boxShadow: "none",
           background: "#fff",
           borderBottom: `none`,
-          "& .header__branding": {
-            opacity: 0,
-            transition: `opacity 400ms ease-in-out`,
-          },
         },
         toolbar: {
           maxWidth: theme.breakpoints.values["md"],
           [theme.breakpoints.up("lg")]: {
-            maxWidth: theme.breakpoints.values["lg"],
+            maxWidth: `calc(${
+              theme.breakpoints.values["lg"]
+            }px - ${theme.spacing(6)})`,
           },
         },
         shrunk: {
@@ -260,19 +267,20 @@ const CovidTheme = () => {
       },
       HypBranding: {
         logo: {
-          width: theme.typography.pxToRem(200),
-          height: theme.typography.pxToRem(40),
+          width: theme.typography.pxToRem(32),
+          height: theme.typography.pxToRem(32),
         },
       },
       HypNavigation: {
         link: {
-          fontFamily: "plantin, sans-serif",
+          ...sansSerifyTypography,
           fontSize: theme.typography.pxToRem(16),
         },
       },
       /** Content area style overrides */
       HypContent: {
         root: {
+          maxWidth: "38.5rem",
           // override link colors in content
           "& .MuiLink-root.MuiTypography-root": {
             color: theme.palette.secondary.main,

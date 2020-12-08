@@ -2,11 +2,10 @@ import React from "react"
 import PropTypes from "prop-types"
 import MDX from "mdx-scoped-runtime"
 import mdxComponents from "gatsby-theme-hyperobjekt-core/src/components/mdx"
-import Colors from "../../components/colors"
 const MDXPreview = ({ entry }) => {
   const { Hero, SEO, ...components } = mdxComponents
   return (
-    <MDX components={components} scope={{ Hero, SEO, Colors }}>
+    <MDX components={components} scope={{ Hero, SEO }}>
       {entry.getIn(["data", "body"])}
     </MDX>
   )

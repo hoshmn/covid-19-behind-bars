@@ -5,7 +5,7 @@ import {
   subtitleTypography,
   titleTypography,
 } from "../../gatsby-theme-hyperobjekt-core/theme"
-import ResponsiveContainer from "../responsive-container"
+import ResponsiveContainer from "../ResponsiveContainer"
 
 const styles = (theme) => ({
   root: {

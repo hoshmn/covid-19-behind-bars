@@ -1,12 +1,10 @@
 import React from "react"
-import PropTypes from "prop-types"
-import Stack from "../../stack"
-import { Typography } from "@material-ui/core"
+import Stack from "../../Stack"
 import { GROUPS } from "../../../common/constants"
-import FacilitiesTable from "../facilities-table"
+import FacilitiesTable from "../FacilitiesTable"
 import MetricSelectionTitle from "../../controls/MetricSelectionTitle"
 import shallow from "zustand/shallow"
-import useStatesStore from "../use-states-store"
+import useStatesStore from "../useStatesStore"
 import { useActiveMetric } from "../../../common/hooks"
 
 const Facilities = ({ id, lang, data, ...props }) => {
@@ -33,7 +31,7 @@ const Facilities = ({ id, lang, data, ...props }) => {
     [facilitiesGroup, setFacilitiesGroup]
   )
   return (
-    <Stack id={id} {...props}>
+    <Stack {...props}>
       <MetricSelectionTitle title={lang.title} />
       <FacilitiesTable
         metric={metric}

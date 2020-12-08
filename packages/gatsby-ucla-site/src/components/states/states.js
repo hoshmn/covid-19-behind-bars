@@ -1,16 +1,9 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
 import clsx from "clsx"
 import { graphql, navigate } from "gatsby"
-import { Block, Layout } from "gatsby-theme-hyperobjekt-core"
-import { AppBar, Grid, makeStyles, Typography } from "@material-ui/core"
-import FacilitiesTable from "./facilities-table"
-import NumberStat from "../stats/number-stat"
-import { getDataByJurisdiction } from "../../common/utils/selectors"
-import { useActiveMetric } from "../../common/hooks"
-import StatList from "./StatList"
-import MetricSelectionTitle from "../controls/MetricSelectionTitle"
-import FacilitiesMap from "./FacilitiesMap"
-import Stack from "../stack"
+import { Layout } from "gatsby-theme-hyperobjekt-core"
+import { makeStyles, Typography } from "@material-ui/core"
+
 import { Step, Scrollama } from "react-scrollama"
 import {
   ResidentsSummary,
@@ -22,10 +15,11 @@ import {
   StaffSummary,
   Youth,
 } from "./sections"
-import useStatesStore from "./use-states-store"
+import useStatesStore from "./useStatesStore"
 import Visual from "./Visual"
 import shallow from "zustand/shallow"
 import SectionNavigation from "../SectionNavigation"
+import ResponsiveContainer from "../ResponsiveContainer"
 
 const useStyles = makeStyles((theme) => ({
   nav: {
@@ -70,17 +64,6 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "26.25rem",
   },
 }))
-
-const STEPS = {
-  RESIDENTS: 0,
-  STAFF: 1,
-  FACILITIES: 2,
-  FILINGS: 3,
-  RELEASES: 4,
-  IMMIGRATION: 5,
-  YOUTH: 6,
-  GRASSROOTS: 7,
-}
 
 const content = {
   sections: [
@@ -153,7 +136,7 @@ const StateTemplate = ({ pageContext, data }) => {
 
   const handleNavigation = (section) => {
     console.log("seciton", section)
-    navigate("/#" + section)
+    navigate("#" + section)
     setCurrentStep(section)
   }
 
@@ -171,7 +154,7 @@ const StateTemplate = ({ pageContext, data }) => {
         onSelect={handleNavigation}
       />
 
-      <Block type="fullWidth" className={classes.block}>
+      <ResponsiveContainer>
         <Visual className={classes.visual} stateName={state} />
         <div className={classes.content}>
           <Scrollama onStepEnter={handleStepEnter}>
@@ -179,7 +162,7 @@ const StateTemplate = ({ pageContext, data }) => {
               const Component = SECTION_COMPONENTS[section.id]
               return (
                 <Step key={section.id} data={section.id}>
-                  <div>
+                  <div id={section.id}>
                     {index === 0 && (
                       <Typography variant="h2" className={classes.title}>
                         {state}
@@ -198,7 +181,7 @@ const StateTemplate = ({ pageContext, data }) => {
             })}
           </Scrollama>
         </div>
-      </Block>
+      </ResponsiveContainer>
     </Layout>
   )
 }

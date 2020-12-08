@@ -6,7 +6,7 @@ import { Typography, withStyles } from "@material-ui/core"
 import { useFacilitiesData, useOptionsStore } from "../../common/hooks"
 import { Block } from "gatsby-theme-hyperobjekt-core"
 
-import ResponsiveContainer from "../responsive-container"
+import ResponsiveContainer from "../ResponsiveContainer"
 import {
   getColorForJurisdiction,
   getSlug,
@@ -15,7 +15,7 @@ import {
 import shallow from "zustand/shallow"
 import { getLang } from "../../common/utils/i18n"
 import JurisdictionToggles from "../controls/JurisdictionToggles"
-import DotMarker from "../markers/dot-marker"
+import DotMarker from "../markers/DotMarker"
 import MetricSelectionTitle from "../controls/MetricSelectionTitle"
 
 const styles = (theme) => ({

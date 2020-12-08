@@ -1,7 +1,6 @@
 import React from "react"
-import PropTypes from "prop-types"
-import StatList from "../StatList"
-import Stack from "../../stack"
+import JurisdictionStatList from "../JurisdictionStatList"
+import Stack from "../../Stack"
 import { getDataByJurisdiction } from "../../../common/utils/selectors"
 import { useActiveMetric } from "../../../common/hooks"
 
@@ -13,8 +12,8 @@ const ResidentsSummary = ({ id, lang, data, ...props }) => {
   // metric for the stat list
   const metric = useActiveMetric()
   return (
-    <Stack id={id} {...props}>
-      <StatList
+    <Stack {...props}>
+      <JurisdictionStatList
         title={lang.title}
         metric={metric}
         group="residents"

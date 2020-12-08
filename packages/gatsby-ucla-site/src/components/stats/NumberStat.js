@@ -4,7 +4,7 @@ import { format as d3Format } from "d3-format"
 
 import PropTypes from "prop-types"
 import { Typography, withStyles } from "@material-ui/core"
-import Stack from "../stack"
+import Stack from "../Stack"
 import { isNumber } from "../../common/utils/selectors"
 import { getLang } from "../../common/utils/i18n"
 

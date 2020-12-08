@@ -1,6 +1,6 @@
 import React from "react"
 import { MapGradients } from "../maps"
-import Spike from "./spike"
+import Spike from "./Spike"
 
 const SpikeMarker = ({ width, height, className, ...props }) => {
   return (

@@ -4,9 +4,9 @@ import { default as FooterSocial } from "gatsby-theme-hyperobjekt-core/src/compo
 import { default as FooterCopyright } from "gatsby-theme-hyperobjekt-core/src/components/footer/footer-copyright"
 import Subscribe from "../../../components/footer/subscribe"
 import { Grid, Link, Typography, withStyles } from "@material-ui/core"
-import Stack from "../../../components/stack"
+import Stack from "../../../components/Stack"
 import { serifTypography } from "../../theme"
-import ResponsiveContainer from "../../../components/responsive-container"
+import ResponsiveContainer from "../../../components/ResponsiveContainer"
 
 const styles = (theme) => ({
   root: {

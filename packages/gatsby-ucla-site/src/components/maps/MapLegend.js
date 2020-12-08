@@ -7,8 +7,8 @@ import {
   useMappableFacilities,
   useOptionsStore,
 } from "../../common/hooks"
-import Stack from "../stack"
-import SpikeMarker from "../markers/spike-marker"
+import Stack from "../Stack"
+import SpikeMarker from "../markers/SpikeMarker"
 import { extent } from "d3-array"
 import { getDataMetricSelector } from "../../common/utils"
 import { formatMetricValue } from "../../common/utils/formatters"

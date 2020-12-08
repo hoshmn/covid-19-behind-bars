@@ -344,7 +344,8 @@
     "State": "Washington",
     "StateCode": "WA",
     "Latitude": 47.4009,
-    "Longitude": -120.4905
+    "Longitude": -120.8905,
+    "scale": 5000
   },
   "WV": {
     "State": "West Virginia",

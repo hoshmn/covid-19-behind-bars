@@ -28,11 +28,6 @@ const styles = (theme) => ({
   },
 })
 
-const intFormatter = format(",d")
-
-const countFormatter = (value) =>
-  !isNumber(value) ? "Unavailable" : intFormatter(value)
-
 const FacilitiesTable = ({
   classes,
   group = "residents",
@@ -88,7 +83,7 @@ const FacilitiesTable = ({
         },
       },
     ],
-    [classes.name, metric, group]
+    [classes.name, metric]
   )
   const options = React.useMemo(
     () => ({

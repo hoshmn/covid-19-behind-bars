@@ -3,9 +3,8 @@ import clsx from "clsx"
 import { Typography, withStyles } from "@material-ui/core"
 import { getLang } from "../../common/utils/i18n"
 import { JURISDICTIONS, METRICS } from "../../common/constants"
-import Stack from "../stack"
-import NumberStat from "../stats/number-stat"
-import MetricSelection from "../controls/MetricSelection"
+import Stack from "../Stack"
+import NumberStat from "../stats/NumberStat"
 import MetricSelectionTitle from "../controls/MetricSelectionTitle"
 
 const styles = (theme) => ({
@@ -41,7 +40,14 @@ const groupHasRates = (group) => {
   return result
 }
 
-const StatList = ({ classes, className, title, metric, group, groupData }) => {
+const JurisdictionStatList = ({
+  classes,
+  className,
+  title,
+  metric,
+  group,
+  groupData,
+}) => {
   const baseMetric = metric.split("_")[0]
   const getGroupData = (jurisdiction, metric, isRate) => {
     const key = isRate
@@ -84,6 +90,6 @@ const StatList = ({ classes, className, title, metric, group, groupData }) => {
   )
 }
 
-StatList.propTypes = {}
+JurisdictionStatList.propTypes = {}
 
-export default withStyles(styles)(StatList)
+export default withStyles(styles)(JurisdictionStatList)

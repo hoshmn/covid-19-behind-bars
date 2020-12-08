@@ -3,8 +3,8 @@ import clsx from "clsx"
 import { Typography, withStyles } from "@material-ui/core"
 import { getLang } from "../../common/utils/i18n"
 import { JURISDICTIONS, METRICS } from "../../common/constants"
-import Stack from "../stack"
-import NumberStat from "../stats/number-stat"
+import Stack from "../Stack"
+import NumberStat from "../stats/NumberStat"
 
 const styles = (theme) => ({
   root: {},

@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useMemo } from "react"
-import MarkerLayer from "./marker-layer"
+import MarkerLayer from "./MarkerLayer"
 import { useOptionsStore, useMappableFacilities } from "../../../common/hooks"
 import shallow from "zustand/shallow"
 import { typeSelector, getDataMetricSelector } from "../../../common/utils"

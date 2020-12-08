@@ -1,7 +1,6 @@
 import React from "react"
-import PropTypes from "prop-types"
 import { MapGradients, StateMap } from "../maps"
-import FacilitiesMarkerLayer from "../maps/marker-layer/facilities-marker-layer"
+import FacilitiesMarkerLayer from "../maps/MarkerLayer/FacilitiesMarkerLayer"
 
 const FacilitiesMap = ({ group, metric, filter, ...props }) => {
   return (

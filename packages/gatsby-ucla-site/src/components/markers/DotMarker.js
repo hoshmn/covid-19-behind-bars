@@ -1,5 +1,5 @@
 import React from "react"
-import Dot from "./dot"
+import Dot from "./Dot"
 
 const DotMarker = ({ radius, className, ...props }) => {
   return (

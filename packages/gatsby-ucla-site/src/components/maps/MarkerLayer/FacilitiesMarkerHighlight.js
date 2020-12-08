@@ -2,7 +2,7 @@ import React from "react"
 import { useDataSelector, useHoveredFacilities } from "../../../common/hooks"
 import { getTopValues } from "../../../common/utils"
 import { useSpikeStyles } from "../styles"
-import FacilitiesMarkerLayer from "./facilities-marker-layer"
+import FacilitiesMarkerLayer from "./FacilitiesMarkerLayer"
 
 const FacilitiesSpikeHighlight = (props) => {
   const classes = useSpikeStyles()

@@ -1,11 +1,10 @@
 import React from "react"
-import PropTypes from "prop-types"
-import Stack from "../../stack"
+import Stack from "../../Stack"
 import { Grid, Typography } from "@material-ui/core"
 import HealthJustice from "../../../../content/assets/health-justice-logo.png"
-import NumberStat from "../../stats/number-stat"
+import NumberStat from "../../stats/NumberStat"
 
-const Filings = ({ lang, data, ...props }) => {
+const Filings = ({ id, lang, data, ...props }) => {
   return (
     <Stack {...props}>
       <Typography variant="h3">{lang.title}</Typography>
