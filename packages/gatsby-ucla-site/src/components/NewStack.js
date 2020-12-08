@@ -10,8 +10,8 @@ import {
 
 /**
  * Getter to retrieve align-items and justify-content values.
- * Allows users to specify top / right / bottom / left in
- * addition to any valid flexbox style value (e.g. space-around)
+ * Allows users to specify top / right / bottom / left in addition
+ * to any valid flexbox style value (e.g. space-around)
  */
 const getAlign = (align) => {
   if (!align) return undefined
