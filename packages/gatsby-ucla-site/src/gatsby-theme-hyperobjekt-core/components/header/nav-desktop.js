@@ -10,6 +10,8 @@ const styles = (theme) => ({
     display: "flex",
   },
   listItem: {
+    zIndex: 999,
+
     "&:hover $subMenu, &:focus-within $subMenu": {
       pointerEvents: "all",
       transform: "translate3d(0, 0, 0)",

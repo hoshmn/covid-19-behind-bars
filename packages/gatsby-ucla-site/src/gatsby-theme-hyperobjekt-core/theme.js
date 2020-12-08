@@ -244,10 +244,10 @@ const CovidTheme = () => {
           },
         },
         shrunk: {
-          boxShadow: `inset 0 -1px 0 #DDDDCB`,
-          "& .header__branding": {
-            opacity: 1,
-          },
+          // boxShadow: `inset 0 -1px 0 #DDDDCB`,
+          // "& .header__branding": {
+          //   opacity: 1,
+          // },
         },
         title: {
           color: theme.palette.text.primary,

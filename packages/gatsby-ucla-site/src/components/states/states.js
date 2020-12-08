@@ -22,11 +22,6 @@ import SectionNavigation from "../SectionNavigation"
 import ResponsiveContainer from "../ResponsiveContainer"
 
 const useStyles = makeStyles((theme) => ({
-  nav: {
-    position: "sticky",
-    top: theme.layout.headerHeight,
-    padding: 0,
-  },
   block: {
     padding: theme.spacing(0, 2),
     alignItems: "flex-start",
@@ -36,9 +31,10 @@ const useStyles = makeStyles((theme) => ({
   },
   visual: {
     position: "sticky",
-    top: theme.layout.headerHeight,
+    top: `calc(${theme.layout.headerHeight} + 56px)`,
     width: `calc(100% - 26.25rem)`,
-    height: `calc(100vh - ${theme.layout.headerHeight})`,
+    // full vertical height, minus header
+    height: `calc(100vh - ${theme.layout.headerHeight} - 56px)`,
     marginLeft: "auto",
     display: "flex",
     justifyContent: "center",
@@ -59,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
     )})`,
   },
   content: {
-    marginTop: `calc(-100vh + ${theme.layout.headerHeight})`,
+    marginTop: `calc(-100vh + ${theme.layout.headerHeight} + 56px)`,
     position: "relative",
     maxWidth: "26.25rem",
   },

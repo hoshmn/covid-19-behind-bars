@@ -14,8 +14,9 @@ const styles = (theme) => ({
     top: `calc(${theme.layout.headerHeight} - 1px)`,
     // must override first child margin
     margin: theme.spacing(0, -2),
-    marginTop: `-1px!important`,
+    marginTop: `0!important`,
     width: `calc(100% + ${theme.spacing(4)})`,
+    zIndex: 1,
     [theme.breakpoints.up("sm")]: {
       margin: theme.spacing(0, -3),
       width: `calc(100% + ${theme.spacing(6)})`,
