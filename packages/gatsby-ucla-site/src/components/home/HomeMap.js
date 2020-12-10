@@ -84,6 +84,13 @@ const HomeMap = ({ classes, title, description, className, ...props }) => {
   const setSelected = useMapStore((state) => state.setSelected)
   const metric = useActiveMetric()
   const data = useMappableFacilities()
+  const [hovered] = useMapHovered()
+
+  const highlighted = useMemo(() => {
+    return hovered
+      ? data.filter((d) => d.state === hovered.properties.name)
+      : []
+  }, [hovered, data])
 
   // handler for selection
   const handleSelect = (geo) => {
@@ -112,7 +119,12 @@ const HomeMap = ({ classes, title, description, className, ...props }) => {
           </Grid>
         </Grid>
       </ResponsiveContainer>
-      <NationalMap facilities={data} metric={metric} onSelect={handleSelect} />
+      <NationalMap
+        facilities={data}
+        highlightFacilities={highlighted}
+        metric={metric}
+        onSelect={handleSelect}
+      />
       <Typography
         variant="body2"
         className={classes.notes}
