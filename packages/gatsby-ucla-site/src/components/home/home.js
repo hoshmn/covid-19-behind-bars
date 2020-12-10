@@ -59,6 +59,24 @@ const content = {
   },
 }
 
+const logos = [
+  {
+    image: CdcLogo,
+    link: "",
+    alt: "center for disease control logo",
+  },
+  {
+    image: VitalProjectsFundLogo,
+    link: "",
+    alt: "Vital Projects Fund logo",
+  },
+  {
+    image: ArnoldVenturesLogo,
+    link: "",
+    alt: "Arnold Ventures logo",
+  },
+]
+
 const HomeTemplate = ({
   pageContext,
   data: { mdx },
