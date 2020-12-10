@@ -87,7 +87,7 @@ export const serifTypography = {
   textTransform: "none",
 }
 export const titleTypography = {
-  fontFamily: `"Champion Heavywt A", "Champion Heavywt B", sans-serif`,
+  fontFamily: `"Champion Middlewt A", "Champion Middlewt B", sans-serif`,
   fontStyle: "normal",
   fontWeight: 400,
   textTransform: "uppercase",
@@ -291,14 +291,6 @@ const CovidTheme = () => {
           "& > .block:last-child": {
             paddingBottom: undefined,
           },
-        },
-      },
-      /** Default hero style overrides */
-      HypHero: {
-        root: {
-          background: "#F5F5ED",
-          boxShadow: "none",
-          color: theme.palette.text.primary,
         },
       },
       /** Code block style overrides */
