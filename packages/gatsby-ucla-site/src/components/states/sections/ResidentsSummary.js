@@ -1,28 +1,45 @@
 import React from "react"
+import clsx from "clsx"
+import PropTypes from "prop-types"
 import JurisdictionStatList from "../JurisdictionStatList"
 import Stack from "../../Stack"
 import { getDataByJurisdiction } from "../../../common/utils/selectors"
 import { useActiveMetric } from "../../../common/hooks"
+import { withStyles } from "@material-ui/core"
+import { summaryStyles as styles } from "./styles"
+import Notes from "../Notes"
+import MetricSelectionTitle from "../../controls/MetricSelectionTitle"
 
-const ResidentsSummary = ({ id, lang, data, ...props }) => {
+const ResidentsSummary = ({ id, lang, data, classes, className, ...props }) => {
   // data for all facilities in the state
   const all = data.allFacilities.edges.map((d) => d.node)
   // jurisdiction totals for the state
   const summary = getDataByJurisdiction(all)
   // metric for the stat list
   const metric = useActiveMetric()
+  const notes = [
+    lang.notes && lang.notes[metric],
+    lang.notes && lang.notes[metric + "_rate"],
+  ].filter((n) => !!n)
   return (
-    <Stack {...props}>
+    <Stack className={clsx(classes.root, className)} {...props}>
+      <MetricSelectionTitle title={lang.title} group="residents" />
       <JurisdictionStatList
-        title={lang.title}
         metric={metric}
         group="residents"
         groupData={summary["residents"]}
       />
+      {notes.length > 0 && <Notes notes={notes} />}
     </Stack>
   )
 }
 
-ResidentsSummary.propTypes = {}
+ResidentsSummary.defaultProps = {
+  lang: {},
+}
 
-export default ResidentsSummary
+ResidentsSummary.propTypes = {
+  lang: PropTypes.object,
+}
+
+export default withStyles(styles)(ResidentsSummary)

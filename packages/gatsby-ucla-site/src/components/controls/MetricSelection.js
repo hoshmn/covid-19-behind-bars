@@ -4,6 +4,7 @@ import shallow from "zustand/shallow"
 import { useOptionsStore } from "../../common/hooks"
 import { getLang } from "../../common/utils/i18n"
 import ArrowDown from "@material-ui/icons/ArrowDropDown"
+import { METRICS, GROUPS } from "../../common/constants"
 const styles = (theme) => ({
   button: { lineHeight: 1 },
   menu: {},
@@ -11,12 +12,14 @@ const styles = (theme) => ({
   menuItemActive: {},
 })
 
-const MetricSelection = ({ classes, className, ...props }) => {
+const MetricSelection = ({ classes, className, group, ...props }) => {
   const [anchorEl, setAnchorEl] = React.useState(null)
-  const [metric, metrics, setMetric] = useOptionsStore(
-    (state) => [state.metric, state.metrics, state.setMetric],
+  const [metric, setMetric] = useOptionsStore(
+    (state) => [state.metric, state.setMetric],
     shallow
   )
+  // get available metrics, or default to first group
+  const metrics = group ? METRICS[group] : METRICS[GROUPS[0]]
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
   }

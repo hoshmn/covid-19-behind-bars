@@ -6,6 +6,12 @@ const Grassroots = ({ id, lang, data, ...props }) => {
   return (
     <Stack {...props}>
       <Typography variant="h3">{lang.title}</Typography>
+      {lang.body && (
+        <Typography
+          variant="body1"
+          dangerouslySetInnerHTML={{ __html: lang.body }}
+        />
+      )}
     </Stack>
   )
 }

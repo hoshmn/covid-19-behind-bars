@@ -8,7 +8,9 @@ import NumberStat from "../stats/NumberStat"
 import MetricSelectionTitle from "../controls/MetricSelectionTitle"
 
 const styles = (theme) => ({
-  root: {},
+  root: {
+    marginTop: theme.spacing(2),
+  },
   groupTitle: {},
   metricContainer: {},
   metricTitle: {
@@ -43,7 +45,6 @@ const groupHasRates = (group) => {
 const JurisdictionStatList = ({
   classes,
   className,
-  title,
   metric,
   group,
   groupData,
@@ -59,13 +60,12 @@ const JurisdictionStatList = ({
   }
   return (
     <Stack className={clsx(classes.root, className)} spacing={2}>
-      <MetricSelectionTitle title={title} />
       {JURISDICTIONS.map((jurisdiction) => (
         <Stack
           key={jurisdiction}
           className={classes.jurisdictionContainer}
           horizontal
-          align="flex-end"
+          align="flex-start"
           spacing={2}
         >
           <Typography className={classes.jurisdictionLabel} variant="body2">

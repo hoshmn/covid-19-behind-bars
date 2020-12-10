@@ -119,7 +119,9 @@ const CovidTheme = () => {
           // remove overflow from html to prevent shift on menu open
           html: {
             overflowX: "visible",
-            [theme.breakpoints.up("lg")]: {
+            // boost the font size when there is enough horizontal / vertical space
+            // this will resize all elements that use rem values or theme.spacing functions
+            [`@media (min-width: ${theme.breakpoints.values["lg"]}px) and (min-height: 666px)`]: {
               fontSize: 20,
             },
           },

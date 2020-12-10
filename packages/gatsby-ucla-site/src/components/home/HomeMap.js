@@ -9,7 +9,7 @@ import { useMapStore } from "@hyperobjekt/svg-maps"
 import ResponsiveContainer from "../ResponsiveContainer"
 import Stack from "../Stack"
 import { serifTypography } from "../../gatsby-theme-hyperobjekt-core/theme"
-import { useActiveMetric } from "../../common/hooks"
+import { useActiveMetric, useMappableFacilities } from "../../common/hooks"
 import { getLang } from "../../common/utils/i18n"
 import MetricSelectionTitle from "../controls/MetricSelectionTitle"
 import { getSlug } from "../../common/utils/selectors"
@@ -82,6 +82,7 @@ const styles = (theme) => ({
 const HomeMap = ({ classes, title, description, className, ...props }) => {
   const setSelected = useMapStore((state) => state.setSelected)
   const metric = useActiveMetric()
+  const data = useMappableFacilities()
 
   // handler for selection
   const handleSelect = (geo) => {
@@ -106,11 +107,11 @@ const HomeMap = ({ classes, title, description, className, ...props }) => {
             </Stack>
           </Grid>
           <Grid item xs={12} md={4}>
-            <MapLegend className={classes.legend} />
+            <MapLegend data={data} className={classes.legend} />
           </Grid>
         </Grid>
       </ResponsiveContainer>
-      <NationalMap metric={metric} onSelect={handleSelect} />
+      <NationalMap facilities={data} metric={metric} onSelect={handleSelect} />
       <Typography
         variant="body2"
         className={classes.notes}

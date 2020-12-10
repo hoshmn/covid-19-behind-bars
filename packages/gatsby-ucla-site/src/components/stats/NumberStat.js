@@ -18,7 +18,7 @@ export const styles = (theme) => ({
   },
   label: {
     color: theme.palette.text.secondary,
-    lineHeight: 1,
+    lineHeight: 1.25,
     marginTop: theme.spacing(0.5),
   },
   unavailable: {

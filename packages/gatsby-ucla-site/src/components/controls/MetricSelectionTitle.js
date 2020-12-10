@@ -23,13 +23,19 @@ const styles = (theme) => ({
   },
 })
 
-const MetricSelectionTitle = ({ classes, className, title, ...props }) => {
+const MetricSelectionTitle = ({
+  classes,
+  className,
+  title,
+  group,
+  ...props
+}) => {
   // inject metric selection onto title
   const titleParts = title.split("${metric}")
   const titleArray =
     titleParts.length === 2
-      ? [titleParts[0], <MetricSelection />, titleParts[1]]
-      : [...titleParts, <MetricSelection />]
+      ? [titleParts[0], <MetricSelection group={group} />, titleParts[1]]
+      : [...titleParts, <MetricSelection group={group} />]
 
   return (
     <Typography

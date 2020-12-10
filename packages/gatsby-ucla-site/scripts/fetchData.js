@@ -45,15 +45,13 @@ const releasesMap = {
 
 const releaseParser = (row) => parseMap(row, releasesMap)
 
-exports.getReleases = () =>
-  Promise.all([
-    getData(jailReleases, releaseParser),
-    getData(prisonReleases, releaseParser),
-  ]).then((d) =>
-    [...d[0], ...d[1]].filter(
-      (r) => !!r.state && r.state.toLowerCase() !== "total"
-    )
-  )
+// exports.getReleases = () =>
+//   Promise.all([
+//     getData(jailReleases, releaseParser),
+//     getData(prisonReleases, releaseParser),
+//   ])
+exports.getJailReleases = () => getData(jailReleases, releaseParser)
+exports.getPrisonReleases = () => getData(prisonReleases, releaseParser)
 
 /**
  * COURT FILINGS / ORDERS

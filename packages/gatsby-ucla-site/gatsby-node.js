@@ -1,6 +1,7 @@
 const {
   getFacilities,
-  getReleases,
+  getJailReleases,
+  getPrisonReleases,
   getFilingsOrders,
   getImmigrationCases,
   getImmigrationFilings,
@@ -42,7 +43,8 @@ const createSourceNodes = async (
 exports.sourceNodes = async (params) => {
   const nodes = [
     ["Facilities", getFacilities],
-    ["Releases", getReleases],
+    ["JailReleases", getJailReleases],
+    ["PrisonReleases", getPrisonReleases],
     ["Filings", getFilingsOrders],
     ["ImmigrationCases", getImmigrationCases],
     ["ImmigrationFilings", getImmigrationFilings],

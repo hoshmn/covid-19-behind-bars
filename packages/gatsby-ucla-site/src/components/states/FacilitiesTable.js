@@ -1,9 +1,7 @@
 import React from "react"
 import { Table } from "../table"
-import { format } from "d3-format"
 import { Typography, withStyles } from "@material-ui/core"
 import { titleTypography } from "../../gatsby-theme-hyperobjekt-core/theme"
-import { isNumber } from "../../common/utils/selectors"
 import { getLang } from "../../common/utils/i18n"
 import { formatMetricValue } from "../../common/utils/formatters"
 
@@ -47,7 +45,7 @@ const FacilitiesTable = ({
                 {prop.value}
               </Typography>
               <Typography variant="body2" color="textSecondary">
-                {prop.row.original.state}
+                {getLang(prop.row.original.jurisdiction)}
               </Typography>
             </>
           )

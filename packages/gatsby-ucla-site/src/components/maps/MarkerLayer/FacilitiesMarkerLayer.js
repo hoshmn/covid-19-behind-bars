@@ -5,7 +5,7 @@ import shallow from "zustand/shallow"
 import { typeSelector, getDataMetricSelector } from "../../../common/utils"
 
 const FacilitiesMarkerLayer = memo(
-  ({ filter, group = "residents", ...props }) => {
+  ({ facilities, group = "residents", ...props }) => {
     const [
       metric,
       categories,
@@ -20,12 +20,12 @@ const FacilitiesMarkerLayer = memo(
       ],
       shallow
     )
-    const facilities = useMappableFacilities()
+    // const facilities = useMappableFacilities()
 
-    const mapFacilities = useMemo(
-      () => (filter ? facilities.filter(filter) : facilities),
-      [filter, facilities]
-    )
+    // const mapFacilities = useMemo(
+    //   () => (filter ? facilities.filter(filter) : facilities),
+    //   [filter, facilities]
+    // )
 
     const isDots = props.type && props.type === "dots"
     const size = isDots ? 3.5 : [0, 200]
@@ -36,7 +36,7 @@ const FacilitiesMarkerLayer = memo(
     ])
     return (
       <MarkerLayer
-        markers={mapFacilities}
+        markers={facilities}
         size={size}
         width={7}
         color={colors}

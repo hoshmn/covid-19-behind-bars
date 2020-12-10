@@ -5,19 +5,26 @@ import FacilitiesTable from "../FacilitiesTable"
 import MetricSelectionTitle from "../../controls/MetricSelectionTitle"
 import shallow from "zustand/shallow"
 import useStatesStore from "../useStatesStore"
-import { useActiveMetric } from "../../../common/hooks"
+import { useActiveMetric, useFacilitiesData } from "../../../common/hooks"
 
 const Facilities = ({ id, lang, data, ...props }) => {
-  const all = data.allFacilities.edges.map((d) => d.node)
+  const all = useFacilitiesData()
 
   // currently selected metric
   const metric = useActiveMetric()
 
   // pull facilities group from the state page store
-  const [facilitiesGroup, setFacilitiesGroup] = useStatesStore(
-    (state) => [state.facilitiesGroup, state.setFacilitiesGroup],
+  const [facilitiesGroup, setFacilitiesGroup, stateName] = useStatesStore(
+    (state) => [
+      state.facilitiesGroup,
+      state.setFacilitiesGroup,
+      state.stateName,
+    ],
     shallow
   )
+
+  // get facilities for current state
+  const facilities = all.filter((f) => f.state === stateName)
 
   // handler for when table headers are clicked
   const handleFacilitiesGroupChange = React.useCallback(
@@ -36,7 +43,7 @@ const Facilities = ({ id, lang, data, ...props }) => {
       <FacilitiesTable
         metric={metric}
         group={facilitiesGroup}
-        data={all}
+        data={facilities}
         onSort={handleFacilitiesGroupChange}
       />
     </Stack>

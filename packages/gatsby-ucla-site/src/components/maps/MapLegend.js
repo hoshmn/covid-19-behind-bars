@@ -2,11 +2,7 @@ import React from "react"
 import clsx from "clsx"
 import { makeStyles, Typography, withStyles } from "@material-ui/core"
 import shallow from "zustand/shallow"
-import {
-  useActiveMetric,
-  useMappableFacilities,
-  useOptionsStore,
-} from "../../common/hooks"
+import { useActiveMetric, useOptionsStore } from "../../common/hooks"
 import Stack from "../Stack"
 import SpikeMarker from "../markers/SpikeMarker"
 import { extent } from "d3-array"
@@ -29,13 +25,12 @@ const useSpikeLegendStyles = makeStyles((theme) => ({
   },
 }))
 
-const SpikeLegend = ({ sizeRange = [1, 60] }) => {
+const SpikeLegend = ({ data, sizeRange = [1, 60] }) => {
   const classes = useSpikeLegendStyles()
   const [categoryColors, categoryGradients] = useOptionsStore(
     (state) => [state.categoryColors, state.categoryGradients],
     shallow
   )
-  const data = useMappableFacilities()
   const metric = useActiveMetric()
   const accessor = getDataMetricSelector(metric)
   const dataExtent = extent(data, accessor)
@@ -92,7 +87,7 @@ const SpikeLegend = ({ sizeRange = [1, 60] }) => {
   )
 }
 
-const MapLegend = ({ classes, className, ...props }) => {
+const MapLegend = ({ data, classes, className, ...props }) => {
   return (
     <Stack
       horizontal
@@ -106,7 +101,7 @@ const MapLegend = ({ classes, className, ...props }) => {
           root: classes.toggleContainer,
         }}
       />
-      <SpikeLegend />
+      <SpikeLegend data={data} />
     </Stack>
   )
 }

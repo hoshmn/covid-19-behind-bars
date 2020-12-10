@@ -11,7 +11,7 @@ const styles = (theme) => ({
     background: theme.palette.background.paper,
     borderTop: `2px dotted #DDDDCB`,
     // overlay the header border
-    top: `calc(${theme.layout.headerHeight} - 1px)`,
+    top: theme.layout.headerHeight,
     // must override first child margin
     margin: theme.spacing(0, -2),
     marginTop: `0!important`,
