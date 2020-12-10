@@ -17,7 +17,7 @@ const FilingsVisual = ({ classes, ...props }) => {
     (state) => [state.data, state.content],
     shallow
   )
-  const filingsData = data.allFilings.edges[0].node
+  const filingsData = data.allFilings?.edges[0]?.node
   const labels = content.sections.find((s) => s.id === "filings").lang.visual
   return (
     <animated.div {...props}>
